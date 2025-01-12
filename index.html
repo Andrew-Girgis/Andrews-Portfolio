@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <link rel="icon" type="image/png" href="images/AGLogo.png">
+    <style>
+        :root {
+            /* Light theme variables */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --accent: rgb(0, 123, 255);
+            --card-bg: #ffffff;
+            --card-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            --border-color: #ddd;
+        }
+
+        [data-theme="dark"] {
+            /* Dark theme variables */
+            --bg-primary: #1c1c1c; /* Muted dark background */
+            --bg-secondary: #2a2a2a; /* Slightly lighter for secondary background */
+            --text-primary: #e0e0e0; /* Soft light grey for primary text */
+            --text-secondary: #b0b0b0; /* Muted grey for secondary text */
+            --accent: #007bff; /* Use the same blue as in the light theme */
+            --card-bg: #252525; /* Dark card background */
+            --card-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+            --border-color: #444444; /* Dark grey for borders */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+            transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1001;
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .theme-toggle:hover {
+            box-shadow: var(--neon-glow);
+            text-shadow: var(--neon-glow);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            padding: 1rem;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--bg-primary);
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+            text-shadow: var(--neon-glow);
+        }
+
+        [data-theme="dark"] .nav-links a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+
+        [data-theme="dark"] .nav-links a:hover {
+            color: var(--accent);
+            text-shadow: var(--neon-glow);
+        }
+
+        /* Sections */
+        section {
+            padding: 5rem 2rem;
+            min-height: 100vh;
+            background: var(--bg-primary);
+        }
+
+        section:nth-child(even) {
+            background: var(--bg-secondary);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        [data-theme="dark"] .section-title {
+            color: var(--accent);
+            text-shadow: var(--neon-glow);
+        }
+
+        /* Home Section */
+        #home {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        #home h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        [data-theme="dark"] #home h1 {
+            color: var(--accent2);
+            text-shadow: 0 0 10px rgba(0, 123, 255, 0.5),
+                         0 0 20px rgba(0, 123, 255, 0.3),
+                         0 0 30px rgba(0, 123, 255, 0.1);
+        }
+
+        /* About Section */
+        .about-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        [data-theme="dark"] .profile-img {
+            border: 2px solid var(--accent);
+            box-shadow: var(--neon-glow);
+        }
+
+        /* Projects and Tools Sections */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .grid-item {
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+        }
+
+        .grid-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+        }
+
+        [data-theme="dark"] .grid-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5),
+                       0 0 20px rgba(0, 123, 255, 0.3),
+                       0 0 30px rgba(0, 123, 255, 0.1);
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .grid-item-content {
+            padding: 1rem;
+        }
+
+        [data-theme="dark"] .grid-item-content h3 {
+            color: var(--accent3);
+            text-shadow: 0 0 20px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Contact Section */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        [data-theme="dark"] .contact-form {
+            box-shadow: var(--neon-glow);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+
+        [data-theme="dark"] .form-group input:focus,
+        [data-theme="dark"] .form-group textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+            outline: none;
+        }
+
+        .form-group textarea {
+            height: 150px;
+        }
+
+        button {
+            background: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+            padding: 0.75rem 2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        [data-theme="dark"] button:hover {
+            background: var(--accent);
+            color: var(--bg-primary);
+            box-shadow: var(--neon-glow);
+        }
+
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+    <nav>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#projects">Projects</a>
+            <a href="#tools">Tools/Games</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <section id="home">
+        <div>
+            <h1>Andrew Girgis's Portfolio</h1>
+            <p>Economist & Data Scientist</p>
+        </div>
+    </section>
+
+    <section id="about">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-container">
+            <img src="images/AndrewPhoto.jpg" alt="Profile Picture" class="profile-img">
+            <div>
+                <p>Hi, I'm Andrew Girgis – an aspiring data scientist with a strong foundation in econometrics, data analytics, and data visualization. <br>
+                
+                    <br>
+
+                    I'm currently pursuing a Master of Arts in Economics and a Graduate Diploma in Computational Data Analytics at the University of Waterloo, where I’m deepening my expertise in leveraging data to solve complex problems and present the data in a meaningful way. With a Bachelor of Arts Honours in Economics and a minor in Applied Computing from Brock University, I've built a robust analytical and technical skill set. My proficiency in Python, R, SQL, and key libraries like pandas, NumPy, and TensorFlow allows me to translate data into actionable insights and impactful solutions. <br>
+                    
+                    <br>
+
+                    In my current role as a Junior Analyst at the National Research Council Canada, I’ve developed an AI chatbot to streamline client inquiries and presented survey insights via PowerBI dashboards to senior leadership, demonstrating my ability to innovate and drive results. My experiences as a Teaching Assistant at the University of Waterloo, where I streamlined grading processes and presented statistical concepts to large groups, along with my role at TechPlace, where I automated CRM workflows, have strengthened my skills in report creation and automation. <br>
+                    
+                    <br>
+
+                    My career goal is to excel in data science, where I can contribute meaningfully to tech-forward projects and drive sustainable, positive change. I'm excited about using data to build a future where technology solves real-world challenges. <br>
+                    
+                    <br>
+
+                    Outside of my professional pursuits, I am passionate about automotives, technology, and physics, and I actively seek opportunities to expand my knowledge and skills. <br>
+                    
+                    <br>
+
+                    Feel free to reach out. Let's connect!</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2 class="section-title">Projects</h2>
+        <div class="grid-container">
+            <!-- Project 1 -->
+            <div class="grid-item">
+                <img src="/api/placeholder/400/300" alt="Project 1">
+                <div class="grid-item-content">
+                    <h3>Project 1</h3>
+                    <p>Description of project 1 goes here.</p>
+                </div>
+            </div>
+            <!-- Repeat for 5 more projects -->
+            <div class="grid-item">
+                <img src="/api/placeholder/400/300" alt="Project 2">
+                <div class="grid-item-content">
+                    <h3>Project 2</h3>
+                    <p>Description of project 2 goes here.</p>
+                </div>
+            </div>
+            <div class="grid-item">
+                <img src="/api/placeholder/400/300" alt="Project 3">
+                <div class="grid-item-content">
+                    <h3>Project 3</h3>
+                    <p>Description of project 3 goes here.</p>
+                </div>
+            </div>
+            <div class="grid-item">
+                <img src="/api/placeholder/400/300" alt="Project 4">
+                <div class="grid-item-content">
+                    <h3>Project 4</h3>
+                    <p>Description of project 4 goes here.</p>
+                </div>
+            </div>
+            <div class="grid-item">
+                <img src="/api/placeholder/400/300" alt="Project 5">
+                <div class="grid-item-content">
+                    <h3>Project 5</h3>
+                    <p>Description of project 5 goes here.</p>
+                </div>
+            </div>
+            <div class="grid-item">
+                <img src="/api/placeholder/400/300" alt="Project 6">
+                <div class="grid-item-content">
+                    <h3>Project 6</h3>
+                    <p>Description of project 6 goes here.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tools">
+        <h2 class="section-title">Tools & Games</h2>
+        <div class="grid-container">
+            <div class="grid-item">
+                <img src="/api/placeholder/400/300" alt="Tool 1">
+                <div class="grid-item-content">
+                    <h3>Tool 1</h3>
+                    <p>Description of tool 1 goes here.</p>
+                </div>
+            </div>
+            <!-- Repeat for other tools -->
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container" style="text-align: center; padding: 2rem; background-color: var(--bg-secondary);">
+            <p><b>Connect with me</b></p>
+            <br>
+            <div class="social-links" style="display: flex; justify-content: center; gap: 1rem;">
+                <!-- LinkedIn SVG Icon -->
+                <a href="https://www.linkedin.com/in/andrewgirgis" target="_blank" style="display: inline-block;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="cursor: pointer; transition: transform 0.35s ease-in;">
+                        <defs>
+                            <linearGradient id="gradient-bg" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#303030" />
+                                <stop offset="50%" stop-color="#050505" />
+                                <stop offset="100%" stop-color="black" />
+                            </linearGradient>
+                        </defs>
+                        <path
+                            class="logo-square"
+                            d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5z"
+                            fill="grey"
+                            style="transition: fill 0.2s ease-in-out;"
+                        />
+                        <path
+                            class="logo-in"
+                            d="M8 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+                            fill="white"
+                            style="transition: fill 0.2s ease-in-out;"
+                        />
+                    </svg>
+                    <style>
+                        a:hover svg {
+                            transform: scale(1.2); /* Makes the SVG grow */
+                        }
+    
+                        a:hover .logo-square {
+                            fill: url(#gradient-bg); /* Apply gradient on hover */
+                        }
+    
+                        a:hover .logo-in {
+                            fill: #0072b1; /* LinkedIn blue */
+                        }
+                    </style>
+                </a>
+    
+                <!-- GitHub SVG Icon -->
+                <a href="https://github.com/andrewgirgis" target="_blank" style="display: inline-block;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="cursor: pointer; transition: transform 0.35s ease-in;">
+                        <path
+                            class="github-logo"
+                            d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                            fill="grey"
+                            style="transition: fill 0.2s ease-in-out;"
+                        />
+                    </svg>
+                    <style>
+                        a:hover svg {
+                            transform: scale(1.2); /* Makes the SVG grow */
+                        }
+    
+                        a:hover .github-logo {
+                            fill: black; /* Changes background to black on hover */
+                        }
+                    </style>
+                </a>
+    
+                <!-- Kaggle SVG Icon -->
+                <a href="https://www.kaggle.com/andrewagirgis" target="_blank" style="display: inline-block;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512" style="cursor: pointer; transition: transform 0.35s ease-in;">
+                        <path
+                            class="kaggle-logo"
+                            d="M385.708,476.478L254.742,313.713l125.578-121.534c2.334-2.426,1.526-9.433-4.761-9.433h-62.16    c-3.145,0-6.288,1.618-9.433,4.761L185.128,307.604V32.738c0-4.491-2.247-6.737-6.738-6.737h-46.618    c-4.492,0-6.737,2.246-6.737,6.737v446.433c0,4.491,2.246,6.738,6.737,6.738h46.618c4.491,0,6.738-2.247,6.738-6.738v-97.91    l27.666-26.317l99.257,126.294c2.695,3.145,5.839,4.762,9.432,4.762h60.095c3.143,0,4.939-0.899,5.389-2.696L385.708,476.478z"
+                            fill="grey"
+                            style="transition: fill 0.2s ease-in-out;"
+                        />
+                    </svg>
+                    <style>
+                        a:hover .kaggle-logo {
+                            fill: #20BEFF; /* Kaggle blue color */
+                        }
+                        a:hover svg {
+                            transform: scale(1.2); /* Makes the SVG grow */
+                        }
+                    </style>
+                </a>
+                <!-- StrataScratch SVG Icon -->
+                <a href="https://platform.stratascratch.com/user/AndrewGirgis" target="_blank" style="display: inline-block;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 40 20" style="cursor: pointer; transition: transform 0.35s ease-in;">
+                        <path class="stratascratch-part1" d="m24.159 7.895.016.568v3.305l-.004.321c-.028 3.027-2.218 5.495-4.88 5.495-2.664 0-4.854-2.464-4.881-5.495l-.004-2.118-2.325.027.008 2.103c.036 4.355 3.266 7.895 7.201 7.895 3.935 0 7.166-3.54 7.2-7.895l-.01-4.194c.027-3.027 2.217-5.49 4.88-5.49s4.853 2.463 4.88 5.49l.024 2.091h2.304l-.008-2.103C38.53 3.54 35.3 0 31.36 0c-3.936 0-7.166 3.54-7.201 7.895Z" fill="grey" style="transition: fill 0.3s ease-in-out;"></path>
+                        <path class="stratascratch-part2" d="m12.077 7.895-.004.482h-.004v3.775c-.027 3.023-2.198 5.432-4.86 5.432-2.663 0-4.853-2.464-4.881-5.495l-.004-2.118L0 9.998l.004 2.103C.044 16.46 3.274 20 7.209 20s7.165-3.54 7.2-7.895l-.015-4.194c.031-3.028 2.221-5.49 4.88-5.49 2.663 0 4.853 2.462 4.88 5.49l.024 2.091h2.305l-.004-2.103C26.444 3.54 23.213 0 19.279 0c-3.936 0-7.166 3.54-7.202 7.895Z" fill="grey" style="transition: fill 0.3s ease-in-out;"></path>
+                    </svg>
+                    <style>
+                        a:hover svg {
+                            transform: scale(1.2); /* Smooth scaling on hover */
+                        }
+
+                        a:hover .stratascratch-part1 {
+                            fill: #00A699; /* StrataScratch teal */
+                        }
+
+                        a:hover .stratascratch-part2 {
+                            fill: #555; /* StrataScratch grey */
+                        }
+                    </style>
+                </a>
+            </div>
+        </div>
+    </footer>
+    
+    
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+        }
+    </script>
+        <!-- Chatbot
+        <div class="chatbot-container">
+            <iframe 
+                src="https://www.chatbase.co/chatbot-iframe/rGFa1z4pdznTdQEMcVvNm" 
+                allow="microphone; clipboard-read; clipboard-write;"
+                frameborder="0">
+            </iframe>
+        </div>
+         -->
+        <script>
+            (function() {
+                if (!window.chatbase || window.chatbase("getState") !== "initialized") {
+                    window.chatbase = (...arguments) => {
+                        if (!window.chatbase.q) {
+                            window.chatbase.q = [];
+                        }
+                        window.chatbase.q.push(arguments);
+                    };
+                    window.chatbase = new Proxy(window.chatbase, {
+                        get(target, prop) {
+                            if (prop === "q") {
+                                return target.q;
+                            }
+                            return (...args) => target(prop, ...args);
+                        }
+                    });
+                }
+                const onLoad = function() {
+                    const script = document.createElement("script");
+                    script.src = "https://www.chatbase.co/embed.min.js";
+                    script.id = "rGFa1z4pdznTdQEMcVvNm";
+                    script.domain = "www.chatbase.co";
+                    document.body.appendChild(script);
+                };
+                if (document.readyState === "complete") {
+                    onLoad();
+                } else {
+                    window.addEventListener("load", onLoad);
+                }
+            })();
+        </script>
+        
+</body>
+</html>
