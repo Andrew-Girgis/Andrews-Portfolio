@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
@@ -570,3 +571,486 @@
         
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Andrew's Portfolio</title>
+    <link rel="icon" type="image/png" href="images/AGLogo.png">
+    <style>
+        :root {
+            /* Light theme variables */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --accent: rgb(0, 123, 255);
+            --card-bg: #ffffff;
+            --card-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            --border-color: #ddd;
+        }
+
+        [data-theme="dark"] {
+            /* Dark theme variables */
+            --bg-primary: #1c1c1c; /* Muted dark background */
+            --bg-secondary: #2a2a2a; /* Slightly lighter for secondary background */
+            --text-primary: #e0e0e0; /* Soft light grey for primary text */
+            --text-secondary: #b0b0b0; /* Muted grey for secondary text */
+            --accent: #007bff; /* Use the same blue as in the light theme */
+            --card-bg: #252525; /* Dark card background */
+            --card-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+            --border-color: #444444; /* Dark grey for borders */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+            transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1001;
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .theme-toggle:hover {
+            box-shadow: var(--neon-glow);
+            text-shadow: var(--neon-glow);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            padding: 1rem;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--bg-primary);
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+            text-shadow: var(--neon-glow);
+        }
+
+        [data-theme="dark"] .nav-links a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+
+        [data-theme="dark"] .nav-links a:hover {
+            color: var(--accent);
+            text-shadow: var(--neon-glow);
+        }
+
+        /* Sections */
+        section {
+            padding: 5rem 2rem;
+            min-height: 100vh;
+            background: var(--bg-primary);
+        }
+
+        section:nth-child(even) {
+            background: var(--bg-secondary);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        [data-theme="dark"] .section-title {
+            color: var(--accent);
+            text-shadow: var(--neon-glow);
+        }
+
+        /* Home Section */
+        #home {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        #home h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        [data-theme="dark"] #home h1 {
+            color: var(--accent2);
+            text-shadow: 0 0 10px rgba(0, 123, 255, 0.5),
+                         0 0 20px rgba(0, 123, 255, 0.3),
+                         0 0 30px rgba(0, 123, 255, 0.1);
+        }
+
+        /* About Section */
+        .about-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        [data-theme="dark"] .profile-img {
+            border: 2px solid var(--accent);
+            box-shadow: var(--neon-glow);
+        }
+
+        /* Projects and Tools Sections */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .grid-item {
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+        }
+
+        .grid-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+        }
+
+        [data-theme="dark"] .grid-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5),
+                       0 0 20px rgba(0, 123, 255, 0.3),
+                       0 0 30px rgba(0, 123, 255, 0.1);
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .grid-item-content {
+            padding: 1rem;
+        }
+
+        [data-theme="dark"] .grid-item-content h3 {
+            color: var(--accent3);
+            text-shadow: 0 0 20px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Contact Section */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        [data-theme="dark"] .contact-form {
+            box-shadow: var(--neon-glow);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+
+        [data-theme="dark"] .form-group input:focus,
+        [data-theme="dark"] .form-group textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+            outline: none;
+        }
+
+        .form-group textarea {
+            height: 150px;
+        }
+
+        button {
+            background: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+            padding: 0.75rem 2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        [data-theme="dark"] button:hover {
+            background: var(--accent);
+            color: var(--bg-primary);
+            box-shadow: var(--neon-glow);
+        }
+
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+    <nav>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#projects">Projects</a>
+            <a href="#tools">Tools/Games</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <section id="home">
+        <div>
+            <h1>Andrew Girgis's Portfolio</h1>
+            <p>Economist & Data Scientist</p>
+        </div>
+    </section>
+
+    <section id="about">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-container">
+            <img src="images/AndrewPhoto.jpg" alt="Profile Picture" class="profile-img">
+            <div>
+                <p>Hi, I'm Andrew Girgis – an aspiring data scientist with a strong foundation in econometrics, data analytics, and data visualization. <br>
+                
+                    <br>
+
+                    I'm currently pursuing a Master of Arts in Economics and a Graduate Diploma in Computational Data Analytics at the University of Waterloo, where I’m deepening my expertise in leveraging data to solve complex problems and present the data in a meaningful way. With a Bachelor of Arts Honours in Economics and a minor in Applied Computing from Brock University, I've built a robust analytical and technical skill set. My proficiency in Python, R, SQL, and key libraries like pandas, NumPy, and TensorFlow allows me to translate data into actionable insights and impactful solutions. <br>
+                    
+                    <br>
+
+                    In my current role as a Junior Analyst at the National Research Council Canada, I’ve developed an AI chatbot to streamline client inquiries and presented survey insights via PowerBI dashboards to senior leadership, demonstrating my ability to innovate and drive results. My experiences as a Teaching Assistant at the University of Waterloo, where I streamlined grading processes and presented statistical concepts to large groups, along with my role at TechPlace, where I automated CRM workflows, have strengthened my skills in report creation and automation. <br>
+                    
+                    <br>
+
+                    My career goal is to excel in data science, where I can contribute meaningfully to tech-forward projects and drive sustainable, positive change. I'm excited about using data to build a future where technology solves real-world challenges. <br>
+                    
+                    <br>
+
+                    Outside of my professional pursuits, I am passionate about automotives, technology, and physics, and I actively seek opportunities to expand my knowledge and skills. <br>
+                    
+                    <br>
+
+                    Feel free to reach out. Let's connect!</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2 class="section-title">Projects</h2>
+        <div class="grid-container">
+            <!-- Project 1 -->
+            <div class="grid-item">
+                <img src="/api/placeholder/400/300" alt="Project 1">
+                <div class="grid-item-content">
+                    <h3>Project 1</h3>
+                    <p>Description of project 1 goes here.</p>
+                </div>
+            </div>
+            <!-- Repeat for 5 more projects -->
+            <div class="grid-item">
+                <img src="/api/placeholder/400/300" alt="Project 2">
+                <div class="grid-item-content">
+                    <h3>Project 2</h3>
+                    <p>Description of project 2 goes here.</p>
+                </div>
+            </div>
+            <div class="grid-item">
+                <img src="/api/placeholder/400/300" alt="Project 3">
+                <div class="grid-item-content">
+                    <h3>Project 3</h3>
+                    <p>Description of project 3 goes here.</p>
+                </div>
+            </div>
+            <div class="grid-item">
+                <img src="/api/placeholder/400/300" alt="Project 4">
+                <div class="grid-item-content">
+                    <h3>Project 4</h3>
+                    <p>Description of project 4 goes here.</p>
+                </div>
+            </div>
+            <div class="grid-item">
+                <img src="/api/placeholder/400/300" alt="Project 5">
+                <div class="grid-item-content">
+                    <h3>Project 5</h3>
+                    <p>Description of project 5 goes here.</p>
+                </div>
+            </div>
+            <div class="grid-item">
+                <img src="/api/placeholder/400/300" alt="Project 6">
+                <div class="grid-item-content">
+                    <h3>Project 6</h3>
+                    <p>Description of project 6 goes here.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tools">
+        <h2 class="section-title">Tools & Games</h2>
+        <div class="grid-container">
+            <div class="grid-item">
+                <img src="/api/placeholder/400/300" alt="Tool 1">
+                <div class="grid-item-content">
+                    <h3>Tool 1</h3>
+                    <p>Description of tool 1 goes here.</p>
+                </div>
+            </div>
+            <!-- Repeat for other tools -->
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2 class="section-title">Contact Me</h2>
+        <form class="contact-form">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" required></textarea>
+            </div>
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+        }
+    </script>
+        <!-- Chatbot -->
+    <div class="chatbot-container">
+        <iframe 
+            src="https://www.chatbase.co/chatbot-iframe/rGFa1z4pdznTdQEMcVvNm" 
+            allow="microphone; clipboard-read; clipboard-write;"
+            frameborder="0">
+        </iframe>
+    </div>
+
+    <script>
+        (function() {
+            if (!window.chatbase || window.chatbase("getState") !== "initialized") {
+                window.chatbase = (...arguments) => {
+                    if (!window.chatbase.q) {
+                        window.chatbase.q = [];
+                    }
+                    window.chatbase.q.push(arguments);
+                };
+                window.chatbase = new Proxy(window.chatbase, {
+                    get(target, prop) {
+                        if (prop === "q") {
+                            return target.q;
+                        }
+                        return (...args) => target(prop, ...args);
+                    }
+                });
+            }
+            const onLoad = function() {
+                const script = document.createElement("script");
+                script.src = "https://www.chatbase.co/embed.min.js";
+                script.id = "rGFa1z4pdznTdQEMcVvNm";
+                script.domain = "www.chatbase.co";
+                document.body.appendChild(script);
+            };
+            if (document.readyState === "complete") {
+                onLoad();
+            } else {
+                window.addEventListener("load", onLoad);
+            }
+        })();
+    </script>
+</body>
+</html>
+>>>>>>> 5dc334da2b31ba773b634b4cee99832f08556f22
