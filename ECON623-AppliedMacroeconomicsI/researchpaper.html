@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Andrew Girgis" />
+  <title>Can we predict the future of the cars of the future: A study on predictors of BEV car manufacturer stock returns</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Can we predict the future of the cars of the future: A
+study on predictors of BEV car manufacturer stock returns</h1>
+<p class="author">Andrew Girgis<a href="#fn1" class="footnote-ref"
+id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+</header>
+<div class="center">
+<p>Abstract</p>
+</div>
+<p>————————————————————————————————————–<br />
+This paper examines potential predictors for stock market returns on
+Battery Electric Vehicle (BEV) startup companies. Employing a GARCH
+model, which is widely used in financial econometrics for forecasting
+volatility in time series data, we aim to capture the dynamic nature of
+volatility in stock returns. Additionally, a Vector Autoregression (VAR)
+model is utilized to predict future stock returns. Evaluation of model
+accuracy is conducted using mean absolute percent error. Throughout the
+paper we identify optimal forecasting models, perform forecasts of the
+volatility and stock market returns, and assess the errors of the
+forecasts. Results indicate inadequacy in accurately predicting future
+volatility and returns using the predictors proposed in this paper.</p>
+<p>————————————————————————————————————–<br />
+</p>
+<p><strong>Keywords</strong>: BEV(Battery Electric Vehicle), GARCH
+model, VAR, Stock Market returns, Mean Absolute Percent Error(MAPE),
+Combustion engine vehicle.<br />
+<strong>JEL</strong>: G170; C460; C58.<br />
+<em><strong>[This version of the paper is preliminary. Please do not
+quote without the author’s permission]</strong></em></p>
+<h1 id="intro">Introduction</h1>
+<p>The literature on predicting market returns and volatility
+encompasses various methodologies and findings, providing valuable
+insights into the dynamics of financial markets. Shen et al. (2021)
+employ tGARCH and VAR models to forecast future market returns and
+volatility in their study titled "Predicting stock and bond market
+returns with emotions: Evidence from futures markets" <span
+class="citation" data-cites="Shen_Griffith_Najand_Sun_2021"></span>.
+Utilizing a VAR(5) model with a lag of five days for the business week,
+they identify a single predictor among five initially considered
+variables that significantly influences future market returns. In a
+similar vein, Li and Sun (2023) explore the predictive power of credit
+risk on Chinese stock market returns in their paper "Predicting stock
+market returns using aggregate credit risk" <span class="citation"
+data-cites="Li_Sun_2023"></span>. Employing regression and VAR(1)
+models, they find that their models perform well in short-range
+forecasts but exhibit diminished accuracy over longer forecast horizons.
+This underscores the importance of considering the forecast window
+duration when developing predictive models for market returns. Cai and
+Stander (2019) delve into the estimation and density forecasting of
+financial returns using the threshold GARCH model in their research
+<span class="citation" data-cites="Cai_Stander_2019"></span>. They
+highlight the limitations of the traditional GARCH(1,1) model,
+particularly its failure to capture the stylized fact that conditional
+variance tends to increase after a decrease in returns compared to an
+increase. Despite testing various GARCH models, including GARCH(3,2) and
+GJR-GARCH(2,1,2), they find that the GARCH(1,1) model exhibits superior
+out-of-sample predictive power. In contrast, Hansen and Lunde (2001)
+focus on comparing volatility models in their paper "A forecast
+comparison of volatility models: Does anything beat a GARCH(1,1)?" <span
+class="citation" data-cites="Hansen_Lunde_2001"></span>. While they find
+no evidence that the GARCH(1,1) model is outperformed by other GARCH or
+ARCH models with respect to exchange rate data, they observe marginally
+better performance in predicting stock returns, albeit with limited data
+from IBM stock returns. Notably, they emphasize the necessity of
+accounting for leverage effects to achieve robust out-of-sample
+performance.</p>
+<p>Building upon this literature, the present study aims to forecast the
+volatility and returns of Battery Electric Vehicle (BEV) startup company
+stocks by leveraging complementary and substitutionary goods and
+commodities. Through the application of GARCH and VAR models, we seek to
+identify optimal modeling approaches and evaluate their forecasting
+performance using the Mean Absolute Percentage Error (MAPE). By
+examining the interplay between BEV stock returns and external factors,
+this research contributes to our understanding of market dynamics and
+informs decision-making in investment and risk management
+strategies.</p>
+<p>The rest of the paper is organized as follows. Section 2 introduces
+the basic model framework. In section 3, we introduce the data used for
+the analysis and look into the methodology. Section 4 provides empirical
+applications. Section 5 concludes. All the proofs are provided in
+Appendix A and some tables and figures are collected in Appendix
+B.<br />
+</p>
+<h1 id="theoretical-model-and-its-statistical-properties">Theoretical
+Model and Its Statistical Properties</h1>
+<p><span class="math display">\[\label{eq:garch_model}
+\sigma^2_t = \omega + \alpha_1\epsilon^2_{t-1} + \beta_1\sigma^2_{t-1} +
+\gamma X_{t-1}\]</span></p>
+<p>In my research, I employ a variant of the Generalized Autoregressive
+Conditional Heteroskedasticity (GARCH) model, specifically the
+GARCH(1,1) model with an external regressor. This model is used to
+estimate the conditional variance of the returns of a stock, which helps
+in understanding the volatility dynamics of the stock market. Breaking
+down the components of the model shown in equation <a
+href="#eq:garch_model" data-reference-type="ref"
+data-reference="eq:garch_model">[eq:garch_model]</a>, conditional
+variance (<span class="math inline">\(\sigma_t^2\)</span>) term
+represents the variance of the stock returns at time <span
+class="math inline">\(t\)</span>, given the information available up to
+time <span class="math inline">\(t\)</span>. In other words, it captures
+the volatility of the stock returns. Intercept (<span
+class="math inline">\(\omega\)</span>), this is the constant term in the
+variance equation representing the baseline level of volatility. ARCH
+Effect (<span class="math inline">\(\alpha_1\)</span>) parameter
+captures the impact of past squared errors (residuals) on the current
+conditional variance. It signifies the autoregressive conditional
+heteroskedasticity (ARCH) effect, where past shocks to the system affect
+the current volatility. GARCH Effect (<span
+class="math inline">\(\beta_1\)</span>) parameter measures the impact of
+past conditional variances on the current variance. It represents the
+volatility persistence in the stock returns, indicating whether
+volatility tends to persist over time. External Regressor (<span
+class="math inline">\(X_{t-1}\)</span>) term introduces an external
+variable into the model, namely the lagged returns of another stock. By
+including this regressor, we aim to capture any additional explanatory
+power that the lagged returns of another stock may have on the
+volatility of the current stock returns. Overall, the GARCH(1,1) model
+with an external regressor allows me to model the conditional variance
+of stock returns, taking into account both past volatility and the
+influence of an external variable. This provides valuable insights into
+the volatility dynamics of the stock market, which is essential for risk
+management and investment decision-making.</p>
+<p><span class="math display">\[\label{eq:var_model}
+\begin{aligned}
+\begin{bmatrix}
+Y_{1,t} \\
+Y_{2,t} \\
+\vdots \\
+Y_{n,t}
+\end{bmatrix} &amp;=
+\begin{bmatrix}
+A_{11} &amp; A_{12} &amp; \dots &amp; A_{1n} \\
+A_{21} &amp; A_{22} &amp; \dots &amp; A_{2n} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+A_{n1} &amp; A_{n2} &amp; \dots &amp; A_{nn}
+\end{bmatrix}
+\begin{bmatrix}
+Y_{1,t-1} \\
+Y_{2,t-1} \\
+\vdots \\
+Y_{n,t-1}
+\end{bmatrix} +
+\begin{bmatrix}
+B_{11} &amp; B_{12} &amp; B_{13} \\
+B_{21} &amp; B_{22} &amp; B_{23} \\
+B_{31} &amp; B_{32} &amp; B_{33}
+\end{bmatrix}
+\begin{bmatrix}
+X_{1,t-1} \\
+X_{2,t-1} \\
+X_{3,t-1}
+\end{bmatrix} +
+\begin{bmatrix}
+\varepsilon_{1,t} \\
+\varepsilon_{2,t} \\
+\vdots \\
+\varepsilon_{n,t}
+\end{bmatrix}
+\end{aligned}\]</span></p>
+<p>Vector Autoregression (VAR) 1 Model for Stock Returns In the context
+of financial markets, particularly the stock market, the VAR model
+serves as an instrument for understanding the interdependencies among
+various assets and their external drivers. In this study, we employ a
+VAR model to investigate the behavior of stock returns, considering the
+influence of three external regressors: returns of Gasoline, Lithium
+Battery, and Chargepoint stocks. The VAR model proposed in equation <a
+href="#eq:var_model" data-reference-type="ref"
+data-reference="eq:var_model">[eq:var_model]</a> posits a linear
+relationship between the current values of stock returns and their
+lagged values, along with the lagged returns of the external regressors.
+Here, <span class="math inline">\(Y_t\)</span> represents a vector
+comprising the returns of the stock at time t, while <span
+class="math inline">\(X_{1,t-1}, X_{2,t-1}\)</span>, and <span
+class="math inline">\(X_{3,t-1}\)</span> denote vectors representing the
+lagged returns of Gasoline, Lithium Battery, and Chargepoint stocks,
+respectively. The coefficient matrices <span class="math inline">\(A_1,
+A_2, ..., A_p\)</span> capture the lagged effects of stock returns,
+whereas B1, B2, B3 represent the coefficients associated with the lagged
+external regressors. The error term <span
+class="math inline">\(\epsilon_t\)</span> reflects unobserved factors
+influencing stock returns at time <span
+class="math inline">\(t\)</span>. The VAR model offers several
+statistical properties essential for comprehensively analyzing the
+dynamics of stock returns: Granger Causality VAR models facilitate the
+assessment of Granger causality, a fundamental concept in econometrics
+that examines whether past values of one variable contain predictive
+information about another variable. Impulse Response Function (IRF),
+enables researchers to gauge the dynamic response of each variable
+within the system to exogenous shocks or innovations. By simulating the
+effects of one-time disturbances, IRF analysis elucidates the interplay
+between stock returns and the external regressors over time.
+Forecasting, Leveraging past observations and estimated coefficients,
+VAR models are adept at forecasting future values of stock returns.
+These forecasts provide valuable insights for investors and analysts,
+aiding in decision-making processes and risk management strategies. In
+summary, the VAR model serves as a robust framework for investigating
+the intricate relationships between stock returns and external factors,
+offering valuable insights into the dynamics of financial markets and
+informing strategic decision-making in investment and portfolio
+management.</p>
+<h1 id="data-and-methodology">Data and Methodology</h1>
+<p>I sourced the data for my analysis from Yahoo Finance, comprising
+daily stock data from November 30th, 2021, to March 19th, 2024, totaling
+578 observations. This timeframe was selected to analyze potential
+predictors for Rivian stock, as Rivian went public in November 2021. The
+stock data includes battery electric vehicle (BEV) startup companies
+Faraday Future, Fisker, Tesla, Rivian, Nio, and Lucid. These companies
+exclusively produce BEVs, distinguishing them from traditional
+automakers like Volkswagen and Ford, which also manufacture combustion
+engine vehicles. By focusing solely on BEV producers, we aim to avoid
+potential biases introduced by external factors affecting diversified
+automakers. Additionally, I acquired stock data for BEV charger
+manufacturers Blink and Chargepoint, anticipating their stock
+performance could serve as a robust predictor for BEV startup companies.
+Furthermore, I incorporated data on key commodities such as crude oil,
+gasoline, and lithium. Crude oil was selected due to its significance in
+electricity generation, which is essential for BEVs. Gasoline prices
+were included considering their impact on consumer preferences,
+potentially influencing the adoption of BEVs. Lastly, lithium, a
+critical component in BEV batteries, was examined as fluctuations in its
+cost could affect BEV production and subsequently impact stock returns.
+After obtaining the stock data of the companies and commodities I then
+removed the columns ’symbol’, ’open’, ’high’, ’low’, ’close’, and
+’volume’ as these columns are unnecessary for the task. I used the
+’Adjusted Close’ column of the data to compute the returns of a stock
+using equation <a href="#eq:return" data-reference-type="ref"
+data-reference="eq:return">[eq:return]</a>.</p>
+<p><span class="math display">\[\label{eq:return}
+R_t = \frac{p_t - p_{t-1}}{p_{t-1}}\]</span></p>
+<p>Table <a href="#tab:bev_stats_correlations" data-reference-type="ref"
+data-reference="tab:bev_stats_correlations">1</a> &amp; <a
+href="#tab:stats_correlations2" data-reference-type="ref"
+data-reference="tab:stats_correlations2">2</a> in section <a
+href="#figures" data-reference-type="ref" data-reference="figures">7</a>
+provide the descriptive statistics and a correlation matrix for the
+variables used in this study: Faraday Future(FF), Fisker, Tesla, Rivian,
+Nio, Lucid, Blink, Chargepoint, crude oil, gasoline, and lithium.</p>
+<h1 id="empirical-data-analysis">Empirical Data Analysis</h1>
+<p>In this section, we implement the proposed model and estimation
+procedure using empirical data collected from November 30th, 2021, to
+March 19th, 2024. Descriptive statistics and correlations of the returns
+of BEV stocks are presented in Table 1 of Appendix B. The mean returns
+indicate the average daily performance of each stock, with negative
+values observed for most companies, suggesting overall negative returns
+during the period under review. Variance, skewness, and kurtosis
+statistics provide insights into the distribution and volatility of
+stock returns, highlighting notable disparities among BEV companies.</p>
+<p>Similarly, Table 2 in Appendix B provides descriptive statistics and
+correlations for the returns of dependent variables, including crude
+oil, gasoline, lithium, and BEV charger manufacturers. The high
+correlation coefficients between certain variables, such as crude oil
+and gasoline, underscore their interrelatedness and potential impact on
+BEV stock returns.</p>
+<p>Furthermore, Table 3 and 4 in Appendix B presents the optimal number
+of lags to use in the Vector Autoregression (VAR) models for Rivian and
+Tesla returns. The selection criteria, including AIC, BIC, and FPE, aid
+in determining the most suitable lag structure for the VAR models. These
+results inform the specification of the VAR models and contribute to the
+accuracy of return forecasts.</p>
+<p>Tables 5 and 6 in Appendix B detail the results of the Granger
+Causality Tests for Rivian and Tesla returns, respectively. These tests
+assess whether past values of one variable contain predictive
+information about another variable, providing insights into potential
+causal relationships among BEV stocks and external factors. The p-values
+associated with each test indicate the significance levels of the causal
+relationships, with higher p-values suggesting weaker evidence of
+causality.</p>
+<p>Table 7 in Appendix B displays the AIC and BIC values for different
+GARCH models of Rivian returns. The Akaike Information Criterion (AIC)
+and Bayesian Information Criterion (BIC) are widely used measures for
+model selection, with lower values indicating better model fit. The
+table presents various GARCH specifications, including ARMA(0,0)
+GARCH(1,1) and ARMA(1,1) GARCH(2,1), along with their corresponding AIC
+and BIC values. These metrics aid in identifying the most appropriate
+GARCH model for capturing the volatility dynamics of Rivian returns. The
+results provide insights into the effectiveness of different model
+specifications in explaining the observed volatility patterns.</p>
+<p>Table 8 in Appendix B presents the AIC and BIC values for different
+GARCH models of Tesla returns. Similar to Table 7, this table displays
+the AIC and BIC values for various GARCH specifications, allowing for
+comparisons of model performance. The table includes models such as
+ARMA(0,0) GARCH(1,1) and ARMA(1,1) GARCH(2,1), along with their
+respective AIC and BIC values. By examining these metrics, researchers
+can identify the GARCH model that best captures the volatility dynamics
+of Tesla returns. The results offer insights into the suitability of
+different model specifications for modeling Tesla’s return
+volatility.</p>
+<p>Table 9 provides the Mean Absolute Percentage Error (MAPE) values for
+forecasts of returns and volatility for both Rivian and Tesla. MAPE is a
+commonly used metric for evaluating the accuracy of forecasts, with
+lower values indicating higher forecast accuracy. The table presents the
+MAPE values for both return and volatility forecasts, offering insights
+into the performance of the forecasting models. The observed MAPE values
+for Rivian and Tesla provide an assessment of the forecasting accuracy
+achieved by the VAR and GARCH models. These results inform researchers
+and investors about the reliability of the forecasting models in
+predicting future returns and volatility for Rivian and Tesla
+stocks.</p>
+<p>Figure 1 illustrates the returns of Rivian over time, focusing on the
+dates between February 19 and February 26. The forecasted values of
+Rivian returns are depicted by the dotted blue line, with the upper and
+lower confidence levels shown at a 95% confidence interval. The
+highlighted period from February 19 to February 26 in Rivian’s returns
+is notable for a significant decline of approximately 30%. Upon closer
+examination of the news during that week, it was revealed that this
+decline was attributed to disappointing 2024 deliveries and earnings
+reported on February 23. The market’s reaction suggests that
+expectations were not met, resulting in the observed decrease in
+returns. However, the subsequent rebound in returns may indicate that
+the initial sell-off reaction was possibly exaggerated.</p>
+<p>Figure 2 portrays the returns of Tesla over time, with a focus on the
+dates between January 22nd and January 28th. Similarly, the forecasted
+values of Tesla returns are represented by the dotted blue line, along
+with the upper and lower confidence levels at a 95% confidence interval.
+The highlighted period from January 22nd to January 28th in Tesla’s
+returns reflects a decline of approximately 12%. Upon reviewing the news
+related to Tesla’s returns on January 25th, 2024, it was revealed that
+the decrease in returns was attributed to the company reporting earnings
+that missed expectations, along with warnings of a slowdown in 2024.
+Once again, the subsequent rebound in returns may suggest that the
+initial sell-off reaction was potentially exaggerated.</p>
+<p>Overall, the empirical data analysis sheds light on the dynamics of
+BEV stock returns and their relationships with external factors. The
+descriptive statistics, correlations, lag selection criteria, and
+Granger Causality Test results collectively contribute to our
+understanding of the factors influencing BEV stock performance and
+inform the development of forecasting models.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>Upon reviewing the results presented in Table 9, it becomes evident
+that both the VAR and GARCH models exhibit noticeably high MAPE (Mean
+Absolute Percentage Error) values. This suggests that the forecasts
+generated by these models may lack accuracy. Furthermore, the observed
+high MAPE values indicate a potential lack of explanatory power in the
+returns of Gasoline, Lithium Battery, and EV Charger producer stocks.
+While the MAPE for the forecast of Rivian appears to be relatively
+decent, further research is warranted to ascertain whether this
+performance holds consistently over the entire lifetime of the stock.
+Additionally, it’s crucial to investigate whether this outcome is an
+isolated occurrence, given that the stock exhibited lower volatility
+during the forecast period compared to historical data. As of now we
+cannot predict the future of the cars of the future. Future research
+endeavors should aim to develop a VAR-GARCH model capable of leveraging
+stock volatility data to enhance the accuracy of return forecasts.
+Additionally, there is a need to refine the forecasting horizon to
+shorter periods, such as 1 or 2 days, and evaluate the model’s
+performance on a day-to-day basis to assess its precision with a more
+focused forecast. Exploring the potential explanatory power of the
+number of active EV car chargers in a region could be a valuable avenue
+for investigation. This aspect, not fully captured by stock returns
+alone, suggests the potential benefits of integrating geospatial data
+into the modeling framework. By incorporating real-time data on active
+EV chargers, it may be possible to better predict future returns,
+considering the influence of infrastructure development on consumer
+behavior towards electric vehicles. Exploring the impact of the
+implementation of the Federal carbon tax on the returns of an EV startup
+stock is of particular interest. Although my analysis was constrained by
+the IPO timing of Rivian, focusing solely on stocks that debuted before
+the introduction of the Federal carbon tax would allow for a clearer
+examination of the policy’s influence on EV stock returns. Additionally,
+investigating the effects of the Federal rebate for EV cars presents
+another intriguing avenue for research. Given that this incentive
+encourages Canadians to purchase EVs, it is reasonable to anticipate a
+positive impact on the returns of relevant stocks. Exploring this
+relationship further could provide valuable insights into the dynamics
+between government policies and EV market performance.<br />
+</p>
+<div class="LARGE">
+<p><strong></strong></p>
+</div>
+<h1 id="proofs">Proofs</h1>
+<h1 id="figures">Tables and Figures</h1>
+<div id="tab:bev_stats_correlations">
+<table>
+<caption>Descriptive statistics &amp; correlations of returns of BEV
+stocks</caption>
+<thead>
+<tr>
+<th style="text-align: right;">Panel A</th>
+<th style="text-align: left;">FF</th>
+<th style="text-align: left;">Fisker</th>
+<th style="text-align: left;">Lucid</th>
+<th style="text-align: left;">Nio</th>
+<th style="text-align: left;">Rivian</th>
+<th style="text-align: left;">Tesla</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">mean</td>
+<td style="text-align: left;">-1.65</td>
+<td style="text-align: left;">-1.17</td>
+<td style="text-align: left;">-0.51</td>
+<td style="text-align: left;">-0.37</td>
+<td style="text-align: left;">-0.41</td>
+<td style="text-align: left;">-0.14</td>
+</tr>
+<tr>
+<td style="text-align: right;">variance</td>
+<td style="text-align: left;">115.87</td>
+<td style="text-align: left;">65.16</td>
+<td style="text-align: left;">26.16</td>
+<td style="text-align: left;">24.63</td>
+<td style="text-align: left;">27.34</td>
+<td style="text-align: left;">14.14</td>
+</tr>
+<tr>
+<td style="text-align: right;">skewness</td>
+<td style="text-align: left;">0.30</td>
+<td style="text-align: left;">-5.83</td>
+<td style="text-align: left;">0.51</td>
+<td style="text-align: left;">0.37</td>
+<td style="text-align: left;">-0.45</td>
+<td style="text-align: left;">-0.24</td>
+</tr>
+<tr>
+<td style="text-align: right;">kurtosis</td>
+<td style="text-align: left;">7.47</td>
+<td style="text-align: left;">71.99</td>
+<td style="text-align: left;">8.47</td>
+<td style="text-align: left;">4.86</td>
+<td style="text-align: left;">6.45</td>
+<td style="text-align: left;">3.97</td>
+</tr>
+<tr>
+<td style="text-align: right;">Panel B</td>
+<td style="text-align: left;">FF</td>
+<td style="text-align: left;">Fisker</td>
+<td style="text-align: left;">Lucid</td>
+<td style="text-align: left;">Nio</td>
+<td style="text-align: left;">Rivian</td>
+<td style="text-align: left;">Tesla</td>
+</tr>
+<tr>
+<td style="text-align: right;">FF</td>
+<td style="text-align: left;">1.00</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: right;">Fisker</td>
+<td style="text-align: left;">0.21</td>
+<td style="text-align: left;">1.00</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: right;">Lucid</td>
+<td style="text-align: left;">0.25</td>
+<td style="text-align: left;">0.38</td>
+<td style="text-align: left;">1.00</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: right;">Nio</td>
+<td style="text-align: left;">0.26</td>
+<td style="text-align: left;">0.30</td>
+<td style="text-align: left;">0.54</td>
+<td style="text-align: left;">1.00</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: right;">Rivian</td>
+<td style="text-align: left;">0.16</td>
+<td style="text-align: left;">0.35</td>
+<td style="text-align: left;">0.67</td>
+<td style="text-align: left;">0.56</td>
+<td style="text-align: left;">1.00</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: right;">Tesla</td>
+<td style="text-align: left;">0.21</td>
+<td style="text-align: left;">0.27</td>
+<td style="text-align: left;">0.56</td>
+<td style="text-align: left;">0.52</td>
+<td style="text-align: left;">0.56</td>
+<td style="text-align: left;">1.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="tab:stats_correlations2">
+<table>
+<caption>Descriptive statistics &amp; correlations of returns of
+Dependants</caption>
+<thead>
+<tr>
+<th style="text-align: right;">Panel A</th>
+<th style="text-align: left;">Crude</th>
+<th style="text-align: left;">Gasoline</th>
+<th style="text-align: left;">LitBat</th>
+<th style="text-align: left;">Chargepoint</th>
+<th style="text-align: left;">Blink</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">mean</td>
+<td style="text-align: left;">0.05</td>
+<td style="text-align: left;">0.05</td>
+<td style="text-align: left;">-0.12</td>
+<td style="text-align: left;">-0.45</td>
+<td style="text-align: left;">-0.44</td>
+</tr>
+<tr>
+<td style="text-align: right;">variance</td>
+<td style="text-align: left;">3.05</td>
+<td style="text-align: left;">2.93</td>
+<td style="text-align: left;">3.83</td>
+<td style="text-align: left;">28.82</td>
+<td style="text-align: left;">25.90</td>
+</tr>
+<tr>
+<td style="text-align: right;">skewness</td>
+<td style="text-align: left;">-0.42</td>
+<td style="text-align: left;">-0.48</td>
+<td style="text-align: left;">0.094</td>
+<td style="text-align: left;">-0.60</td>
+<td style="text-align: left;">0.63</td>
+</tr>
+<tr>
+<td style="text-align: right;">kurtosis</td>
+<td style="text-align: left;">3.67</td>
+<td style="text-align: left;">4.20</td>
+<td style="text-align: left;">3.28</td>
+<td style="text-align: left;">10.21</td>
+<td style="text-align: left;">5.37</td>
+</tr>
+<tr>
+<td style="text-align: right;">Panel B</td>
+<td style="text-align: left;">Crude</td>
+<td style="text-align: left;">Gasoline</td>
+<td style="text-align: left;">LitBat</td>
+<td style="text-align: left;">Chargepoint</td>
+<td style="text-align: left;">Blink</td>
+</tr>
+<tr>
+<td style="text-align: right;">Crude</td>
+<td style="text-align: left;">1.00</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: right;">Gasoline</td>
+<td style="text-align: left;">0.94</td>
+<td style="text-align: left;">1.00</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: right;">LitBat</td>
+<td style="text-align: left;">0.17</td>
+<td style="text-align: left;">0.19</td>
+<td style="text-align: left;">1.00</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: right;">Chargepoint</td>
+<td style="text-align: left;">0.01</td>
+<td style="text-align: left;">0.03</td>
+<td style="text-align: left;">0.49</td>
+<td style="text-align: left;">1.00</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: right;">Blink</td>
+<td style="text-align: left;">0.04</td>
+<td style="text-align: left;">0.04</td>
+<td style="text-align: left;">0.50</td>
+<td style="text-align: left;">0.67</td>
+<td style="text-align: left;">1.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+<table>
+<caption>Table depicting the optimal number of lags to use in our VAR
+model for Rivian returns</caption>
+<thead>
+<tr>
+<th style="text-align: right;"></th>
+<th style="text-align: right;">selection</th>
+<th style="text-align: right;">criteria.1</th>
+<th style="text-align: right;">criteria.2</th>
+<th style="text-align: right;">criteria.3</th>
+<th style="text-align: right;">criteria.4 ...</th>
+<th style="text-align: right;"></th>
+<th style="text-align: right;"></th>
+<th style="text-align: right;"></th>
+<th style="text-align: right;"></th>
+<th style="text-align: right;"></th>
+<th style="text-align: right;"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">AIC(n)</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">8.29</td>
+<td style="text-align: right;">8.31</td>
+<td style="text-align: right;">8.33</td>
+<td style="text-align: right;">8.37 ...</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td style="text-align: right;">HQ(n)</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">8.35</td>
+<td style="text-align: right;">8.42</td>
+<td style="text-align: right;">8.49</td>
+<td style="text-align: right;">8.57 ...</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td style="text-align: right;">SC(n)</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">8.44</td>
+<td style="text-align: right;">8.59</td>
+<td style="text-align: right;">8.73</td>
+<td style="text-align: right;">8.89 ...</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td style="text-align: right;">FPE(n)</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3982.78</td>
+<td style="text-align: right;">4068.04</td>
+<td style="text-align: right;">4151.32</td>
+<td style="text-align: right;">4303.34...</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Table depicting the optimal number of lags to use in our VAR
+model for Tesla returns</caption>
+<thead>
+<tr>
+<th style="text-align: right;"></th>
+<th style="text-align: right;">selection</th>
+<th style="text-align: right;">criteria.1</th>
+<th style="text-align: right;">criteria.2</th>
+<th style="text-align: right;">criteria.3</th>
+<th style="text-align: right;">criteria.4 ...</th>
+<th style="text-align: right;"></th>
+<th style="text-align: right;"></th>
+<th style="text-align: right;"></th>
+<th style="text-align: right;"></th>
+<th style="text-align: right;"></th>
+<th style="text-align: right;"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">AIC(n)</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7.65</td>
+<td style="text-align: right;">7.67</td>
+<td style="text-align: right;">7.69</td>
+<td style="text-align: right;">7.71 ...</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td style="text-align: right;">HQ(n)</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7.71</td>
+<td style="text-align: right;">7.78</td>
+<td style="text-align: right;">7.85</td>
+<td style="text-align: right;">7.91 ...</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td style="text-align: right;">SC(n)</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7.80</td>
+<td style="text-align: right;">7.94</td>
+<td style="text-align: right;">8.09</td>
+<td style="text-align: right;">8.23 ...</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td style="text-align: right;">FPE(n)</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2092.56</td>
+<td style="text-align: right;">2139.35</td>
+<td style="text-align: right;">2196.39</td>
+<td style="text-align: right;">2220.36 ...</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table>
+<div id="tab:granger_rivian">
+<table>
+<caption>Granger Causality Test Results for Rivian returns.</caption>
+<thead>
+<tr>
+<th style="text-align: left;">Granger Causality Test</th>
+<th style="text-align: center;">F-Test</th>
+<th style="text-align: center;">p-value</th>
+<th style="text-align: center;"></th>
+<th style="text-align: center;"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Rivian does not cause Gas</td>
+<td style="text-align: center;">1.5337</td>
+<td style="text-align: center;">0.2038</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">Gas does not cause Rivian</td>
+<td style="text-align: center;">1.8225</td>
+<td style="text-align: center;">0.1409</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">LitBat does not cause Rivian</td>
+<td style="text-align: center;">0.90716</td>
+<td style="text-align: center;">0.4368</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">CP does not cause Rivian</td>
+<td style="text-align: center;">0.039752</td>
+<td style="text-align: center;">0.9894</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="tab:granger_tesla">
+<table>
+<caption>Granger Causality Test Results for Tesla returns.</caption>
+<thead>
+<tr>
+<th style="text-align: left;">Granger Causality Test</th>
+<th style="text-align: center;">F-Test</th>
+<th style="text-align: center;">p-value</th>
+<th style="text-align: center;"></th>
+<th style="text-align: center;"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Tesla does not cause Gas</td>
+<td style="text-align: center;">0.86932</td>
+<td style="text-align: center;">0.4563</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">Gas does not cause Tesla</td>
+<td style="text-align: center;">2.0865</td>
+<td style="text-align: center;">0.09996</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">LitBat does not cause Tesla</td>
+<td style="text-align: center;">1.8949</td>
+<td style="text-align: center;">0.1283</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">CP does not cause Tesla</td>
+<td style="text-align: center;">1.5879</td>
+<td style="text-align: center;">0.1903</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<table>
+<caption>AIC and BIC of different GARCH models of Rivian
+returns</caption>
+<thead>
+<tr>
+<th style="text-align: left;">Model</th>
+<th style="text-align: left;">AIC</th>
+<th style="text-align: left;">BIC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">ARMA(0,0) GARCH(1,1)</td>
+<td style="text-align: left;">6.1424</td>
+<td style="text-align: left;">6.1808*</td>
+</tr>
+<tr>
+<td style="text-align: left;">ARMA(1,0) GARCH(1,1)</td>
+<td style="text-align: left;">6.1454</td>
+<td style="text-align: left;">6.1916</td>
+</tr>
+<tr>
+<td style="text-align: left;">ARMA(0,1) GARCH(1,1)</td>
+<td style="text-align: left;">6.1455</td>
+<td style="text-align: left;">6.1916</td>
+</tr>
+<tr>
+<td style="text-align: left;">ARMA(1,1) GARCH(1,1)</td>
+<td style="text-align: left;">6.1471</td>
+<td style="text-align: left;">6.2009</td>
+</tr>
+<tr>
+<td style="text-align: left;">ARMA(0,0) GARCH(2,1)</td>
+<td style="text-align: left;">6.1422*</td>
+<td style="text-align: left;">6.1883</td>
+</tr>
+<tr>
+<td style="text-align: left;">ARMA(1,0) GARCH(2,1)</td>
+<td style="text-align: left;">6.1453</td>
+<td style="text-align: left;">6.1991</td>
+</tr>
+<tr>
+<td style="text-align: left;">ARMA(0,1) GARCH(2,1)</td>
+<td style="text-align: left;">6.1453</td>
+<td style="text-align: left;">6.1991</td>
+</tr>
+<tr>
+<td style="text-align: left;">ARMA(1,1) GARCH(2,1)</td>
+<td style="text-align: left;">6.1473</td>
+<td style="text-align: left;">6.2088</td>
+</tr>
+<tr>
+<td style="text-align: left;">ARMA(0,0) GARCH(2,2)</td>
+<td style="text-align: left;">6.1829</td>
+<td style="text-align: left;">6.2367</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>AIC and BIC of different GARCH models of Tesla
+returns</caption>
+<thead>
+<tr>
+<th style="text-align: left;">Model</th>
+<th style="text-align: left;">AIC</th>
+<th style="text-align: left;">BIC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">ARMA(0,0) GARCH(1,1)</td>
+<td style="text-align: left;">5.4993</td>
+<td style="text-align: left;">5.5381</td>
+</tr>
+<tr>
+<td style="text-align: left;">ARMA(1,0) GARCH(1,1)</td>
+<td style="text-align: left;">5.5028</td>
+<td style="text-align: left;">5.5493</td>
+</tr>
+<tr>
+<td style="text-align: left;">ARMA(0,1) GARCH(1,1)</td>
+<td style="text-align: left;">5.5028</td>
+<td style="text-align: left;">5.5493</td>
+</tr>
+<tr>
+<td style="text-align: left;">ARMA(1,1) GARCH(1,1)</td>
+<td style="text-align: left;">5.5025</td>
+<td style="text-align: left;">5.5568</td>
+</tr>
+<tr>
+<td style="text-align: left;">ARMA(0,0) GARCH(2,1)</td>
+<td style="text-align: left;">5.4951</td>
+<td style="text-align: left;">5.5416</td>
+</tr>
+<tr>
+<td style="text-align: left;">ARMA(1,0) GARCH(2,1)</td>
+<td style="text-align: left;">5.4986</td>
+<td style="text-align: left;">5.5528</td>
+</tr>
+<tr>
+<td style="text-align: left;">ARMA(0,1) GARCH(2,1)</td>
+<td style="text-align: left;">5.4986</td>
+<td style="text-align: left;">5.5528</td>
+</tr>
+<tr>
+<td style="text-align: left;">ARMA(1,1) GARCH(2,1)</td>
+<td style="text-align: left;">5.4985</td>
+<td style="text-align: left;">5.5605</td>
+</tr>
+<tr>
+<td style="text-align: left;">ARMA(0,0) GARCH(2,2)</td>
+<td style="text-align: left;">5.4903*</td>
+<td style="text-align: left;">5.5446*</td>
+</tr>
+</tbody>
+</table>
+<div id="theone">
+<table>
+<caption>MAPE values for forecasts of returns and volatility for Rivian
+and Tesla</caption>
+<thead>
+<tr>
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Rivian</th>
+<th style="text-align: right;">Tesla</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Forecasted Returns MAPE</td>
+<td style="text-align: right;">79.7571</td>
+<td style="text-align: right;">95.56485</td>
+</tr>
+<tr>
+<td style="text-align: left;">Forecasted Volatility MAPE</td>
+<td style="text-align: right;">84.73849</td>
+<td style="text-align: right;">166.2075</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figure id="temps">
+<div class="center">
+<p><img src="Rivian_frcst.png" alt="image" /> <span id="temps"
+data-label="temps"></span></p>
+</div>
+<figcaption>Forecast of Rivian returns</figcaption>
+</figure>
+<figure id="temps">
+<div class="center">
+<p><img src="tsla_frcst.png" alt="image" /> <span id="temps"
+data-label="temps"></span></p>
+</div>
+<figcaption>Forecast of Tesla returns</figcaption>
+</figure>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Department of Economics, University of Waterloo,
+Waterloo, Ontario, N2L 3G1, Canada. Email: a4girgis@uwaterloo.ca<a
+href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</body>
+</html>
