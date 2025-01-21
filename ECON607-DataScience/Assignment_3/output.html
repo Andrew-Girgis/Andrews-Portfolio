@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Andrew Girgis" />
+  <title>Understanding Public Opinion Through Text Similarity and Sentiment Analysis</title>
+  <link rel="icon" type="image/png" href="../images/AGLogo.png">
+  <link rel="stylesheet" href="../../css/projects.css" />
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+</head>
+<body>
+  <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+  <nav>
+    <div class="nav-container">
+    <a href="../../index.html" class="nav-logo">
+      <img src="../../images/Cartoon_me.png" alt="Logo">
+    </a>
+        <div class="nav-links">
+            <a href="#jaccard-similarity-score">Jaccard Score</a>
+            <a href="#semantic-similarity-score">Semantic Score</a>
+            <a href="#semantic-intensity-score">Intensity Score</a>
+            <a href="#article-comments-sentiment-analysis-and-visualization">Sentiment Analysis</a>
+            <a href="#code">Code</a>
+            <a href="#footer">Connect</a>
+      </div>
+    </div>
+  </nav>
+
+  <h1 class="title">Understanding Public Opinion Through Text Similarity and Sentiment Analysis</h1>
+  <p class="author">Andrew Girgis</p>
+
+  <div class="button-container">
+    <a href="ECON_607 Assignment 3.pdf" target="_blank">
+      <button class="download-btn">View Paper</button>
+    </a>
+    <a href="" target="_blank">
+      <button class="download-btn">View Code</button>
+    </a>
+    <a href="https://github.com/Andrew-Girgis/ECON607-DataScienceForEconomists" target="_blank">
+      <button class="download-btn">View Repository</button>
+    </a>
+  </div>
+
+<h1 id="jaccard-similarity-score">Jaccard Similarity score</h1>
+<h2 id="what-is-the-jaccard-similarity-score">What is the Jaccard
+Similarity score?</h2>
+<p>The Jaccard Similarity score is the lexical similarity between two
+articles of text. It measures the size of the intersection of common
+words between the two texts divided by the size of the union of the two
+texts. Using this definition we know that if two documents were
+identical, say for example if you were to put the same document into the
+Jaccard Similarity score calculator we would get a Jaccard Similarity
+score of 1 and conversely if we put to completely different articles
+where there are no words that intersect we would get a Jaccard
+Similarity score of 0. Therefore the Jaccard score can only range
+between 0 and 1</p>
+<h2 id="how-to-calculate-the-jaccard-similarity-score">How to calculate
+the Jaccard Similarity score?</h2>
+<p>As mentioned in the definition about the Jaccard Similarity, It
+measures the size of the intersection of common words between the two
+texts divided by the size of the union of the two texts. By this
+definition we know that the Jaccard Similarity score is the number of
+words in common divided by the total number of words. The formula for
+the Jaccard Similarity can be seen in Equation <a href="#Jaccard"
+data-reference-type="ref" data-reference="Jaccard">[Jaccard]</a>.</p>
+<p><span class="math display">\[Jaccard(A,B) = \frac{|A \cap B|}{|A \cup
+B|} = \frac{|A \cap B|}{|A| + |B| - |A \cap B|}
+\label{Jaccard}\]</span></p>
+<h2 id="jaccard-similarity-score-analysis">Jaccard Similarity score
+analysis</h2>
+<p>In this case we are computing the Jaccard Similarity score on an
+article and the comments on the article. We should expect a low Jaccard
+Similarity score because the comments on the article are written by
+individuals typically expressing their own thoughts so most of the words
+used would be their own and not taken straight from the article. The
+Jaccard Similarity score computed of the article vs article comments is
+0.095. This Jaccard score makes sense since we know that the Jaccard
+score must be low however individuals will definitely refer to words or
+phrases used in the article when expressing their opinions. Some real
+examples we see from the comments include "Do you think human remains
+would be left in the compost is that why you are saying this?" and
+"We’re gonna end up with a lot of over-caffeinated plants.". In the
+first example we see that the words "human", "compost" and "remains"
+would be intersecting with the article however in the second example
+only the word "lot" overlaps with the article showing that there is
+definitely variance in the number of words that will overlap with the
+article however it will more likely be a low amount compared to the
+whole comment.</p>
+<h1 id="semantic-similarity-score">Semantic Similarity Score</h1>
+<h2 id="what-is-the-semantic-similarity-score">What is the Semantic
+Similarity score?</h2>
+<p>Semantic Similarity uses an algorithm to map words to numerical
+vectors so that those appearing together frequently are more proximate.
+The Semantic Similarity score represents a n-dimensional vector space
+with each word represented in a vector form (<span class="citation"
+data-cites="Majumdar_2022"></span>). The Semantic Similarity score
+scores words based on how similar they are, even if they are not exact
+matches.(<span class="citation" data-cites="Thomas_2020"></span>) This
+is useful if we want words like ’wheels’ and ’engines’ to relate to
+’cars’. In the Jaccard since they are not exact overlapping words the
+Jaccard score wouldn't capture this similarity however the Semantic
+Similarity score does.</p>
+<h2 id="how-to-calculate-the-semantic-similarity-score">How to calculate
+the Semantic Similarity score?</h2>
+<p>The Semantic Similarity metric measures the cosine of the angle
+between two n-dimensional vectors projected in a multi-dimensional
+space(<span class="citation" data-cites="Majumdar_2022"></span>). The
+Semantic Similarity score ranges from 0 to 1, where a score closer to 0
+shows there is less similarity and a score closer to 1 shows there is
+more similarity.</p>
+<p><span class="math display">\[Semantic(A,B) = cos \theta = \frac{|A
+\cdot B|}{||A|| \times ||B||} = \frac{\sum_{i=1}^{n} A_i \times
+B_i}{\sqrt{\sum_{i=1}^{n} A_{i}^2} \times \sqrt{\sum_{i=1}^{n} B_{i}^2}}
+\label{Semantic}\]</span></p>
+<h2 id="semantic-similarity-score-analysis">Semantic Similarity score
+analysis</h2>
+<p>As we know we are comparing an article to the comments on the
+article. Since we know that the Semantic Similarity score will compare
+words that are alike but don’t necessary have to overlap exactly we
+should be expecting a high Semantic Similarity score. This is because
+the comments on the article would typically be related to the article
+contents so words that have similar meanings would be picked up in the
+Semantic Similarity whereas in the Jaccard the only time the words were
+in the calculation was if they were exact. The Semantic Similarity score
+computed for article vs article comments is 0.829. This aligns with our
+estimate that the Semantic Similarity score would be high, if we look at
+the example comments we looked at during the Jaccard analysis we can see
+that in the second comment: "We’re gonna end up with a lot of
+over-caffeinated plants." we only had the word "lot" with the Jaccard
+line up with the article however here in the semantic analysis the
+calculation would take into account the word "plant" since the topic is
+related to decomposition. This is an example of the Semantic Similarity
+score giving us a more accurate reading on the relevance of the comments
+than the Jaccard Similarity score did.</p>
+<h1 id="semantic-intensity-score">Semantic Intensity score</h1>
+<h2 id="what-is-the-sentiment-intensity-score">What is the Sentiment
+Intensity Score?</h2>
+<p>Sentiment Intensity analysis is a text analysis method that detects
+polarity (e.g. a positive or negative opinion) within the text, whether
+a whole document, paragraph, sentence, or clause (<span class="citation"
+data-cites="Beri_2020"></span>). The Sentiment Intensity analysis can be
+done at the word(token), sentence(span), or document(corpus) level. This
+is important becuase a sentence like "The steak was good, but the
+seating could have been better" is a sentence(span) that contains two
+separate polarities however at the word(token) level the words are all
+positive without the context.</p>
+<h2 id="how-to-we-compute-the-sentiment-intensity-score">How to we
+compute the Sentiment Intensity Score</h2>
+<p>To compute the Sentiment Intensity score we use nltk’s VADER package.
+nltk VADER stands for Valence Aware Dictionary for sEntiment Reasoning
+and it is a model used for text sentiment analysis that is sensitive to
+both polarity (positive/negative) and intensity (strength) of emotion.
+The VADER algorithm is one which links the lexical features of words to
+emotional intensities. Words such as ’happy’ ’love’ ’good’ ’great’ are
+all seen as positive polarities (positive emotions) however VADER is
+also smart enough to understand ’was not happy’ as a negative polarity
+(negative emotion) statement.</p>
+<h2 id="semantic-intensity-score-analysis">Semantic Intensity Score
+analysis</h2>
+<p>The sentiment Intensity score returns us a dictionary with the
+sentiment score in the negative, neutral, positive and compound
+sentiments. The negative sentiment would calculate how many negative
+words(tokens) and sentences(spans) are. The positive sentiment would
+calculate how many positive words(tokens) and sentences(spans) are. If a
+word(token) or sentence(span) is not positive or negative it is
+considered neutral. The compound score is the summation of all the
+scores on a scale of -1 to 1 with -1 being highly negative and 1 being
+highly positive. After reading the article my opinion is that the
+author, Brendan Kiley, seems to be neutral in stating that the law has
+been passed with <span class="citation" data-cites="Kiley_2019"></span>
+stating the following</p>
+<blockquote>
+<p>"The law, which takes effect May 1, 2020, recognizes “natural organic
+reduction” and alkaline hydrolysis (sometimes called “liquid cremation”)
+as acceptable means of disposition for human bodies." (para 2)</p>
+</blockquote>
+<p>and "This paves the way for Recompose, a project to build the first
+urban “organic reduction” funeral home in the country." <span
+class="citation" data-cites="Kiley_2019"></span>. However later in the
+article they include some quotes from outside sources that seem to be
+for the new law with quotes seen in <span class="citation"
+data-cites="Kiley_2019"></span> such as “I think this is great,” said
+Joshua Slocum, director of the Funeral Consumers Alliance (para, 10) and
+“’I think this is great’ said Joshua Slocum, director of the Funeral
+Consumers Alliance" <span class="citation"
+data-cites="Kiley_2019"></span>. Due to this I expect there to be a high
+positive compound sentiment analysis score on this article, since a lot
+of the article is neutral and positive. The output recieved after
+running the code was:</p>
+<ul>
+<li><p>neg: 0.068</p></li>
+<li><p>neu: 0.822</p></li>
+<li><p>pos: 0.11</p></li>
+<li><p>compound: 0.9306</p></li>
+</ul>
+<p>As expected, we see that there is a low negative sentiment analysis
+with the number being close to 0, then we can see the neutral is very
+high and the positive is greater than the negative which sums up to a
+positive compound score of 0.9306 showing that the article was more on
+the positive polarity than on the negative polarity.</p>
+<h1 id="article-comments-sentiment-analysis-and-visualization">Article
+comment’s Sentiment Analysis and Visualization</h1>
+<h2 id="positive-comment-matrix">Positive Comment Matrix</h2>
+<p>For the comment matrices we created Gephi network visualizations. The
+visualization for the positive comments matrix can be seen in
+Appendix <a href="#sec:PositiveVisualization" data-reference-type="ref"
+data-reference="sec:PositiveVisualization">5</a>. For this diagram I
+scaled the nodes and words so that if the word comes up more frequently
+the node and word would be larger and vice versa. I also scaled the size
+of the edges(arrows connecting the nodes) and coloured the edges so that
+if the words come up together more often the edge would be larger and
+more red where as if the words dont come up together as much the edge
+would be smaller and closer to a light orange. From the network
+visualization seen in Appendix <a href="#sec:PositiveVisualization"
+data-reference-type="ref"
+data-reference="sec:PositiveVisualization">5</a> we can see the largest
+nodes are produced from the words;</p>
+<ul>
+<li><p>Cremation</p></li>
+<li><p>Composting</p></li>
+<li><p>Want</p></li>
+<li><p>Like</p></li>
+<li><p>Earth</p></li>
+<li><p>Ash</p></li>
+<li><p>Body</p></li>
+</ul>
+<p>The Gephi network visualization also provides us with a visualization
+of the words that connect the most within the comments which are
+signified by the dark red arrows/edges. Based on the figure in
+Appendix <a href="#sec:PositiveVisualization" data-reference-type="ref"
+data-reference="sec:PositiveVisualization">5</a> we can see that some of
+the most connected words in the comments include: (Use, Composting,
+cremation) and (Think, Body, Earth).</p>
+<h2 id="positive-comment-matrix-insights">Positive Comment Matrix
+Negative Comment Matrix Insights</h2>
+<p>Based on the results of our Gephi Network visualization there are
+many insights we can draw from the data about what is commonly being
+said within the positive comments. Starting with the words that were
+used the most <em>Cremation</em> and <em>Composting</em> are among the
+top and this makes sense since the article is about using human remains
+for <em>composting</em> via natural organic reduction and alkaline
+hydrolysis (sometimes called “liquid cremation”) where before this bill
+was passed Washington code had permitted only burial and
+<em>cremation</em> <span class="citation"
+data-cites="Kiley_2019"></span>. The next most used words were words
+that included the positive sentiment in the VADER analysis <em>want</em>
+and <em>like</em>, these words being included in the comment is what
+allows the nltk VADER algorithm to know that it is indeed a positive
+comment so it makes sense that we can see these words come up a lot in
+the positive comments. Finally with regards to the frequency of
+occurrences some other large words we observed was <em>earth</em>,
+<em>body</em> and <em>ash</em>. Based on these three words being
+frequently used in the positive comments we can infer that many comments
+speak to the <em>body</em> being given back to the <em>earth</em>
+instead of turned into <em>ash</em>. To confirm this I looked at the
+words that were used together frequently and saw that <em>think,
+body</em> and <em>earth</em> were used together a lot which helps us to
+infer that most of the people who comment with positive sentiment
+<em>think</em> that the <em>body</em> should go back to the
+<em>earth</em>. Another important link found in the Gephi network
+visualization was <em>use, compost, cremation</em>. From this major
+connection we can infer that many of the comments with positive
+sentiment believe that we should be <em>using</em> human
+<em>composting</em> instead of <em>cremation</em> because the cremation
+of dead bodies uses fossil fuels and a high amount of energy whereas
+human composting is a more natural process and has a much smaller carbon
+footprint.</p>
+<blockquote>
+<p>“Human composting … uses much less energy than cremation, which uses
+fossil gas to create heat of over 1,400 degrees Fahrenheit,” said
+Katrina Spade, founder and CEO of Recompose, a licensed green funeral
+home in Seattle. “When human composting transforms the organic material
+of our bodies, carbon is also sequestered in the soil created. Rather
+than being released as carbon dioxide gas through exhaust during a
+cremation, the carbon matter contained in each body returns to the
+earth.” <span class="citation" data-cites="Rogers_2022"></span></p>
+</blockquote>
+<h2 id="negative-comment-matrix">Negative Comment Matrix</h2>
+<p>The visualization for the negative comments matrix can be seen in
+Appendix <a href="#sec:NegativeVisualization" data-reference-type="ref"
+data-reference="sec:NegativeVisualization">6</a>. From the network
+visualization we can see the largest nodes are produced from the
+words;</p>
+<ul>
+<li><p>Family</p></li>
+<li><p>Death</p></li>
+<li><p>Hospital</p></li>
+<li><p>Remains</p></li>
+<li><p>Human</p></li>
+<li><p>Casket</p></li>
+<li><p>Time</p></li>
+</ul>
+<p>In the visualization we can also see that the words that connect the
+most in the negative comments matrix are: (Family, Death, Human) and
+(Family, Casket, Remains)</p>
+<h2 id="negative-comment-matrix-insights">Negative Comment Matrix
+Insights</h2>
+<p>The results that were produced from the negative comments matrix
+visualization were quite different from the results produced from the
+positive comments matrix visualization. The first observation I made
+when creating the visualizations was that the negative comments matrix
+visualization has many fewer strong connections between words but more
+medium strength connections between words where as the positive matrix
+had a more strong connections between words and less medium strength
+connections. My inference for this difference in the visualizations is
+that a lot of the positive comments were using the same point to express
+there happiness for the bill being passed, that point being that the use
+of human composting is better than cremations and that it is good for
+the earth for us to give our body’s back to it. Whereas with their
+negative comments since a lot of the points will be more sentimental we
+see more variance in the points being made in the negative comments.
+Another point that caught my eye instantly is that Family and Death
+connects to a large variety of words, in the positive comments matrix
+network there is almost a 1 to 1 mapping along the whole network however
+in the negative comment matrix network the words <em>Family</em> and
+<em>Death</em> connect to almost the whole network, my inference for
+this being that the comments that are against human composting are
+against it because they want to have a proper send off for the
+<em>death</em> of their <em>family</em> members through a burial in a
+<em>casket</em> or would like to keep a token of them to remember them
+through an urn of their ashes. In the negative comments matrix network
+we can also see the words <em>Human</em> and <em>Remains</em> were also
+used a lot, my inference for these words being used frequently in the
+negative comments is that individuals who wouldn’t be okay with the idea
+of <em>human</em> composting most likely put a lot of value on a
+<em>human</em> body, this could relate to the individuals culture or
+religion. For example in a Catholic funeral it is customary to have a
+wake for the deceased where they have a viewing and recite the rosary
+before they are lowered in the casket. In Hong Kong culture it is
+customary to scatter the ashes of the deceased in a designated garden of
+remembrance or out at a designated part of sea <span class="citation"
+data-cites="Norris_2019"></span>. This can help us see why the
+connection between the words <em>Family, Casket</em>, and
+<em>Remains</em> is so strong in the negative commments matrix
+visualization, the comments with a negative sentiment score have a
+strong tie to the emotional weight of a human body and believe it wrong
+to not have a ritual for the deceased where the deceased is placed in a
+casket and buried, and considering that this article is written in the
+United States of America which is a dominantly Christianity country it
+makes sense that a large number of the negative comments use that to
+argue their point.</p>
+<h1 id="sec:PositiveVisualization">Appendix 1</h1>
+<figure id="positivecommentsmatrix">
+<div class="center">
+<p><img src="Assign3/PositiveCommentsMatrix.png" alt="image" /> <span
+id="positivecommentsmatrix"
+data-label="positivecommentsmatrix"></span></p>
+</div>
+<figcaption>Screen capture of the Positive Comments Matrix completed in
+Gephi</figcaption>
+</figure>
+<h1 id="sec:NegativeVisualization">Appendix 2</h1>
+<figure id="negativecommentsmatrix">
+<div class="center">
+<p><img src="Assign3/NegativeCommentsMatrix.png" alt="image" /> <span
+id="negativecommentsmatrix"
+data-label="negativecommentsmatrix"></span></p>
+</div>
+<figcaption>Screen capture of the Negative Comments Matrix completed in
+Gephi</figcaption>
+</figure>
+<h1 id="code">Code</h1>
+<pre><code>
+# %% [markdown]
+# # Import Libraries
+# 
+
+# %%
+import nltk
+from nltk.tokenize import RegexpTokenizer
+from nltk.tokenize.treebank import TreebankWordDetokenizer
+from nltk.stem import WordNetLemmatizer
+from nltk.corpus import stopwords
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+import spacy
+
+import pandas as pd
+
+# %% [markdown]
+# ## Create a function to calculate the Jaccard Similarity
+
+# %%
+def jaccardSimilarity(doc_1, doc_2):
+    words_doc1 = set(doc_1.lower().split())
+    words_doc2 = set(doc_2.lower().split())
+    print(doc_1)
+    print(doc_2)
+    print(words_doc1)
+    print(words_doc2)
+    #List the unique words in a document
+
+    intersection = words_doc1.intersection(words_doc2)
+    #Find the intersection of words in doc_1 and doc_2
+
+    union = words_doc1.union(words_doc2)
+    #Find the union of words in doc_1 and doc_2
+
+    return float(len(intersection)/len(union))
+    #Calculate Jaccard Similarity score
+    #using length of intersection set divided by length of union set
+
+
+# %% [markdown]
+# ## Create a function to calculate the Semantic Similarity Score
+
+# %%
+def semanticSimilarity(doc_1, doc_2):
+    spc = spacy.load(&#39;en_core_web_lg&#39;)
+    spacyDoc_1 = spc(doc_1)
+    spacyDoc_2 = spc(doc_2)
+    return spacyDoc_1.similarity(spacyDoc_2)
+
+# %% [markdown]
+# ## Create a function for Sentiment Analysis
+
+# %%
+def sentimentAnalysis(doc):
+    sia = SentimentIntensityAnalyzer()
+    sentiment = sia.polarity_scores(doc)
+    return sentiment
+
+# %% [markdown]
+# ## Create function for text cleaning
+
+# %%
+nltk.download(&#39;vader_lexicon&#39;)
+nltk.download(&#39;stopwords&#39;)
+nltk.download(&#39;wordnet&#39;)
+
+def cleanText(text):
+    tokenizer = RegexpTokenizer(r&#39;\w+&#39;)
+    allTokens = tokenizer.tokenize(text)
+    #Removes puncuation while tokenizing
+
+    tokens = [token for token in allTokens if token not in 
+    stopwords.words(&#39;English&#39;)]
+    #Removes the stop words
+
+    tokens = [token.lower() for token in tokens]
+    #Convert tokens to lowercase
+
+    lemmatizer = WordNetLemmatizer()
+    tokens = [lemmatizer.lemmatize(token) for token in tokens]
+    #Lemmatizes the tokens
+
+    text = &#39;&#39;
+    for token in tokens:
+        text = text + token + &#39; &#39;
+    return text
+    # Create a text string from the token list
+
+
+
+# %% [markdown]
+# ## Create the functions to Load and Clean text
+
+# %%
+def loadText(fileName):
+    f = open(fileName, &#39;r&#39;, encoding=&#39;utf-8&#39;)
+    text = f.read()
+    return text
+
+def loadCleanText(fileName):
+    text = loadText(fileName)
+    return cleanText(text)
+
+article_2 = loadCleanText(&#39;Article2.txt&#39;)
+commentsArticle_2 = loadCleanText(&#39;CommentsA2.txt&#39;)
+#Loads the data
+
+print(&quot;Jaccard: Article 2 vs Article 2 comments&quot;, 
+jaccardSimilarity(article_2, commentsArticle_2))
+#performs the Jaccard similarity calculation
+
+print(&quot;Semantic: Article 2 vs Article 2 comments&quot;, 
+semanticSimilarity(article_2, commentsArticle_2))
+#performs the Semantic similarity calculation
+
+
+# print(&quot;Article 2&quot;, sentimentAnalysis(article_2))
+# comments = loadText(&#39;commentsA2.txt&#39;).splitlines()
+# count = 0
+# for comment in comments:
+#     count = count + 1
+#     comment = cleanText(comment)
+#     s = sentimentAnalysis(comment)
+#     print(str(count) + &quot;) Comment:&quot;, comment + &#39;,&#39;, s[&quot;compound&quot;])
+
+print(&quot;Article 2&quot;, sentimentAnalysis(article_2))
+comments = loadText(&#39;commentsA2.txt&#39;).splitlines()
+for comment in comments:
+    comment = cleanText(comment)
+    s = sentimentAnalysis(comment)
+    print(comment + &#39;,&#39;, s[&quot;compound&quot;])
+
+# %% [markdown]
+# ## Cooccurance script
+
+# %%
+def Preprocessing(corpus):
+    # Convert corpus (lines of comments) to an array of comments
+    documentText = []
+    corpus = corpus.splitlines()
+    for row in corpus:
+        documentText.append(row)      
+    return documentText
+
+# %%
+def GenerateMatrix(cleanData, fileName):
+    # sklearn countvectorizer
+    from sklearn.feature_extraction.text import CountVectorizer
+    # Convert a collection of text documents to a matrix of token counts
+    cv = CountVectorizer(ngram_range=(1,1), stop_words = &#39;english&#39;, 
+    max_features=20)
+    # matrix of token counts
+    X = cv.fit_transform(cleanData)
+    Xc = (X.T * X) # matrix manipulation
+    Xc.setdiag(0) # set the diagonals to be zeroes as it&#39;s pointless to be 1
+    names = cv.get_feature_names_out() # This are the entity names 
+    (i.e. keywords)
+    df = pd.DataFrame(data = Xc.toarray(), columns = names, index = names)
+    #print(df)
+    print(fileName)
+    df.to_csv(fileName)
+
+# %%
+def ProcessCorpus():
+    fileName = &quot;positiveComments.csv&quot;
+    with open (fileName, &quot;r&quot;, encoding=&#39;unicode_escape&#39;) as myfile:
+        data = myfile.read()
+        cleanData = Preprocessing(data)
+        GenerateMatrix(cleanData, &quot;PositiveCommentsMatrix.csv&quot;)
+
+    fileName = &quot;negativeComments.csv&quot;
+    with open (fileName, &quot;r&quot;, encoding=&#39;unicode_escape&#39;) as myfile:
+        data = myfile.read()
+        cleanData = Preprocessing(data)
+        GenerateMatrix(cleanData, &quot;NegativeCommentsMatrix.csv&quot;)
+
+# %%
+ProcessCorpus()
+
+# %%</code></pre>
