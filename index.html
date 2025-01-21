@@ -3,303 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
+    <title>Andrew's Portfolio</title>
     <link rel="icon" type="image/png" href="./images/AGLogo.png">
-    <style>
-        :root {
-            /* Light theme variables */
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8f9fa;
-            --text-primary: #333333;
-            --text-secondary: #666666;
-            --accent: rgb(0, 123, 255);
-            --card-bg: #ffffff; 
-            --card-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            --border-color: #ddd;
-        }
-
-        [data-theme="dark"] {
-            /* Dark theme variables */
-            --bg-primary: #1c1c1c; /* Muted dark background */
-            --bg-secondary: #2a2a2a; /* Slightly lighter for secondary background */
-            --text-primary: #e0e0e0; /* Soft light grey for primary text */
-            --text-secondary: #b0b0b0; /* Muted grey for secondary text */
-            --accent: #007bff; /* Use the same blue as in the light theme */
-            --card-bg: #252525; /* Dark card background */
-            --card-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
-            --border-color: #444444; /* Dark grey for borders */
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-            transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
-            scroll-behavior: smooth;
-        }
-
-        body {
-            line-height: 1.6;
-            color: var(--text-primary);
-            background: var(--bg-primary);
-        }
-
-        /* Theme Toggle */
-        .theme-toggle {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            z-index: 1001;
-            background: transparent;
-            border: 2px solid var(--accent);
-            color: var(--accent);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .theme-toggle:hover {
-            box-shadow: var(--neon-glow);
-            text-shadow: var(--neon-glow);
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid var(--accent);
-        }
-
-        .nav-links {
-            display: flex;
-            justify-content: center;
-            padding: 1rem;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--bg-primary);
-            font-weight: 500;
-            transition: all 0.3s;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-        }
-        
-        .nav-links a:hover {
-            color: var(--accent);
-            text-shadow: var(--neon-glow);
-        }
-
-        [data-theme="dark"] .nav-links a {
-            text-decoration: none;
-            color: var(--text-primary);
-            font-weight: 500;
-            transition: all 0.3s;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-        }
-
-        [data-theme="dark"] .nav-links a:hover {
-            color: var(--accent);
-            text-shadow: var(--neon-glow);
-        }
-
-        /* Existing styles */
-        section {
-            padding: 5rem 2rem;
-            min-height: 100vh;
-            background: var(--bg-primary);
-        }
-
-        section:nth-child(even) {
-            background: var(--bg-secondary);
-        }
-
-        /* Ensure the last section has no extra bottom margin and min-height */
-        section:last-child {
-            margin-bottom: 0;
-            min-height: auto; /* Override min-height for the last section */
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-            font-size: 2.5rem;
-            position: relative;
-            display: inline-block;
-            width: 100%;
-        }
-
-        [data-theme="dark"] .section-title {
-            color: var(--accent);
-            text-shadow: var(--neon-glow);
-        }
-
-        /* Home Section */
-        #home {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        #home h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-        }
-
-        [data-theme="dark"] #home h1 {
-            color: var(--accent2);
-            text-shadow: 0 0 10px rgba(0, 123, 255, 0.5),
-                         0 0 20px rgba(0, 123, 255, 0.3),
-                         0 0 30px rgba(0, 123, 255, 0.1);
-        }
-
-        /* About Section */
-        .about-container {
-            max-width: 800px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .profile-img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            border-radius: 50%;
-            transition: all 0.3s;
-        }
-
-        [data-theme="dark"] .profile-img {
-            border: 2px solid var(--accent);
-            box-shadow: var(--neon-glow);
-        }
-
-        /* Projects and Tools Sections */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .grid-item {
-            background: var(--card-bg);
-            border-radius: 10px;
-            overflow: hidden;
-            transition: all 0.3s;
-            cursor: pointer;
-            border: 1px solid var(--border-color);
-        }
-
-        .grid-item:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
-        }
-
-        [data-theme="dark"] .grid-item:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5),
-                       0 0 20px rgba(0, 123, 255, 0.3),
-                       0 0 30px rgba(0, 123, 255, 0.1);
-        }
-
-        .grid-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .grid-item-content {
-            padding: 1rem;
-        }
-
-        [data-theme="dark"] .grid-item-content h3 {
-            color: var(--accent3);
-            text-shadow: 0 0 20px rgba(0, 123, 255, 0.3);
-        }
-
-        /* Footer Section */
-    footer {
-        padding: 1rem 2rem; /* Reduce padding */
-        margin-top: 1rem; /* Reduce margin */
-    }
-
-    footer:nth-child(even) {
-        background: var(--bg-secondary); /* Alternate background for even sections */
-    }
-
-    footer p {
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: var(--text-primary);
-        text-align: center;
-    }
-
-    footer .social-links {
-        display: flex;
-        justify-content: center;
-        gap: 1.5rem;
-    }
-
-    footer .social-links a {
-        display: inline-block;
-        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    }
-
-    /* Dark Mode Adjustments */
-    [data-theme="dark"] footer {
-        color: var(--text-primary); /* Light text for dark mode */
-    }
-
-    .download-btn {
-    background-color: #007bff; /* Blue color */
-    color: #fff; /* White text */
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-    margin-top: 20px; /* Moves button down */
-}
-
-.download-btn:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-}
-
-
-</style>
+    <link rel="stylesheet" href="./css/styles.css">
 </head>
 
 <body>
     <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
     <nav>
+        <div class="nav-logo">
+            <img src="images/Cartoon_me.png" alt="Logo">
+        </div>
         <div class="nav-links">
-            <a href="#home">Home</a>
+            <a href="../index.html">Home</a>
             <a href="#about">About</a>
-            <a href="#projects">Projects</a>
-            <a href="#tools">Tools/Games</a>
+            <a href="#projects">Projects & Tools</a>
+            <a href="#tools">Blogs</a>
             <a href="#footer">Connect</a>
         </div>
     </nav>
+    
 
     <section id="home">
         <div>
@@ -314,7 +37,7 @@
     <section id="about">
         <h2 class="section-title">About Me</h2>
         <div class="about-container">
-            <img src="images/AndrewPhoto.jpg" alt="Profile Picture" class="profile-img">
+            <img id="profile-pic" src="images/AndrewPhoto.jpg" alt="Profile Picture" class="profile-img" onclick="changeProfilePicture()" draggable="false">
             <div>
                 <p>Hi, I'm Andrew Girgis – an aspiring data scientist with a strong foundation in econometrics, data analytics, and data visualization. <br>
                 
@@ -338,27 +61,25 @@
     </section>
 
     <section id="projects">
-        <h2 class="section-title">Projects</h2>
+        <h2 class="section-title">Projects & Tools</h2>
         <div class="grid-container">
-            <!-- Project 1 -->
+            <div class="grid-item">
+                <img src="images/innovation_canada.jpg" alt="Canada with lightbulb's indicating innovation">
+                <div class="grid-item-content">
+                    <h3>Small businesses... Big impact</h3>
+                    <p>This study explores the impact of government funding on the innovation and growth of small businesses within a country's economy. It aims to analyze how financial support influences entrepreneurial success, technological advancements, and overall economic development. </p>
+                    <span class="coming-soon">COMING SOON!</span>
+                </div>
+            </div>
             <div class="grid-item">
                 <a href="ECON623-AppliedMacroeconomicsI/researchpaper.html">
-                <img src="images/Project1.jpg" alt="Can we predict the future of the cars of the future: A study on predictors of BEV car manufacturer stock returns">
+                <img src="images/future_of_EVStocks.jpg" alt="Can we predict the future of the cars of the future: A study on predictors of BEV car manufacturer stock returns">
                 <div class="grid-item-content">
-                    <h3><a href="ECON623-AppliedMacroeconomicsI/researchpaper.html" style="color: black; text-decoration: none;">Can we predict the future of the cars of the future: A study on predictors of BEV car manufacturer stock returns</a></h3>
-                    <p>This paper examines potential predictors for stock market returns on Battery Electric Vehicle (BEV) startup companies. Employing a GARCH model, which is widely used in financial econometrics for forecasting volatility in time series data, we aim to capture the dynamic nature of volatility in stock returns. Additionally, a Vector Autoregression (VAR) model is utilized to predict future stock returns. Evaluation of model accuracy is conducted using mean absolute percent error. Throughout the paper we identify optimal forecasting models, perform forecasts of the volatility and stock market returns, and assess the errors of the forecasts. Results indicate inadequacy in accurately predicting future volatility and returns using the predictors proposed in this paper.                    </p>
+                    <h3><a href="ECON623-AppliedMacroeconomicsI/researchpaper.html" style="text-decoration: none;">Can we predict the future of the cars of the future: A study on predictors of BEV car manufacturer stock returns</a></h3>
+                    <p>This paper explores predictors of stock market returns for Battery Electric Vehicle (BEV) startups using GARCH and VAR models to forecast volatility and returns. Model accuracy is evaluated via mean absolute percent error. The study identifies optimal forecasting models, assesses volatility and return predictions, and finds the proposed predictors inadequate for accurate forecasting.</p>
                 </div>
             </a>
-            </div>
-            <!-- Repeat for 5 more projects -->
-            <!--
-            <div class="grid-item">
-                <img src="/api/placeholder/400/300" alt="Project 2">
-                <div class="grid-item-content">
-                    <h3>Project 2</h3>
-                    <p>Description of project 2 goes here.</p>
-                </div>
-            </div>
+            </div>            
             <div class="grid-item">
                 <img src="/api/placeholder/400/300" alt="Project 3">
                 <div class="grid-item-content">
@@ -373,6 +94,7 @@
                     <p>Description of project 4 goes here.</p>
                 </div>
             </div>
+            
             <div class="grid-item">
                 <img src="/api/placeholder/400/300" alt="Project 5">
                 <div class="grid-item-content">
@@ -380,6 +102,7 @@
                     <p>Description of project 5 goes here.</p>
                 </div>
             </div>
+            <!--
             <div class="grid-item">
                 <img src="/api/placeholder/400/300" alt="Project 6">
                 <div class="grid-item-content">
@@ -390,9 +113,9 @@
             -->
         </div>
     </section>
-
+<!--
     <section id="tools">
-        <h2 class="section-title">Tools & Games</h2>
+        <h2 class="section-title">Blogs</h2>
         <div class="grid-container">
             <div class="grid-item">
                 <img src="/api/placeholder/400/300" alt="Tool 1">
@@ -401,10 +124,9 @@
                     <p>Description of tool 1 goes here.</p>
                 </div>
             </div>
-            <!-- Repeat for other tools -->
         </div>
     </section>
-
+-->
     <section id="footer" style="margin-bottom: 0px; min-height: 0; margin-bottom: 0%;">
         <footer>
             <div> 
@@ -554,6 +276,30 @@
                     window.addEventListener("load", onLoad);
                 }
             })();
+        </script>
+        <script>
+            function changeProfilePicture() {
+                // Array of image paths to switch between
+                const images = [
+                    "images/AndrewPhoto.jpg",  // Original image
+                    "images/DALLE_me.jpg", // Alternate image 1
+                ];
+        
+                // Get the image element
+                const profilePic = document.getElementById('profile-pic');
+                
+                // Get current image source
+                let currentImage = profilePic.getAttribute('src');
+                
+                // Find index of current image in the array
+                let index = images.indexOf(currentImage);
+                
+                // Get the next image (loop back if at the end)
+                let nextIndex = (index + 1) % images.length;
+                
+                // Set new image source
+                profilePic.setAttribute('src', images[nextIndex]);
+            }
         </script>
         
 </body>
