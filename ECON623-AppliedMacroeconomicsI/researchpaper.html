@@ -6,183 +6,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="Andrew Girgis" />
   <title>Can we predict the future of the cars of the future: A study on predictors of BEV car manufacturer stock returns</title>
-  <style>
-    html {
-      color: #1a1a1a;
-      background-color: #fdfdfd;
-    }
-    body {
-      margin: 0 auto;
-      max-width: 36em;
-      padding-left: 50px;
-      padding-right: 50px;
-      padding-top: 50px;
-      padding-bottom: 50px;
-      hyphens: auto;
-      overflow-wrap: break-word;
-      text-rendering: optimizeLegibility;
-      font-kerning: normal;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-    @media (max-width: 600px) {
-      body {
-        font-size: 0.9em;
-        padding: 12px;
-      }
-      h1 {
-        font-size: 1.8em;
-      }
-    }
-    @media print {
-      html {
-        background-color: white;
-      }
-      body {
-        background-color: transparent;
-        color: black;
-        font-size: 12pt;
-      }
-      p, h2, h3 {
-        orphans: 3;
-        widows: 3;
-      }
-      h2, h3, h4 {
-        page-break-after: avoid;
-      }
-    }
-    p {
-      margin: 1em 0;
-    }
-    a {
-      color: #1a1a1a;
-    }
-    a:visited {
-      color: #1a1a1a;
-    }
-    img {
-      max-width: 100%;
-    }
-    svg {
-      height: auto;
-      max-width: 100%;
-    }
-    h1, h2, h3, h4, h5, h6 {
-      margin-top: 1.4em;
-    }
-    h5, h6 {
-      font-size: 1em;
-      font-style: italic;
-    }
-    h6 {
-      font-weight: normal;
-    }
-    ol, ul {
-      padding-left: 1.7em;
-      margin-top: 1em;
-    }
-    li > ol, li > ul {
-      margin-top: 0;
-    }
-    blockquote {
-      margin: 1em 0 1em 1.7em;
-      padding-left: 1em;
-      border-left: 2px solid #e6e6e6;
-      color: #606060;
-    }
-    code {
-      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
-      font-size: 85%;
-      margin: 0;
-      hyphens: manual;
-    }
-    pre {
-      margin: 1em 0;
-      overflow: auto;
-    }
-    pre code {
-      padding: 0;
-      overflow: visible;
-      overflow-wrap: normal;
-    }
-    .sourceCode {
-     background-color: transparent;
-     overflow: visible;
-    }
-    hr {
-      background-color: #1a1a1a;
-      border: none;
-      height: 1px;
-      margin: 1em 0;
-    }
-    table {
-      margin: 1em 0;
-      border-collapse: collapse;
-      width: 100%;
-      overflow-x: auto;
-      display: block;
-      font-variant-numeric: lining-nums tabular-nums;
-    }
-    table caption {
-      margin-bottom: 0.75em;
-    }
-    tbody {
-      margin-top: 0.5em;
-      border-top: 1px solid #1a1a1a;
-      border-bottom: 1px solid #1a1a1a;
-    }
-    th {
-      border-top: 1px solid #1a1a1a;
-      padding: 0.25em 0.5em 0.25em 0.5em;
-    }
-    td {
-      padding: 0.125em 0.5em 0.25em 0.5em;
-    }
-    header {
-      margin-bottom: 4em;
-      text-align: center;
-    }
-    #TOC li {
-      list-style: none;
-    }
-    #TOC ul {
-      padding-left: 1.3em;
-    }
-    #TOC > ul {
-      padding-left: 0;
-    }
-    #TOC a:not(:hover) {
-      text-decoration: none;
-    }
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: min(4vw, 1.5em);}
-    div.column{flex: auto; overflow-x: auto;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    /* The extra [class] is a hack that increases specificity enough to
-       override a similar rule in reveal.js */
-    ul.task-list[class]{list-style: none;}
-    ul.task-list li input[type="checkbox"] {
-      font-size: inherit;
-      width: 0.8em;
-      margin: 0 0.8em 0.2em -1.6em;
-      vertical-align: middle;
-    }
-  </style>
+  <link rel="icon" type="image/png" href="../images/AGLogo.png">
+  <link rel="stylesheet" href="../css/projects.css" />
   <script
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
   type="text/javascript"></script>
 </head>
 <body>
+  <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+  <nav>
+    <div class="nav-container">
+    <a href="../index.html" class="nav-logo">
+      <img src="../images/Cartoon_me.png" alt="Logo">
+    </a>
+        <div class="nav-links">
+        <a href="#intro">Introduction</a>
+        <a href="#theoretical-model-and-its-statistical-properties">Model</a>
+        <a href="#data-and-methodology"> Methodology</a>
+        <a href="#empirical-data-analysis">Empirical Analysis</a>
+        <a href="#conclusion">Conclusion</a>
+        <a href="#figures">Tables & Figures</a>
+        <a href="#footer">Connect</a>
+      </div>
+    </div>
+  </nav>
 <header id="title-block-header">
 <h1 class="title">Can we predict the future of the cars of the future: A
 study on predictors of BEV car manufacturer stock returns</h1>
 <p class="author">Andrew Girgis<a href="#fn1" class="footnote-ref"
 id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 </header>
-<div class="center">
-<p>Abstract</p>
+
+<div class="button-container">
+  <a href="EVStockPredict_Paper.pdf" target="_blank">
+    <button class="download-btn">View Paper</button>
+  </a>
+  <a href="EVStockPredict_Presentation.pdf" target="_blank">
+    <button class="download-btn">View Presentation</button>
+  </a>
+  <a href="https://github.com/Andrew-Girgis/ECON623-AppliedMacroeconometricsI" target="_blank">
+    <button class="download-btn">View Repository</button>
+  </a>
 </div>
-<p>————————————————————————————————————–<br />
+
+<div class="center">
+<h3>Abstract</h3>
+</div>
+<hr>
 This paper examines potential predictors for stock market returns on
 Battery Electric Vehicle (BEV) startup companies. Employing a GARCH
 model, which is widely used in financial econometrics for forecasting
@@ -194,8 +64,7 @@ paper we identify optimal forecasting models, perform forecasts of the
 volatility and stock market returns, and assess the errors of the
 forecasts. Results indicate inadequacy in accurately predicting future
 volatility and returns using the predictors proposed in this paper.</p>
-<p>————————————————————————————————————–<br />
-</p>
+<hr>
 <p><strong>Keywords</strong>: BEV(Battery Electric Vehicle), GARCH
 model, VAR, Stock Market returns, Mean Absolute Percent Error(MAPE),
 Combustion engine vehicle.<br />
@@ -539,10 +408,7 @@ positive impact on the returns of relevant stocks. Exploring this
 relationship further could provide valuable insights into the dynamics
 between government policies and EV market performance.<br />
 </p>
-<div class="LARGE">
-<p><strong></strong></p>
-</div>
-<h1 id="proofs">Proofs</h1>
+
 <h1 id="figures">Tables and Figures</h1>
 <div id="tab:bev_stats_correlations">
 <table>
@@ -771,12 +637,7 @@ model for Rivian returns</caption>
 <th style="text-align: right;">criteria.2</th>
 <th style="text-align: right;">criteria.3</th>
 <th style="text-align: right;">criteria.4 ...</th>
-<th style="text-align: right;"></th>
-<th style="text-align: right;"></th>
-<th style="text-align: right;"></th>
-<th style="text-align: right;"></th>
-<th style="text-align: right;"></th>
-<th style="text-align: right;"></th>
+
 </tr>
 </thead>
 <tbody>
@@ -787,12 +648,7 @@ model for Rivian returns</caption>
 <td style="text-align: right;">8.31</td>
 <td style="text-align: right;">8.33</td>
 <td style="text-align: right;">8.37 ...</td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
+
 </tr>
 <tr>
 <td style="text-align: right;">HQ(n)</td>
@@ -801,12 +657,7 @@ model for Rivian returns</caption>
 <td style="text-align: right;">8.42</td>
 <td style="text-align: right;">8.49</td>
 <td style="text-align: right;">8.57 ...</td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
+
 </tr>
 <tr>
 <td style="text-align: right;">SC(n)</td>
@@ -815,12 +666,7 @@ model for Rivian returns</caption>
 <td style="text-align: right;">8.59</td>
 <td style="text-align: right;">8.73</td>
 <td style="text-align: right;">8.89 ...</td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
+
 </tr>
 <tr>
 <td style="text-align: right;">FPE(n)</td>
@@ -829,12 +675,7 @@ model for Rivian returns</caption>
 <td style="text-align: right;">4068.04</td>
 <td style="text-align: right;">4151.32</td>
 <td style="text-align: right;">4303.34...</td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
+
 </tr>
 </tbody>
 </table>
@@ -849,12 +690,7 @@ model for Tesla returns</caption>
 <th style="text-align: right;">criteria.2</th>
 <th style="text-align: right;">criteria.3</th>
 <th style="text-align: right;">criteria.4 ...</th>
-<th style="text-align: right;"></th>
-<th style="text-align: right;"></th>
-<th style="text-align: right;"></th>
-<th style="text-align: right;"></th>
-<th style="text-align: right;"></th>
-<th style="text-align: right;"></th>
+
 </tr>
 </thead>
 <tbody>
@@ -865,12 +701,7 @@ model for Tesla returns</caption>
 <td style="text-align: right;">7.67</td>
 <td style="text-align: right;">7.69</td>
 <td style="text-align: right;">7.71 ...</td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
+
 </tr>
 <tr>
 <td style="text-align: right;">HQ(n)</td>
@@ -879,12 +710,7 @@ model for Tesla returns</caption>
 <td style="text-align: right;">7.78</td>
 <td style="text-align: right;">7.85</td>
 <td style="text-align: right;">7.91 ...</td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
+
 </tr>
 <tr>
 <td style="text-align: right;">SC(n)</td>
@@ -893,12 +719,7 @@ model for Tesla returns</caption>
 <td style="text-align: right;">7.94</td>
 <td style="text-align: right;">8.09</td>
 <td style="text-align: right;">8.23 ...</td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
+
 </tr>
 <tr>
 <td style="text-align: right;">FPE(n)</td>
@@ -907,12 +728,7 @@ model for Tesla returns</caption>
 <td style="text-align: right;">2139.35</td>
 <td style="text-align: right;">2196.39</td>
 <td style="text-align: right;">2220.36 ...</td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
+
 </tr>
 </tbody>
 </table>
@@ -924,8 +740,7 @@ model for Tesla returns</caption>
 <th style="text-align: left;">Granger Causality Test</th>
 <th style="text-align: center;">F-Test</th>
 <th style="text-align: center;">p-value</th>
-<th style="text-align: center;"></th>
-<th style="text-align: center;"></th>
+
 </tr>
 </thead>
 <tbody>
@@ -933,29 +748,25 @@ model for Tesla returns</caption>
 <td style="text-align: left;">Rivian does not cause Gas</td>
 <td style="text-align: center;">1.5337</td>
 <td style="text-align: center;">0.2038</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
+
 </tr>
 <tr>
 <td style="text-align: left;">Gas does not cause Rivian</td>
 <td style="text-align: center;">1.8225</td>
 <td style="text-align: center;">0.1409</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
+
 </tr>
 <tr>
 <td style="text-align: left;">LitBat does not cause Rivian</td>
 <td style="text-align: center;">0.90716</td>
 <td style="text-align: center;">0.4368</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
+
 </tr>
 <tr>
 <td style="text-align: left;">CP does not cause Rivian</td>
 <td style="text-align: center;">0.039752</td>
 <td style="text-align: center;">0.9894</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
+
 </tr>
 </tbody>
 </table>
@@ -968,8 +779,7 @@ model for Tesla returns</caption>
 <th style="text-align: left;">Granger Causality Test</th>
 <th style="text-align: center;">F-Test</th>
 <th style="text-align: center;">p-value</th>
-<th style="text-align: center;"></th>
-<th style="text-align: center;"></th>
+
 </tr>
 </thead>
 <tbody>
@@ -977,29 +787,25 @@ model for Tesla returns</caption>
 <td style="text-align: left;">Tesla does not cause Gas</td>
 <td style="text-align: center;">0.86932</td>
 <td style="text-align: center;">0.4563</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
+
 </tr>
 <tr>
 <td style="text-align: left;">Gas does not cause Tesla</td>
 <td style="text-align: center;">2.0865</td>
 <td style="text-align: center;">0.09996</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
+
 </tr>
 <tr>
 <td style="text-align: left;">LitBat does not cause Tesla</td>
 <td style="text-align: center;">1.8949</td>
 <td style="text-align: center;">0.1283</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
+
 </tr>
 <tr>
 <td style="text-align: left;">CP does not cause Tesla</td>
 <td style="text-align: center;">1.5879</td>
 <td style="text-align: center;">0.1903</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
+
 </tr>
 </tbody>
 </table>
@@ -1159,7 +965,7 @@ data-label="temps"></span></p>
 </div>
 <figcaption>Forecast of Tesla returns</figcaption>
 </figure>
-<section id="footnotes" class="footnotes footnotes-end-of-document"
+<span id="footnotes" class="footnotes footnotes-end-of-document"
 role="doc-endnotes">
 <hr />
 <ol>
@@ -1167,6 +973,158 @@ role="doc-endnotes">
 Waterloo, Ontario, N2L 3G1, Canada. Email: a4girgis@uwaterloo.ca<a
 href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
+</span>
+
+<section id="footer" style="margin-bottom: 0px; min-height: 0; margin-bottom: 0%;">
+  <footer>
+      <div> 
+          <p><b>Connect with me</b></p>
+          <br>
+          <div class="social-links" style="display: flex; justify-content: center; gap: 1rem;">
+              <!-- LinkedIn SVG Icon -->
+              <a href="https://www.linkedin.com/in/andrewagirgis" target="_blank" style="display: inline-block;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" style="cursor: pointer; transition: transform 0.35s ease-in;">
+                      <defs>
+                          <linearGradient id="gradient-bg" x1="0%" y1="0%" x2="0%" y2="100%">
+                              <stop offset="0%" stop-color="#303030" />
+                              <stop offset="50%" stop-color="#050505" />
+                              <stop offset="100%" stop-color="black" />
+                          </linearGradient>
+                      </defs>
+                      <path
+                          class="logo-square"
+                          d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5z"
+                          fill="grey"
+                          style="transition: fill 0.2s ease-in-out;"
+                      />
+                      <path
+                          class="logo-in"
+                          d="M8 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+                          fill="white"
+                          style="transition: fill 0.2s ease-in-out;"
+                      />
+                  </svg>
+                  <style>
+                      a:hover svg {
+                          transform: scale(1.2); /* Makes the SVG grow */
+                      }
+  
+                      a:hover .logo-square {
+                          fill: url(#gradient-bg); /* Apply gradient on hover */
+                      }
+  
+                      a:hover .logo-in {
+                          fill: #0072b1; /* LinkedIn blue */
+                      }
+                  </style>
+              </a>
+  
+              <!-- GitHub SVG Icon -->
+              <a href="https://github.com/andrew-girgis" target="_blank" style="display: inline-block;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" style="cursor: pointer; transition: transform 0.35s ease-in;">
+                      <path
+                          class="github-logo"
+                          d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                          fill="grey"
+                          style="transition: fill 0.2s ease-in-out;"
+                      />
+                  </svg>
+                  <style>
+                      a:hover svg {
+                          transform: scale(1.2); /* Makes the SVG grow */
+                      }
+  
+                      a:hover .github-logo {
+                          fill: black; /* Changes background to black on hover */
+                      }
+                  </style>
+              </a>
+  
+              <!-- Kaggle SVG Icon -->
+              <a href="https://www.kaggle.com/andrewagirgis" target="_blank" style="display: inline-block;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512" style="cursor: pointer; transition: transform 0.35s ease-in;">
+                      <path
+                          class="kaggle-logo"
+                          d="M385.708,476.478L254.742,313.713l125.578-121.534c2.334-2.426,1.526-9.433-4.761-9.433h-62.16    c-3.145,0-6.288,1.618-9.433,4.761L185.128,307.604V32.738c0-4.491-2.247-6.737-6.738-6.737h-46.618    c-4.492,0-6.737,2.246-6.737,6.737v446.433c0,4.491,2.246,6.738,6.737,6.738h46.618c4.491,0,6.738-2.247,6.738-6.738v-97.91    l27.666-26.317l99.257,126.294c2.695,3.145,5.839,4.762,9.432,4.762h60.095c3.143,0,4.939-0.899,5.389-2.696L385.708,476.478z"
+                          fill="grey"
+                          style="transition: fill 0.2s ease-in-out;"
+                      />
+                  </svg>
+                  <style>
+                      a:hover .kaggle-logo {
+                          fill: #20BEFF; /* Kaggle blue color */
+                      }
+                      a:hover svg {
+                          transform: scale(1.2); /* Makes the SVG grow */
+                      }
+                  </style>
+              </a>
+              <!-- StrataScratch SVG Icon -->
+              <a href="https://platform.stratascratch.com/user/AndrewGirgis" target="_blank" style="display: inline-block;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 40 20" style="cursor: pointer; transition: transform 0.35s ease-in;">
+                      <path class="stratascratch-part1" d="m24.159 7.895.016.568v3.305l-.004.321c-.028 3.027-2.218 5.495-4.88 5.495-2.664 0-4.854-2.464-4.881-5.495l-.004-2.118-2.325.027.008 2.103c.036 4.355 3.266 7.895 7.201 7.895 3.935 0 7.166-3.54 7.2-7.895l-.01-4.194c.027-3.027 2.217-5.49 4.88-5.49s4.853 2.463 4.88 5.49l.024 2.091h2.304l-.008-2.103C38.53 3.54 35.3 0 31.36 0c-3.936 0-7.166 3.54-7.201 7.895Z" fill="grey" style="transition: fill 0.3s ease-in-out;"></path>
+                      <path class="stratascratch-part2" d="m12.077 7.895-.004.482h-.004v3.775c-.027 3.023-2.198 5.432-4.86 5.432-2.663 0-4.853-2.464-4.881-5.495l-.004-2.118L0 9.998l.004 2.103C.044 16.46 3.274 20 7.209 20s7.165-3.54 7.2-7.895l-.015-4.194c.031-3.028 2.221-5.49 4.88-5.49 2.663 0 4.853 2.462 4.88 5.49l.024 2.091h2.305l-.004-2.103C26.444 3.54 23.213 0 19.279 0c-3.936 0-7.166 3.54-7.202 7.895Z" fill="grey" style="transition: fill 0.3s ease-in-out;"></path>
+                  </svg>
+                  <style>
+                      a:hover svg {
+                          transform: scale(1.2); /* Smooth scaling on hover */
+                      }
+
+                      a:hover .stratascratch-part1 {
+                          fill: #00A699; /* StrataScratch teal */
+                      }
+
+                      a:hover .stratascratch-part2 {
+                          fill: #555; /* StrataScratch grey */
+                      }
+                  </style>
+              </a>
+          </div>
+      </div>
+  </footer>
 </section>
+
+
+<script>
+  function toggleTheme() {
+      const html = document.documentElement;
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      html.setAttribute('data-theme', newTheme);
+  }
+</script>
+  <script>
+      (function() {
+          if (!window.chatbase || window.chatbase("getState") !== "initialized") {
+              window.chatbase = (...arguments) => {
+                  if (!window.chatbase.q) {
+                      window.chatbase.q = [];
+                  }
+                  window.chatbase.q.push(arguments);
+              };
+              window.chatbase = new Proxy(window.chatbase, {
+                  get(target, prop) {
+                      if (prop === "q") {
+                          return target.q;
+                      }
+                      return (...args) => target(prop, ...args);
+                  }
+              });
+          }
+          const onLoad = function() {
+              const script = document.createElement("script");
+              script.src = "https://www.chatbase.co/embed.min.js";
+              script.id = "rGFa1z4pdznTdQEMcVvNm";
+              script.domain = "www.chatbase.co";
+              document.body.appendChild(script);
+          };
+          if (document.readyState === "complete") {
+              onLoad();
+          } else {
+              window.addEventListener("load", onLoad);
+          }
+      })();
+  </script>
+
 </body>
 </html>

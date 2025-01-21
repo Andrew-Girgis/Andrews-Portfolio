@@ -1,0 +1,344 @@
+:root {
+    /* Light theme variables */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --accent: rgb(0, 123, 255);
+    --card-bg: #ffffff; 
+    --card-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    --border-color: #ddd;
+}
+
+[data-theme="dark"] {
+    /* Dark theme variables */
+    --bg-primary: #1c1c1c; /* Muted dark background */
+    --bg-secondary: #2a2a2a; /* Slightly lighter for secondary background */
+    --text-primary: #e0e0e0; /* Soft light grey for primary text */
+    --text-secondary: #b0b0b0; /* Muted grey for secondary text */
+    --accent: #007bff; /* Use the same blue as in the light theme */
+    --card-bg: #252525; /* Dark card background */
+    --card-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+    --border-color: #444444; /* Dark grey for borders */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+    scroll-behavior: smooth;
+}
+
+body {
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+}
+
+/* Theme Toggle */
+.theme-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1001;
+    background: transparent;
+    border: 2px solid var(--accent);
+    color: var(--accent);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.theme-toggle:hover {
+    box-shadow: var(--neon-glow);
+    text-shadow: var(--neon-glow);
+}
+
+/* Navigation Bar */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    border-bottom: 1px solid var(--accent);
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: space-between; /* Space between logo and links */
+    align-items: center; /* Center content vertically */
+}
+
+/* Logo */
+.nav-logo img {
+    height: 50px;  /* Adjust size as needed */
+    width: auto;
+}
+
+/* Navigation Links */
+.nav-links {
+    flex: 1;  /* Allow nav-links to take available space */
+    display: flex;
+    justify-content: center; /* Center links within the available space */
+    gap: 2rem; /* Adjust spacing between links */
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--bg-primary);
+    font-weight: 500;
+    transition: all 0.3s;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+.nav-links a:hover {
+    color: var(--accent);
+    text-shadow: var(--neon-glow);
+}
+
+
+[data-theme="dark"] .nav-links a {
+    text-decoration: none;
+    color: var(--text-primary);
+    font-weight: 500;
+    transition: all 0.3s;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+[data-theme="dark"] .nav-links a:hover {
+    color: var(--accent);
+    text-shadow: var(--neon-glow);
+}
+
+#profile-picture {
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* Existing styles */
+section {
+    padding: 5rem 2rem;
+    min-height: 100vh;
+    background: var(--bg-primary);
+}
+
+section:nth-child(even) {
+    background: var(--bg-secondary);
+}
+
+/* Ensure the last section has no extra bottom margin and min-height */
+section:last-child {
+    margin-bottom: 0;
+    min-height: auto; /* Override min-height for the last section */
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 2.5rem;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+[data-theme="dark"] .section-title {
+    color: var(--accent);
+    text-shadow: var(--neon-glow);
+}
+
+/* Home Section */
+#home {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+#home h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+}
+
+[data-theme="dark"] #home h1 {
+    color: var(--accent2);
+    text-shadow: 0 0 10px rgba(0, 123, 255, 0.5),
+                 0 0 20px rgba(0, 123, 255, 0.3),
+                 0 0 30px rgba(0, 123, 255, 0.1);
+}
+
+/* About Section */
+.about-container {
+    max-width: 800px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    align-items: center;
+}
+
+.profile-img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 50%;
+    transition: all 0.3s;
+}
+
+[data-theme="dark"] .profile-img {
+    border: 2px solid var(--accent);
+    box-shadow: var(--neon-glow);
+}
+
+/* Projects and Tools Sections */
+.grid-container {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    max-width: 100%;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    padding-top: 2rem;
+    white-space: nowrap; /* Prevent wrapping */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* Hide scrollbars for WebKit browsers (Chrome, Safari) */
+.grid-container::-webkit-scrollbar {
+    display: none;
+}
+
+
+.grid-item {
+    background: var(--card-bg);
+    border-radius: 10px;
+    min-width: 400px;
+    overflow-y: auto;
+    height: 500px;
+    transition: all 0.3s;
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+}
+
+.grid-item:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+
+[data-theme="dark"] .grid-item:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5),
+               0 0 20px rgba(0, 123, 255, 0.3),
+               0 0 30px rgba(0, 123, 255, 0.1);
+}
+
+.grid-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.grid-item-content h3, a {
+    color: var(--text-primary);
+    transition: ease 0.3s;
+}
+
+.grid-item-content {
+    padding: 1rem;
+    word-wrap: break-word; /* Ensure long words break to fit within the container */
+    overflow-wrap: break-word; /* Ensure long words break to fit within the container */
+    white-space: normal; /* Allow text to wrap to the next line */
+}
+
+/* Hide scrollbars for WebKit browsers (Chrome, Safari) */
+.grid-item::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbars for Firefox */
+.grid-item {
+    scrollbar-width: none; /* Firefox */
+}
+
+/* Hide scrollbars for Internet Explorer and Edge */
+.grid-item {
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.coming-soon {
+    display: inline-block;
+    background-color: #ffcc00; /* Background color for the tag */
+    color: #333; /* Text color */
+    padding: 0.2rem 0.5rem; /* Padding for the tag */
+    border-radius: 5px; /* Rounded corners */
+    font-weight: bold; /* Bold text */
+    margin-top: 1rem; /* Space above the tag */
+    text-transform: uppercase; /* Uppercase text */
+}
+
+[data-theme="dark"] .grid-item-content h3 {
+    color: var(--accent3);
+    text-shadow: 0 0 20px rgba(0, 123, 255, 0.3);
+    transition: ease 0.3s;
+}
+
+/* Footer Section */
+footer {
+padding: 1rem 2rem; /* Reduce padding */
+margin-top: 1rem; /* Reduce margin */
+}
+
+footer:nth-child(even) {
+background: var(--bg-secondary); /* Alternate background for even sections */
+}
+
+footer p {
+font-size: 1.5rem;
+font-weight: bold;
+color: var(--text-primary);
+text-align: center;
+}
+
+footer .social-links {
+display: flex;
+justify-content: center;
+gap: 1.5rem;
+}
+
+footer .social-links a {
+display: inline-block;
+transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Dark Mode Adjustments */
+[data-theme="dark"] footer {
+color: var(--text-primary); /* Light text for dark mode */
+}
+
+.download-btn {
+background-color: #007bff; /* Blue color */
+color: #fff; /* White text */
+border: none;
+padding: 10px 20px;
+font-size: 16px;
+border-radius: 5px;
+cursor: pointer;
+text-decoration: none;
+transition: background-color 0.3s ease;
+margin-top: 20px; /* Moves button down */
+}
+
+.download-btn:hover {
+background-color: #0056b3; /* Darker blue on hover */
+}
+
