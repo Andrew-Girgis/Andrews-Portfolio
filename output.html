@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="Andrew Girgis" />
   <title>Understanding Public Opinion Through Text Similarity and Sentiment Analysis</title>
-  <link rel="icon" type="image/png" href="../images/AGLogo.png">
-  <link rel="stylesheet" href="../../css/projects.css" />
+  <link rel="icon" type="image/png" href="images/AGLogo.png">
+  <link rel="stylesheet" href="./css/projects.css" />
   <script
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
   type="text/javascript"></script>
@@ -16,8 +16,8 @@
   <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
   <nav>
     <div class="nav-container">
-    <a href="../../index.html" class="nav-logo">
-      <img src="../../images/Cartoon_me.png" alt="Logo">
+    <a href="index.html" class="nav-logo">
+      <img id="nav-icon" src="images/Cartoon_me_blue.png" alt="Logo">
     </a>
         <div class="nav-links">
             <a href="#jaccard-similarity-score">Jaccard Score</a>
@@ -346,7 +346,7 @@ argue their point.</p>
 <h1 id="sec:PositiveVisualization">Appendix 1</h1>
 <figure id="positivecommentsmatrix">
 <div class="center">
-<p><img src="Assign3/PositiveCommentsMatrix.png" alt="image" /> <span
+<p><img src="ECON607-DataScience/Assignment_3/PositiveCommentsMatrix.png" alt="image" style="width: 50%;"/> <span
 id="positivecommentsmatrix"
 data-label="positivecommentsmatrix"></span></p>
 </div>
@@ -356,13 +356,15 @@ Gephi</figcaption>
 <h1 id="sec:NegativeVisualization">Appendix 2</h1>
 <figure id="negativecommentsmatrix">
 <div class="center">
-<p><img src="Assign3/NegativeCommentsMatrix.png" alt="image" /> <span
+<p><img src="ECON607-DataScience/Assignment_3/NegativeCommentsMatrix.png" alt="image" style="width: 50%;" /> <span
 id="negativecommentsmatrix"
 data-label="negativecommentsmatrix"></span></p>
 </div>
 <figcaption>Screen capture of the Negative Comments Matrix completed in
 Gephi</figcaption>
 </figure>
+
+<script src="scripts.js"></script>
 <h1 id="code">Code</h1>
 <pre><code>
 # %% [markdown]
@@ -546,3 +548,5 @@ def ProcessCorpus():
 ProcessCorpus()
 
 # %%</code></pre>
+</body>
+</html>
