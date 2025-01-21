@@ -6,19 +6,20 @@
     <title>Andrew's Portfolio</title>
     <link rel="icon" type="image/png" href="./images/AGLogo.png">
     <link rel="stylesheet" href="./css/styles.css">
+
 </head>
 
 <body>
     <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
     <nav>
         <div class="nav-logo">
-            <img src="images/Cartoon_me.png" alt="Logo">
+            <img id="nav-icon" src="images/Cartoon_me_blue.png" alt="Logo" onclick="changeIcon()" >
         </div>
         <div class="nav-links">
             <a href="../index.html">Home</a>
             <a href="#about">About</a>
             <a href="#projects">Projects & Tools</a>
-            <a href="#tools">Blogs</a>
+            <!--<a href="#tools">Blogs</a>-->
             <a href="#footer">Connect</a>
         </div>
     </nav>
@@ -72,10 +73,10 @@
                 </div>
             </div>
             <div class="grid-item">
-                <a href="ECON623-AppliedMacroeconomicsI/researchpaper.html">
+                <a href="researchpaper.html">
                 <img src="images/future_of_EVStocks.jpg" alt="Can we predict the future of the cars of the future: A study on predictors of BEV car manufacturer stock returns">
                 <div class="grid-item-content">
-                    <h3><a href="ECON623-AppliedMacroeconomicsI/researchpaper.html" style="text-decoration: none;">Can we predict the future of the cars of the future: A study on predictors of BEV car manufacturer stock returns</a></h3>
+                    <h3><a href="researchpaper.html" style="text-decoration: none;">Can we predict the future of the cars of the future: A study on predictors of BEV car manufacturer stock returns</a></h3>
                     <p>This paper explores predictors of stock market returns for Battery Electric Vehicle (BEV) startups using GARCH and VAR models to forecast volatility and returns. Model accuracy is evaluated via mean absolute percent error. The study identifies optimal forecasting models, assesses volatility and return predictions, and finds the proposed predictors inadequate for accurate forecasting.</p>
                 </div>
             </a>
@@ -237,7 +238,7 @@
         </footer>
     </section>
     
-
+<!-- 
     <script>
         function toggleTheme() {
             const html = document.documentElement;
@@ -302,6 +303,48 @@
                 profilePic.setAttribute('src', images[nextIndex]);
             }
         </script>
+        <script>
+            function changeIcon() {
+                // Array of image paths to switch between
+                const images = [
+                    "images/Cartoon_me_blue.png",  // Original image
+                    "images/Cartoon_me_red.png", // Alternate image 1
+                    "images/Cartoon_me_Green.png", // Alternate image 2
+                    "images/Cartoon_me_suit.png", // Alternate image 3
+                ];
         
+                // Get the image element
+                const navIcon = document.getElementById('nav-icon');
+                
+                // Get current image source
+                let currentImage = navIcon.getAttribute('src');
+                
+                // Find index of current image in the array
+                let index = images.indexOf(currentImage);
+                
+                // Get the next image (loop back if at the end)
+                let nextIndex = (index + 1) % images.length;
+                
+                // Set new image source
+                navIcon.setAttribute('src', images[nextIndex]);
+
+                // Save the selected image to localStorage
+                localStorage.setItem('navIcon', images[nextIndex]);
+            }
+
+            // Function to load the stored icon from localStorage
+            function loadNavIcon() {
+                const storedIcon = localStorage.getItem('navIcon');
+                if (storedIcon) {
+                    document.getElementById('nav-icon').setAttribute('src', storedIcon);
+                }
+            }
+
+             // Run function when the page loads
+            window.onload = loadNavIcon;
+        </script>
+    -->
+    <script src="scripts.js"></script>
+   
 </body>
 </html>

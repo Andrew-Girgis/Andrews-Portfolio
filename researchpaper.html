@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="Andrew Girgis" />
   <title>Can we predict the future of the cars of the future: A study on predictors of BEV car manufacturer stock returns</title>
-  <link rel="icon" type="image/png" href="../images/AGLogo.png">
-  <link rel="stylesheet" href="../css/projects.css" />
+  <link rel="icon" type="image/png" href="images/AGLogo.png">
+  <link rel="stylesheet" href="./css/projects.css" />
   <script
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
   type="text/javascript"></script>
@@ -16,8 +16,8 @@
   <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
   <nav>
     <div class="nav-container">
-    <a href="../index.html" class="nav-logo">
-      <img src="../images/Cartoon_me.png" alt="Logo">
+    <a href="index.html" class="nav-logo">
+        <img id="nav-icon" src="images/Cartoon_me_blue.png" alt="Logo" >
     </a>
         <div class="nav-links">
         <a href="#intro">Introduction</a>
@@ -953,14 +953,14 @@ and Tesla</caption>
 </div>
 <figure id="temps">
 <div class="center">
-<p><img src="Rivian_frcst.png" alt="image" /> <span id="temps"
+<p><img src="ECON623-AppliedMacroeconomicsI/Rivian_frcst.png" alt="image" /> <span id="temps"
 data-label="temps"></span></p>
 </div>
 <figcaption>Forecast of Rivian returns</figcaption>
 </figure>
 <figure id="temps">
 <div class="center">
-<p><img src="tsla_frcst.png" alt="image" /> <span id="temps"
+<p><img src="ECON623-AppliedMacroeconomicsI/tsla_frcst.png" alt="image" /> <span id="temps"
 data-label="temps"></span></p>
 </div>
 <figcaption>Forecast of Tesla returns</figcaption>
@@ -1084,47 +1084,7 @@ href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
   </footer>
 </section>
 
-
-<script>
-  function toggleTheme() {
-      const html = document.documentElement;
-      const currentTheme = html.getAttribute('data-theme');
-      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-      html.setAttribute('data-theme', newTheme);
-  }
-</script>
-  <script>
-      (function() {
-          if (!window.chatbase || window.chatbase("getState") !== "initialized") {
-              window.chatbase = (...arguments) => {
-                  if (!window.chatbase.q) {
-                      window.chatbase.q = [];
-                  }
-                  window.chatbase.q.push(arguments);
-              };
-              window.chatbase = new Proxy(window.chatbase, {
-                  get(target, prop) {
-                      if (prop === "q") {
-                          return target.q;
-                      }
-                      return (...args) => target(prop, ...args);
-                  }
-              });
-          }
-          const onLoad = function() {
-              const script = document.createElement("script");
-              script.src = "https://www.chatbase.co/embed.min.js";
-              script.id = "rGFa1z4pdznTdQEMcVvNm";
-              script.domain = "www.chatbase.co";
-              document.body.appendChild(script);
-          };
-          if (document.readyState === "complete") {
-              onLoad();
-          } else {
-              window.addEventListener("load", onLoad);
-          }
-      })();
-  </script>
+<script src="scripts.js"></script>
 
 </body>
 </html>
