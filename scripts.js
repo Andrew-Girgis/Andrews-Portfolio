@@ -75,6 +75,7 @@ function loadTheme() {
             "images/Cartoon_me_blue.png",  // Original image
             "images/Cartoon_me_red.png", // Alternate image 1
             "images/Cartoon_me_green.png", // Alternate image 2
+            "images/Cartoon_me_polo.png", // Alternate image 2
             "images/Cartoon_me_suit.png", // Alternate image 3
         ];
 
