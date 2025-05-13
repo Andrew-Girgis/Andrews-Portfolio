@@ -16,13 +16,21 @@
 </head>
 
 <body>
-    <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+    <div class="theme-switch-wrapper">
+        <label class="theme-switch" for="checkbox">
+            <input type="checkbox" id="checkbox" />
+            <div class="slider">
+                <img src="images/icons/brightness-high-fill.svg" alt="Light mode" class="sun-icon">
+                <img src="images/icons/moon-fill.svg" alt="Dark mode" class="moon-icon">
+            </div>
+        </label>
+    </div>
     <nav>
         <div class="nav-logo">
             <img id="nav-icon" src="images/Cartoon_me_blue.png" alt="Logo" onclick="changeIcon()" >
         </div>
         <div class="nav-links">
-            <a href="../index.html">Home</a>
+            <a href="index.html">Home</a>
             <a href="#about">About</a>
             <a href="#projects">Projects & Tools</a>
             <!--<a href="#tools">Blogs</a>-->
@@ -32,25 +40,60 @@
     
 
     <section id="home">
-        <div>
-            <h1>Andrew Girgis's Portfolio</h1>
-            <p>Economist & Data Scientist</p>
-            <a href="Andrew's Resume.pdf" download="Andrew_Girgis_Resume.pdf" target="_blank">
-                <button class="download-btn">Download Resume</button>
+        <div class="video-background">
+            <div class="video-controls">
+                <button id="muteButton" class="mute-button">
+                    <img src="images/icons/volume-mute-fill.svg" alt="Mute" class="muted-icon">
+                    <img src="images/icons/volume-up-fill.svg" alt="Unmute" class="unmuted-icon">
+                </button>
+                <div class="volume-slider-container">
+                    <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.1" value="1">
+                </div>
+            </div>
+            <button id="playPauseButton" class="play-pause-button">
+                <img src="images/icons/pause.svg" alt="Pause" class="pause-icon">
+                <img src="images/icons/play-fill.svg" alt="Play" class="play-icon">
+            </button>
+            <button id="infoButton" class="info-button">
+                <img src="images/icons/info-circle.svg" alt="Info" class="info-icon">
+            </button>
+            <video autoplay muted loop playsinline id="myVideo" poster="images/AndrewPhoto.jpg">
+                <source src="videos/andrew_intro.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="home-content">
+            <a href="#about">
+                <button class="learn-more-btn">Learn More about me</button>
             </a>
+        </div>
+        <div id="infoModal" class="modal">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h2>About This Video</h2>
+                <div id="videoDescription">
+                    <!-- Add your video description here -->
+                </div>
+            </div>
         </div>
     </section>
 
     <section id="about">
-        <h2 class="section-title">About Me</h2>
+        <h1 style="margin-bottom: 0;">Andrew Girgis's Portfolio</h1>
+        <p class="profession" style="text-align: center; margin-top: 5px;">Economist | Data Scientist | Entrepreneur</p>
         <div class="about-container">
             <img id="profile-pic" src="images/AndrewPhoto.jpg" alt="Profile Picture" class="profile-img" onclick="changeProfilePicture()" draggable="false">
             <div>
-                <p>Hi, I'm Andrew Girgis – an aspiring data scientist with a strong foundation in econometrics, data analytics, and data visualization. <br>
+                <h2>About Me</h2>
+                <p>Hey, welcome to my portfolio! <br>
+                    
+                    <br>
+                    
+                    I'm Andrew Girgis, an aspiring data scientist with a strong foundation in econometrics, machine learning, and data visualization. <br>
                 
                     <br>
 
-                    I'm currently pursuing a Master of Arts in Economics and a Graduate Diploma in Computational Data Analytics at the University of Waterloo, where I’m deepening my expertise in leveraging data to solve complex problems and present the data in a meaningful way. With a Bachelor of Arts Honours in Economics and a minor in Applied Computing from Brock University, I've built a robust analytical and technical skill set. My proficiency in Python, R, SQL, and key libraries like pandas, NumPy, and TensorFlow allows me to translate data into actionable insights and impactful solutions. <br>
+                    I've recently completed a Master of Arts in Economics and a Graduate Diploma in Computational Data Analytics at the University of Waterloo, where I'm deepening my expertise in leveraging data to solve complex problems and present the data in a meaningful way. With a Bachelor of Arts Honours in Economics and a minor in Applied Computing from Brock University, I've built a robust analytical and technical skill set. My proficiency in Python, R, SQL, and key libraries like pandas, NumPy, and TensorFlow allows me to translate data into actionable insights and impactful solutions. <br>
                     
                     <br>
 
@@ -63,6 +106,9 @@
                     <br>
 
                     Feel free to reach out. Let's connect!</p>
+                <a href="Andrew's Resume.pdf" download="Andrew_Girgis_Resume.pdf" target="_blank">
+                    <button class="download-btn">Download Resume</button>
+                </a>
             </div>
         </div>
     </section>
@@ -241,6 +287,10 @@
                             }
                         </style>
                     </a>
+                </div>
+                <div class="copyright-section">
+                    <p class="copyright-text">© 2025 Andrew Girgis. All rights reserved.</p>
+                    <p class="version-text">v0.2</p>
                 </div>
             </div>
         </footer>
