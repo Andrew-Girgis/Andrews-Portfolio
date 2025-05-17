@@ -1297,21 +1297,20 @@ input:checked + .slider:before {
 }
 
 .download-btn:hover {
-    background-color: var(--text-primary);
-    color: var(--card-bg);
+    background-color: white;
+    color: black;
     transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 [data-theme="dark"] .download-btn {
-    border-color: var(--accent);
-    color: var(--accent);
+    border-color: white;
+    color: white;
 }
 
 [data-theme="dark"] .download-btn:hover {
-    background-color: var(--accent);
-    color: var(--card-bg);
-    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+    background-color: white;
+    color: black;
 }
 
 .learn-more-btn {
@@ -1339,13 +1338,12 @@ input:checked + .slider:before {
 }
 
 [data-theme="dark"] .learn-more-btn {
-    border-color: var(--accent);
-    color: var(--accent);
+    border-color: white;
+    color: white;
 }
 
 [data-theme="dark"] .learn-more-btn:hover {
-    background-color: var(--accent);
+    background-color: white;
     color: black;
-    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
 }
 
