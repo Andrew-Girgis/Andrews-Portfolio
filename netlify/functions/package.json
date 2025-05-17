@@ -1,0 +1,10 @@
+{
+  "name": "netlify-functions",
+  "version": "1.0.0",
+  "description": "Netlify serverless functions",
+  "dependencies": {
+    "luxon": "^3.6.1",
+    "node-fetch": "^2.7.0",
+    "openai": "^4.100.0"
+  }
+}

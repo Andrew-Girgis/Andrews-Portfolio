@@ -16,18 +16,11 @@
 </head>
 
 <body>
-    <div class="theme-switch-wrapper">
-        <label class="theme-switch" for="checkbox">
-            <input type="checkbox" id="checkbox" />
-            <div class="slider">
-                <img src="images/icons/brightness-high-fill.svg" alt="Light mode" class="sun-icon">
-                <img src="images/icons/moon-fill.svg" alt="Dark mode" class="moon-icon">
-            </div>
-        </label>
-    </div>
     <nav>
-        <div class="nav-logo">
-            <img id="nav-icon" src="images/Cartoon_me_polo.png" alt="Logo" onclick="changeIcon()" >
+        <div class="nav-left">
+            <div class="nav-logo">
+                <img id="nav-icon" src="images/Cartoon_me_polo.png" alt="Logo" onclick="changeIcon()" >
+            </div>
         </div>
         <div class="nav-links">
             <a href="#"><b>Home</b></a>
@@ -35,6 +28,15 @@
             <a href="#projects"><b>Projects & Tools</b></a>
             <!--<a href="#tools">Blogs</a>-->
             <a href="#footer"><b>Connect</b></a>
+        </div>
+        <div class="theme-switch-wrapper">
+            <label class="theme-switch" for="checkbox">
+                <input type="checkbox" id="checkbox" />
+                <div class="slider">
+                    <img src="images/icons/brightness-high-fill.svg" alt="Light mode" class="sun-icon">
+                    <img src="images/icons/moon-fill.svg" alt="Dark mode" class="moon-icon">
+                </div>
+            </label>
         </div>
     </nav>
     
@@ -59,6 +61,8 @@
             </button>
             <video autoplay muted loop playsinline id="myVideo" poster="images/AGLogo.png">
                 <source src="videos/andrew_intro.mp4" type="video/mp4">
+                <source src="videos/andrew_intro.mov" type="video/quicktime">
+                <source src="videos/andrew_intro.webm" type="video/webm">
                 Your browser does not support the video tag.
             </video>
         </div>
@@ -79,36 +83,75 @@
     </section>
 
     <section id="about">
-        <h1 style="text-align: center; margin-bottom: 0;">Andrew Girgis</h1>
-        <p class="profession" style="text-align: center; margin-top: 5px;">Economist | Data Scientist | Entrepreneur</p>
+        <div class="header-container">
+            <h1>Andrew Girgis</h1>
+            <p class="profession">Economist | Data Scientist | Entrepreneur</p>
+            <div id="greeting">Loading...</div>
+        </div>
         <div class="about-container">
-            <img id="profile-pic" src="images/AndrewPhoto.jpg" alt="Profile Picture" class="profile-img" onclick="changeProfilePicture()" draggable="false">
-            <div>
-                <h2>About Me</h2>
-                <p>Hey, welcome to my portfolio! <br>
-                    
-                    <br>
-                    
-                    I'm Andrew Girgis, an aspiring data scientist with a strong foundation in econometrics, machine learning, and data visualization. <br>
-                
-                    <br>
-
-                    I've recently completed a Master of Arts in Economics and a Graduate Diploma in Computational Data Analytics at the University of Waterloo, where I'm deepening my expertise in leveraging data to solve complex problems and present the data in a meaningful way. With a Bachelor of Arts Honours in Economics and a minor in Applied Computing from Brock University, I've built a robust analytical and technical skill set. My proficiency in Python, R, SQL, and key libraries like pandas, NumPy, and TensorFlow allows me to translate data into actionable insights and impactful solutions. <br>
-                    
-                    <br>
-
-                    My career goal is to excel in data science, where I can contribute meaningfully to tech-forward projects and drive sustainable, positive change. I'm excited about using data to build a future where technology solves real-world challenges. <br>
-                    
-                    <br>
-
-                    Outside of my professional pursuits, I am passionate about automotives, technology, and physics, and I actively seek opportunities to expand my knowledge and skills. <br>
-                    
-                    <br>
-
-                    Feel free to reach out. Let's connect!</p>
+            <div class="profile-section">
+                <img id="profile-pic" src="images/AndrewPhoto.jpg" alt="Profile Picture" class="profile-img" onclick="changeProfilePicture()" draggable="false">
                 <a href="Andrew's Resume.pdf" download="Andrew_Girgis_Resume.pdf" target="_blank">
                     <button class="download-btn">Download Resume</button>
                 </a>
+            </div>
+            <div>
+                <div class="about-text">
+                    <p class="intro">
+                        Welcome! I'm Andrew Girgis, a Data Scientist passionate about turning complex data into meaningful solutions.
+                    </p>
+
+                    <div class="education">
+                        <h3>Education</h3>
+                        <ul>
+                            <li><strong>University of Waterloo</strong>
+                                <ul>
+                                    <li>Master of Arts in Economics</li>
+                                    <li>Graduate Diploma in Computational Data Analytics</li>
+                                </ul>
+                            </li>
+                            <li><strong>Brock University</strong>
+                                <ul>
+                                    <li>BA Honours in Economics</li>
+                                    <li>Minor in Applied Computing</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="skills">
+                        <h3>Technical Arsenal</h3>
+                        <ul>
+                            <li><strong>Languages:</strong> Python, R, SQL</li>
+                            <li><strong>Data Science:</strong> pandas, NumPy, scikit-learn, TensorFlow</li>
+                            <li><strong>Focus Areas:</strong> Machine Learning, Econometrics, Data Visualization</li>
+                        </ul>
+                    </div>
+
+                    <div class="mission">
+                        <h3>Mission</h3>
+                        <p>
+                            Driving positive change through data-driven solutions. I'm committed to leveraging technology 
+                            to solve real-world challenges and create sustainable impact.
+                        </p>
+                    </div>
+
+                    <div class="interests">
+                        <h3>Beyond Data</h3>
+                        <p>
+                            Enthusiast of automotive technology, physics, and emerging tech. Always eager to explore 
+                            new frontiers and expand my knowledge horizon.
+                        </p>
+                    </div>
+
+                    <a href="#projects" class="connect">
+                        Explore My Latest Projects
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <polyline points="19 12 12 19 5 12"></polyline>
+                        </svg>
+                    </a>
+                </div>
             </div>
         </div>
     </section>
@@ -404,5 +447,25 @@
     -->
     <script src="scripts.js"></script>
    
+    <script>
+        // Fetch and display the AI greeting
+        async function fetchGreeting() {
+            try {
+                const response = await fetch('/.netlify/functions/greeting');
+                if (!response.ok) throw new Error('Network response was not ok');
+                const data = await response.json();
+                
+                // Update the greeting element
+                document.getElementById('greeting').innerHTML = data.text;
+            } catch (error) {
+                console.error('Error fetching greeting:', error);
+                // Fallback message
+                document.getElementById('greeting').innerHTML = 'Welcome to my portfolio!';
+            }
+        }
+
+        // Fetch greeting when page loads
+        document.addEventListener('DOMContentLoaded', fetchGreeting);
+    </script>
 </body>
 </html>

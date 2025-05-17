@@ -288,3 +288,66 @@ function loadTheme() {
             localStorage.setItem('data-theme', newTheme);
         });
     });
+
+    // Navbar glow effect
+    document.addEventListener('DOMContentLoaded', () => {
+        const nav = document.querySelector('nav');
+        let isMouseOverNav = false;
+
+        nav.addEventListener('mouseenter', () => {
+            isMouseOverNav = true;
+            nav.style.setProperty('--glow-opacity', '1');
+        });
+
+        nav.addEventListener('mouseleave', () => {
+            isMouseOverNav = false;
+            nav.style.setProperty('--glow-opacity', '0');
+        });
+
+        nav.addEventListener('mousemove', (e) => {
+            if (!isMouseOverNav) return;
+            
+            // Get the relative mouse position within the navbar
+            const rect = nav.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            
+            // Update the CSS custom property
+            nav.style.setProperty('--x', `${x}px`);
+        });
+    });
+
+    // Navbar scroll behavior
+    document.addEventListener('DOMContentLoaded', () => {
+        const nav = document.querySelector('nav');
+        const video = document.querySelector('.video-background');
+        let ticking = false;
+
+        function updateNavPosition() {
+            const navRect = nav.getBoundingClientRect();
+            const videoRect = video.getBoundingClientRect();
+            
+            // If navbar touches top of viewport AND we haven't scrolled back to video
+            if (navRect.top <= 0 && videoRect.bottom < 0) {
+                nav.style.position = 'fixed';
+                nav.style.top = '0';
+            } else {
+                // Keep it at bottom of video
+                nav.style.position = 'absolute';
+                nav.style.top = '100vh';
+            }
+
+            ticking = false;
+        }
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    updateNavPosition();
+                });
+                ticking = true;
+            }
+        });
+
+        // Initial position check
+        updateNavPosition();
+    });
