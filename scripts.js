@@ -19,36 +19,6 @@ function loadTheme() {
     }
 }
 
-    (function() {
-        if (!window.chatbase || window.chatbase("getState") !== "initialized") {
-            window.chatbase = (...arguments) => {
-                if (!window.chatbase.q) {
-                    window.chatbase.q = [];
-                }
-                window.chatbase.q.push(arguments);
-            };
-            window.chatbase = new Proxy(window.chatbase, {
-                get(target, prop) {
-                    if (prop === "q") {
-                        return target.q;
-                    }
-                    return (...args) => target(prop, ...args);
-                }
-            });
-        }
-        const onLoad = function() {
-            const script = document.createElement("script");
-            script.src = "https://www.chatbase.co/embed.min.js";
-            script.id = "rGFa1z4pdznTdQEMcVvNm";
-            script.domain = "www.chatbase.co";
-            document.body.appendChild(script);
-        };
-        if (document.readyState === "complete") {
-            onLoad();
-        } else {
-            window.addEventListener("load", onLoad);
-        }
-    })();
 
     function changeProfilePicture() {
         // Array of image paths to switch between
@@ -351,3 +321,515 @@ function loadTheme() {
         // Initial position check
         updateNavPosition();
     });
+
+
+// Chat Bubble functionality
+        // Simple Chat Widget Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTheme();
+            
+            const chatToggle = document.getElementById('chat-toggle');
+            const chatWindow = document.getElementById('chat-window');
+            const chatClose = document.getElementById('chat-close');
+            const chatInput = document.getElementById('chat-input');
+            const chatSend = document.getElementById('chat-send');
+            const chatMessages = document.getElementById('chat-messages');
+            const starterPrompts = document.getElementById('starter-prompts');
+            const statusDiv = document.getElementById('status');
+
+            let sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            let sessionInitialized = false;
+
+            function showStatus(message, type = 'info') {
+                statusDiv.textContent = message;
+                statusDiv.className = `status ${type}`;
+                statusDiv.style.display = 'block';
+                
+                setTimeout(() => {
+                    statusDiv.style.display = 'none';
+                }, 3000);
+            }
+
+            function addMessage(content, isUser = false) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = isUser ? 'user-message' : 'bot-message';
+                
+                const avatar = document.createElement('div');
+                avatar.className = 'message-avatar';
+                
+                if (isUser) {
+                    avatar.textContent = '👤';
+                } else {
+                    const img = document.createElement('img');
+                    img.src = 'images/Sierra_AI_agent.png';
+                    img.alt = 'Sierra';
+                    avatar.appendChild(img);
+                }
+                
+                const messageContent = document.createElement('div');
+                messageContent.className = 'message-content';
+                
+                const messageText = document.createElement('p');
+                messageText.textContent = content;
+                messageContent.appendChild(messageText);
+                
+                messageDiv.appendChild(avatar);
+                messageDiv.appendChild(messageContent);
+                
+                chatMessages.appendChild(messageDiv);
+                // Ensure smooth scroll to bottom
+                setTimeout(() => {
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 10);
+            }
+
+            function addTypingIndicator() {
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'typing-indicator';
+                typingDiv.id = 'typing-indicator';
+                
+                const typingText = document.createElement('span');
+                typingText.textContent = 'Sierra is typing';
+                
+                const dotsContainer = document.createElement('div');
+                dotsContainer.className = 'typing-dots';
+                
+                for (let i = 0; i < 3; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'typing-dot';
+                    dotsContainer.appendChild(dot);
+                }
+                
+                typingDiv.appendChild(typingText);
+                typingDiv.appendChild(dotsContainer);
+                chatMessages.appendChild(typingDiv);
+                setTimeout(() => {
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 10);
+            }
+
+            function removeTypingIndicator() {
+                const typing = document.getElementById('typing-indicator');
+                if (typing) {
+                    typing.remove();
+                }
+            }
+
+            function hideStarterPrompts() {
+                if (starterPrompts) {
+                    starterPrompts.style.display = 'none';
+                }
+            }
+
+            async function sendMessage(message) {
+                if (!message.trim()) return;
+                
+                // Hide starter prompts after first message
+                hideStarterPrompts();
+                
+                // Add user message
+                addMessage(message, true);
+                
+                // Clear input and disable send button
+                chatInput.value = '';
+                chatSend.disabled = true;
+                
+                // Show typing indicator
+                addTypingIndicator();
+                
+                console.log('Sending message:', message);
+                console.log('Session ID:', sessionId);
+                
+                try {
+                    let messageToSend = message;
+                    
+                    // If this is the first message and session wasn't initialized, add context
+                    if (!sessionInitialized) {
+                        messageToSend = `Hi! I'm interested in learning about Andrew Girgis. ${message}`;
+                        sessionInitialized = true;
+                    }
+                    
+                    const requestBody = {
+                        action: 'sendMessage',
+                        sessionId: sessionId,
+                        chatInput: messageToSend
+                    };
+                    
+                    console.log('Request body:', requestBody);
+                    
+                    const response = await fetch('https://n8n-env.up.railway.app/webhook/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(requestBody)
+                    });
+                    
+                    console.log('Response status:', response.status);
+                    console.log('Response headers:', response.headers);
+                    
+                    removeTypingIndicator();
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log('Response data:', data);
+                        
+                        // Handle array response from N8N
+                        let botResponse;
+                        if (Array.isArray(data) && data.length > 0) {
+                            // N8N returns an array, get the first element
+                            const firstItem = data[0];
+                            botResponse = firstItem.output || firstItem.response || firstItem.message || "I'm sorry, I couldn't process that request. Please try again.";
+                        } else {
+                            // Handle direct object response
+                            botResponse = data.output || data.response || data.message || "I'm sorry, I couldn't process that request. Please try again.";
+                        }
+                        
+                        addMessage(botResponse);
+                        showStatus('Message sent successfully!', 'success');
+                    } else {
+                        // Try to get error details from response
+                        let errorText = '';
+                        try {
+                            const errorData = await response.text();
+                            console.log('Error response body:', errorData);
+                            errorText = errorData;
+                        } catch (e) {
+                            console.log('Could not read error response body');
+                        }
+                        
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}. Response: ${errorText}`);
+                    }
+                } catch (error) {
+                    console.error('Chat error details:', error);
+                    removeTypingIndicator();
+                    
+                    let errorMessage = "I'm sorry, I'm having trouble connecting right now. Please try again later.";
+                    let statusMessage = 'Connection error. Please try again.';
+                    
+                    // Check for specific error types
+                    if (error.name === 'TypeError' && (error.message.includes('fetch') || error.message.includes('NetworkError'))) {
+                        errorMessage = "🌐 Network connection failed. This could be due to CORS restrictions or the server being unavailable. Check the browser console for more details.";
+                        statusMessage = 'Network error. Check console logs.';
+                    } else if (error.message.includes('500')) {
+                        errorMessage = "🔧 The n8n workflow is returning a server error (500). Please check your n8n workflow configuration - there might be an issue with the recent changes you made.";
+                        statusMessage = 'n8n workflow error (500). Check n8n logs.';
+                    } else if (error.message.includes('404')) {
+                        errorMessage = "🚨 The n8n webhook is not active! Please go to your n8n instance, find the workflow, and activate it using the toggle switch in the top-right corner.";
+                        statusMessage = 'Webhook inactive (404). Activate n8n workflow.';
+                    } else if (error.message.includes('403')) {
+                        errorMessage = "🚫 Access forbidden (403). The webhook might be disabled or have authentication issues.";
+                        statusMessage = 'Access forbidden (403).';
+                    }
+                    
+                    addMessage(errorMessage);
+                    showStatus(statusMessage, 'error');
+                } finally {
+                    chatSend.disabled = false;
+                }
+            }
+
+            // Event listeners
+            if (chatToggle && chatWindow && chatClose && chatInput && chatSend) {
+                chatToggle.addEventListener('click', async function() {
+                    const isHidden = !chatWindow.classList.contains('active');
+                    if (isHidden) {
+                        chatWindow.classList.add('active');
+                        chatInput.focus();
+                        
+                        // Scroll to bottom when opening
+                        setTimeout(() => {
+                            chatMessages.scrollTop = chatMessages.scrollHeight;
+                        }, 50);
+                        console.log('Sierra chat opened!');
+                    } else {
+                        chatWindow.classList.remove('active');
+                    }
+                });
+
+                chatClose.addEventListener('click', function() {
+                    chatWindow.classList.remove('active');
+                });
+
+                chatSend.addEventListener('click', function() {
+                    const message = chatInput.value.trim();
+                    if (message && !chatSend.disabled) {
+                        sendMessage(message);
+                    }
+                });
+
+                chatInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        const message = chatInput.value.trim();
+                        if (message && !chatSend.disabled) {
+                            sendMessage(message);
+                        }
+                    }
+                });
+
+                // Close chat when clicking outside
+                document.addEventListener('click', function(event) {
+                    // Don't close if clicking on the chat widget, welcome popup, or dismiss button
+                    if (!event.target.closest('.chat-widget') && 
+                        !event.target.closest('#welcome-popup') &&
+                        !event.target.closest('#dismiss-welcome')) {
+                        chatWindow.classList.remove('active');
+                    }
+                });
+
+                // Add scroll event handling for chat messages
+                chatMessages.addEventListener('wheel', function(e) {
+                    // Allow scrolling within chat messages
+                    const isAtTop = chatMessages.scrollTop === 0;
+                    const isAtBottom = chatMessages.scrollTop >= chatMessages.scrollHeight - chatMessages.clientHeight;
+                    
+                    // Prevent page scroll only if we're scrolling within bounds
+                    if ((e.deltaY < 0 && !isAtTop) || (e.deltaY > 0 && !isAtBottom)) {
+                        e.stopPropagation();
+                    }
+                });
+
+                console.log('Sierra chat ready!');
+            } else {
+                console.error('Chat elements not found');
+            }
+            
+            // Add a global test function for debugging
+            window.testN8nConnection = async function() {
+                console.log('Testing n8n connection...');
+                try {
+                    const response = await fetch('https://primary-production-0c50.up.railway.app/webhook/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            action: 'sendMessage',
+                            sessionId: 'test_session',
+                            chatInput: 'test message'
+                        })
+                    });
+                    
+                    console.log('Test response status:', response.status);
+                    console.log('Test response headers:', [...response.headers.entries()]);
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log('Test response data:', data);
+                        return { success: true, data };
+                    } else {
+                        const errorText = await response.text();
+                        console.log('Test error response:', errorText);
+                        return { success: false, status: response.status, error: errorText };
+                    }
+                } catch (error) {
+                    console.log('Test connection error:', error);
+                    return { success: false, error: error.message };
+                }
+            };
+            
+            console.log('Debug: Call testN8nConnection() in console to test the webhook');
+            
+            // Add a CORS-free test using a different approach
+            window.testWithCurl = function() {
+                console.log('To test the webhook without CORS issues, run this command in your terminal:');
+                console.log('curl -X POST https://primary-production-0c50.up.railway.app/webhook/chat \\');
+                console.log('  -H "Content-Type: application/json" \\');
+                console.log('  -d \'{"action": "sendMessage", "sessionId": "test_session", "chatInput": "hello"}\'');
+                console.log('');
+                console.log('This will show you the actual server response without CORS restrictions.');
+                return 'Check terminal for curl command';
+            };
+            
+            // Add a simple ping test
+            window.testN8nPing = async function() {
+                console.log('Testing basic connectivity to n8n server...');
+                try {
+                    // Test with a simple GET request first
+                    const response = await fetch('https://primary-production-0c50.up.railway.app/webhook/chat', {
+                        method: 'GET',
+                        mode: 'no-cors' // This bypasses CORS but limits what we can read
+                    });
+                    console.log('Basic connectivity test completed - server is reachable');
+                    return { success: true, message: 'Server is reachable' };
+                } catch (error) {
+                    console.log('Server connectivity failed:', error);
+                    return { success: false, error: error.message };
+                }
+            };
+            
+            // Welcome popup functionality
+            function showWelcomePopup() {
+                // Check if user has seen the welcome message before
+                const hasSeenWelcome = sessionStorage.getItem('hasSeenWelcome');
+                
+                if (!hasSeenWelcome) {
+                    // Create welcome popup
+                    const welcomePopup = document.createElement('div');
+                    welcomePopup.id = 'welcome-popup';
+                    welcomePopup.style.cssText = `
+                        position: fixed;
+                        bottom: 120px;
+                        right: 20px;
+                        background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+                        color: white;
+                        padding: 15px 20px;
+                        border-radius: 12px;
+                        box-shadow: 0 10px 30px rgba(0, 123, 255, 0.3);
+                        border: 1px solid #007bff;
+                        width: 500px;
+                        height: 80px;
+                        z-index: 1002;
+                        animation: welcomeSlideIn 0.5s ease-out;
+                        font-family: Arial, sans-serif;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                    `;
+                    
+                    welcomePopup.innerHTML = `
+                        <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
+                            <img src="images/Sierra_AI_agent.png" alt="Sierra" style="width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;">
+                            <div style="flex: 1;">
+                                <div style="font-weight: bold; margin-bottom: 2px; font-size: 13px;">Sierra</div>
+                                <div style="font-size: 14px; line-height: 1.3; color: #e0e0e0;">
+                                    👋 Welcome to Andrew's portfolio! Click here to chat with me.
+                                </div>
+                            </div>
+                        </div>
+                        <button id="dismiss-welcome" style="
+                            background: transparent;
+                            border: none;
+                            color: #999;
+                            font-size: 16px;
+                            cursor: pointer;
+                            padding: 2px;
+                            width: 20px;
+                            height: 20px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            border-radius: 3px;
+                            transition: all 0.2s ease;
+                            flex-shrink: 0;
+                        " onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.color='#fff';" 
+                           onmouseout="this.style.background='transparent'; this.style.color='#999';">×</button>
+                    `;
+                    
+                    // Add CSS animation and hover effects
+                    const style = document.createElement('style');
+                    style.textContent = `
+                        @keyframes welcomeSlideIn {
+                            from {
+                                opacity: 0;
+                                transform: translateY(20px) scale(0.9);
+                            }
+                            to {
+                                opacity: 1;
+                                transform: translateY(0) scale(1);
+                            }
+                        }
+                        
+                        @keyframes welcomeSlideOut {
+                            from {
+                                opacity: 1;
+                                transform: translateY(0) scale(1);
+                            }
+                            to {
+                                opacity: 0;
+                                transform: translateY(-20px) scale(0.9);
+                            }
+                        }
+                        
+                        #welcome-popup:hover {
+                            box-shadow: 0 12px 35px rgba(0, 123, 255, 0.4);
+                            transform: translateY(-2px);
+                        }
+                    `;
+                    document.head.appendChild(style);
+                    
+                    document.body.appendChild(welcomePopup);
+                    
+                    // Event listeners for popup
+                    document.getElementById('dismiss-welcome').addEventListener('click', function(e) {
+                        e.stopPropagation(); // Prevent triggering the popup click
+                        welcomePopup.style.animation = 'welcomeSlideOut 0.3s ease-in forwards';
+                        setTimeout(() => {
+                            welcomePopup.remove();
+                        }, 300);
+                        sessionStorage.setItem('hasSeenWelcome', 'true');
+                    });
+                    
+                    // Make the entire popup clickable to open chat
+                    welcomePopup.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        console.log('Welcome popup clicked');
+                        
+                        // First, hide the welcome popup immediately
+                        welcomePopup.style.animation = 'welcomeSlideOut 0.175s ease-in forwards';
+                        
+                        // Then open the chat after the popup disappears
+                        setTimeout(() => {
+                            // Get fresh references to chat elements
+                            const chatWindow = document.getElementById('chat-window');
+                            const chatInput = document.getElementById('chat-input');
+                            const chatMessages = document.getElementById('chat-messages');
+                            
+                            console.log('Chat elements found:', {
+                                chatWindow: !!chatWindow,
+                                chatInput: !!chatInput, 
+                                chatMessages: !!chatMessages
+                            });
+                            
+                            if (chatWindow && chatInput && chatMessages) {
+                                console.log('Before adding active class:', chatWindow.classList.contains('active'));
+                                
+                                // Open chat window
+                                chatWindow.classList.add('active');
+                                
+                                console.log('After adding active class:', chatWindow.classList.contains('active'));
+                                console.log('Chat window display style:', window.getComputedStyle(chatWindow).display);
+                                
+                                // Focus input after a small delay
+                                setTimeout(() => {
+                                    chatInput.focus();
+                                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                                    console.log('Chat input focused and scrolled');
+                                }, 100);
+                                
+                                console.log('Chat opened from welcome popup');
+                            } else {
+                                console.error('Chat elements not found when opening from popup');
+                            }
+                        }, 175); // Wait for popup animation to complete
+                        
+                        // Remove popup after animation completes
+                        setTimeout(() => {
+                            welcomePopup.remove();
+                            sessionStorage.setItem('hasSeenWelcome', 'true');
+                        }, 175);
+                    });
+                    
+                    // Auto-dismiss after 10 seconds
+                    setTimeout(() => {
+                        if (document.getElementById('welcome-popup')) {
+                            welcomePopup.style.animation = 'welcomeSlideOut 0.3s ease-in forwards';
+                            setTimeout(() => {
+                                if (welcomePopup.parentNode) {
+                                    welcomePopup.remove();
+                                }
+                            }, 300);
+                            sessionStorage.setItem('hasSeenWelcome', 'true');
+                        }
+                    }, 10000);
+                }
+            }
+            
+            // Show welcome popup after a short delay
+            setTimeout(showWelcomePopup, 2000);
+        });

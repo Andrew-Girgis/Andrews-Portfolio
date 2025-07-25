@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
+    <link rel="canonical" href="https://www.andrew-girgis.com/" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4644ELZJWP"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-4644ELZJWP');
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Andrew Girgis - Data Scientist with expertise in AI, data analytics, and sustainability."/>
@@ -12,7 +24,8 @@
     <title>Andrew's Portfolio</title>
     <link rel="icon" type="image/png" href="./images/AGLogo.png">
     <link rel="stylesheet" href="./css/styles.css">
-
+    <!-- N8N Chat Widget CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -56,9 +69,9 @@
                 <img src="images/icons/pause.svg" alt="Pause" class="pause-icon">
                 <img src="images/icons/play-fill.svg" alt="Play" class="play-icon">
             </button>
-            <button id="infoButton" class="info-button">
+            <!--<button id="infoButton" class="info-button">
                 <img src="images/icons/info-circle.svg" alt="Info" class="info-icon">
-            </button>
+             </button> -->
             <video autoplay muted loop playsinline id="myVideo" poster="images/AGLogo.png">
                 <source src="videos/andrew_intro.mp4" type="video/mp4">
                 <source src="videos/andrew_intro.mov" type="video/quicktime">
@@ -286,7 +299,7 @@
                             }
         
                             a:hover .github-logo {
-                                fill: black; /* Changes background to black on hover */
+                                fill: var(--text-primary); /* Changes background to black on hover */
                             }
                         </style>
                     </a>
@@ -338,115 +351,53 @@
             </div>
         </footer>
     </section>
-    
-<!-- 
-    <script>
-        function toggleTheme() {
-            const html = document.documentElement;
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            html.setAttribute('data-theme', newTheme);
-        }
-    </script>
-        <script>
-            (function() {
-                if (!window.chatbase || window.chatbase("getState") !== "initialized") {
-                    window.chatbase = (...arguments) => {
-                        if (!window.chatbase.q) {
-                            window.chatbase.q = [];
-                        }
-                        window.chatbase.q.push(arguments);
-                    };
-                    window.chatbase = new Proxy(window.chatbase, {
-                        get(target, prop) {
-                            if (prop === "q") {
-                                return target.q;
-                            }
-                            return (...args) => target(prop, ...args);
-                        }
-                    });
-                }
-                const onLoad = function() {
-                    const script = document.createElement("script");
-                    script.src = "https://www.chatbase.co/embed.min.js";
-                    script.id = "rGFa1z4pdznTdQEMcVvNm";
-                    script.domain = "www.chatbase.co";
-                    document.body.appendChild(script);
-                };
-                if (document.readyState === "complete") {
-                    onLoad();
-                } else {
-                    window.addEventListener("load", onLoad);
-                }
-            })();
-        </script>
-        <script>
-            function changeProfilePicture() {
-                // Array of image paths to switch between
-                const images = [
-                    "images/AndrewPhoto.jpg",  // Original image
-                    "images/DALLE_me.jpg", // Alternate image 1
-                ];
-        
-                // Get the image element
-                const profilePic = document.getElementById('profile-pic');
-                
-                // Get current image source
-                let currentImage = profilePic.getAttribute('src');
-                
-                // Find index of current image in the array
-                let index = images.indexOf(currentImage);
-                
-                // Get the next image (loop back if at the end)
-                let nextIndex = (index + 1) % images.length;
-                
-                // Set new image source
-                profilePic.setAttribute('src', images[nextIndex]);
-            }
-        </script>
-        <script>
-            function changeIcon() {
-                // Array of image paths to switch between
-                const images = [
-                    "images/Cartoon_me_blue.png",  // Original image
-                    "images/Cartoon_me_red.png", // Alternate image 1
-                    "images/Cartoon_me_Green.png", // Alternate image 2
-                    "images/Cartoon_me_suit.png", // Alternate image 3
-                ];
-        
-                // Get the image element
-                const navIcon = document.getElementById('nav-icon');
-                
-                // Get current image source
-                let currentImage = navIcon.getAttribute('src');
-                
-                // Find index of current image in the array
-                let index = images.indexOf(currentImage);
-                
-                // Get the next image (loop back if at the end)
-                let nextIndex = (index + 1) % images.length;
-                
-                // Set new image source
-                navIcon.setAttribute('src', images[nextIndex]);
 
-                // Save the selected image to localStorage
-                localStorage.setItem('navIcon', images[nextIndex]);
-            }
+    <!-- Simple Chat Widget -->
+    <div id="chat-widget" class="chat-widget">
+        <button id="chat-toggle" class="chat-toggle">
+            <img src="images/Sierra_AI_agent.png" alt="Sierra - Andrew's Personal Assistant" class="chat-icon">
+        </button>
+        <div id="chat-window" class="chat-window">
+            <div class="chat-header">
+                <span>Sierra - Andrew's Personal AI Assistant</span>
+                <button id="chat-close" class="chat-close">&times;</button>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="bot-message">
+                    <div class="message-avatar">
+                        <img src="images/Sierra_AI_agent.png" alt="Sierra">
+                    </div>
+                    <div class="message-content">
+                        <p>👋 Hey, I'm Sierra, Andrew's personal AI assistant!</p>
+                        <p>Ask me anything about Andrew's background, projects, or experience!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input-container">
+                <input type="text" id="chat-input" placeholder="Ask me anything about Andrew..." maxlength="500">
+                <button id="chat-send">Send</button>
+            </div>
+        </div>
+    </div>
 
-            // Function to load the stored icon from localStorage
-            function loadNavIcon() {
-                const storedIcon = localStorage.getItem('navIcon');
-                if (storedIcon) {
-                    document.getElementById('nav-icon').setAttribute('src', storedIcon);
-                }
-            }
+    <!-- Status notifications -->
+    <div id="status" class="status" style="display: none;"></div>
 
-             // Run function when the page loads
-            window.onload = loadNavIcon;
-        </script>
-    -->
+
     <script src="scripts.js"></script>
-   
+    
+    <script>
+        // Auto-update version based on last modified date
+        document.addEventListener('DOMContentLoaded', function() {
+            const versionElement = document.querySelector('.version-text');
+            if (versionElement) {
+                // Use build date for version
+                const buildDate = new Date(document.lastModified);
+                const version = `v0.3.${buildDate.getFullYear()}${(buildDate.getMonth()+1).toString().padStart(2,'0')}${buildDate.getDate().toString().padStart(2,'0')}`;
+                versionElement.textContent = version;
+            }
+        });
+    </script>
     <script>
         // Fetch and display the AI greeting
         async function fetchGreeting() {
@@ -467,5 +418,7 @@
         // Fetch greeting when page loads
         document.addEventListener('DOMContentLoaded', fetchGreeting);
     </script>
+
+
 </body>
 </html>
