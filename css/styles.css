@@ -1536,6 +1536,9 @@ input:checked + .slider:before {
             color: white;
         }
 
+        .bot-message .message-content p {
+            color: white;
+        }
         .starter-prompts {
             padding: 15px;
             display: flex;
