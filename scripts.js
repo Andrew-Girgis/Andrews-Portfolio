@@ -350,7 +350,7 @@ function loadTheme() {
                 }, 3000);
             }
 
-            function addMessage(content, isUser = false) {
+            function addMessage(content, isUser = false, streaming = false) {
                 const messageDiv = document.createElement('div');
                 messageDiv.className = isUser ? 'user-message' : 'bot-message';
                 
@@ -370,13 +370,36 @@ function loadTheme() {
                 messageContent.className = 'message-content';
                 
                 const messageText = document.createElement('p');
-                messageText.textContent = content;
-                messageContent.appendChild(messageText);
                 
-                messageDiv.appendChild(avatar);
-                messageDiv.appendChild(messageContent);
+                if (streaming && !isUser) {
+                    // Add empty text initially for streaming effect
+                    messageText.textContent = '';
+                    messageContent.appendChild(messageText);
+                    messageDiv.appendChild(avatar);
+                    messageDiv.appendChild(messageContent);
+                    chatMessages.appendChild(messageDiv);
+                    
+                    // Stream the text character by character
+                    let index = 0;
+                    const streamInterval = setInterval(() => {
+                        if (index < content.length) {
+                            messageText.textContent += content[index];
+                            index++;
+                            // Auto-scroll during streaming
+                            chatMessages.scrollTop = chatMessages.scrollHeight;
+                        } else {
+                            clearInterval(streamInterval);
+                        }
+                    }, 30); // Adjust speed here (30ms per character)
+                } else {
+                    // Regular non-streaming message
+                    messageText.textContent = content;
+                    messageContent.appendChild(messageText);
+                    messageDiv.appendChild(avatar);
+                    messageDiv.appendChild(messageContent);
+                    chatMessages.appendChild(messageDiv);
+                }
                 
-                chatMessages.appendChild(messageDiv);
                 // Ensure smooth scroll to bottom
                 setTimeout(() => {
                     chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -482,19 +505,41 @@ function loadTheme() {
                         
                         // Look for the final JSON response with the output
                         for (const line of lines.reverse()) {
+                            if (line.trim() === '') continue; // Skip empty lines
+                            
                             try {
                                 const parsed = JSON.parse(line);
+                                console.log('Parsed line:', parsed);
+                                
+                                // Check if this line has the output directly
                                 if (parsed.output) {
                                     botResponse = parsed.output;
+                                    console.log('Found output:', botResponse);
                                     break;
+                                }
+                                
+                                // Check if this is a streaming item with JSON content
+                                if (parsed.type === 'item' && parsed.content) {
+                                    try {
+                                        const contentJson = JSON.parse(parsed.content);
+                                        if (contentJson.output) {
+                                            botResponse = contentJson.output;
+                                            console.log('Found output in content:', botResponse);
+                                            break;
+                                        }
+                                    } catch (contentError) {
+                                        // Content is not JSON, skip
+                                        continue;
+                                    }
                                 }
                             } catch (e) {
                                 // Skip non-JSON lines
+                                console.log('Skipping non-JSON line:', line);
                                 continue;
                             }
                         }
                         
-                        addMessage(botResponse);
+                        addMessage(botResponse, false, true); // Enable streaming for bot messages
                         showStatus('Message sent successfully!', 'success');
                     } else {
                         // Try to get error details from response
