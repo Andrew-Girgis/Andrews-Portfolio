@@ -457,7 +457,7 @@ function loadTheme() {
                     
                     console.log('Request body:', requestBody);
                     
-                    const response = await fetch('https://n8n-env.up.railway.app/webhook/chat', {
+                    const response = await fetch('https://n8n.andrew-girgis.com/webhook/chat', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -599,7 +599,7 @@ function loadTheme() {
             window.testN8nConnection = async function() {
                 console.log('Testing n8n connection...');
                 try {
-                    const response = await fetch('https://primary-production-0c50.up.railway.app/webhook/chat', {
+                    const response = await fetch('https://n8n.andrew-girgis.com/webhook/chat', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -634,7 +634,7 @@ function loadTheme() {
             // Add a CORS-free test using a different approach
             window.testWithCurl = function() {
                 console.log('To test the webhook without CORS issues, run this command in your terminal:');
-                console.log('curl -X POST https://primary-production-0c50.up.railway.app/webhook/chat \\');
+                console.log('curl -X POST https://n8n.andrew-girgis.com/webhook/chat \\');
                 console.log('  -H "Content-Type: application/json" \\');
                 console.log('  -d \'{"action": "sendMessage", "sessionId": "test_session", "chatInput": "hello"}\'');
                 console.log('');
@@ -647,7 +647,7 @@ function loadTheme() {
                 console.log('Testing basic connectivity to n8n server...');
                 try {
                     // Test with a simple GET request first
-                    const response = await fetch('https://primary-production-0c50.up.railway.app/webhook/chat', {
+                    const response = await fetch('https://n8n.andrew-girgis.com/webhook/chat', {
                         method: 'GET',
                         mode: 'no-cors' // This bypasses CORS but limits what we can read
                     });
