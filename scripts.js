@@ -371,9 +371,15 @@ function loadTheme() {
                 
                 const messageText = document.createElement('p');
                 
+                // Function to convert markdown links to HTML
+                function convertMarkdownLinks(text) {
+                    // Convert [text](url) to <a href="url" target="_blank" rel="noopener noreferrer">text</a>
+                    return text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color: #007bff; text-decoration: underline;">$1</a>');
+                }
+                
                 if (streaming && !isUser) {
                     // Add empty text initially for streaming effect
-                    messageText.textContent = '';
+                    messageText.innerHTML = '';
                     messageContent.appendChild(messageText);
                     messageDiv.appendChild(avatar);
                     messageDiv.appendChild(messageContent);
@@ -383,17 +389,26 @@ function loadTheme() {
                     let index = 0;
                     const streamInterval = setInterval(() => {
                         if (index < content.length) {
-                            messageText.textContent += content[index];
+                            const currentText = content.substring(0, index + 1);
+                            // Convert markdown links to HTML for the current text
+                            messageText.innerHTML = convertMarkdownLinks(currentText);
                             index++;
                             // Auto-scroll during streaming
                             chatMessages.scrollTop = chatMessages.scrollHeight;
                         } else {
                             clearInterval(streamInterval);
+                            // Final conversion to ensure all links are properly formatted
+                            messageText.innerHTML = convertMarkdownLinks(content);
                         }
                     }, 30); // Adjust speed here (30ms per character)
                 } else {
                     // Regular non-streaming message
-                    messageText.textContent = content;
+                    if (isUser) {
+                        messageText.textContent = content;
+                    } else {
+                        // Convert markdown links to HTML for bot messages
+                        messageText.innerHTML = convertMarkdownLinks(content);
+                    }
                     messageContent.appendChild(messageText);
                     messageDiv.appendChild(avatar);
                     messageDiv.appendChild(messageContent);
