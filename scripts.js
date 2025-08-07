@@ -462,7 +462,9 @@ function loadTheme() {
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify(requestBody)
+                        body: JSON.stringify(requestBody),
+                        mode: 'cors',
+                        credentials: 'omit'
                     });
                     
                     console.log('Response status:', response.status);
@@ -471,18 +473,25 @@ function loadTheme() {
                     removeTypingIndicator();
                     
                     if (response.ok) {
-                        const data = await response.json();
-                        console.log('Response data:', data);
+                        const text = await response.text();
+                        console.log('Response text:', text);
                         
-                        // Handle array response from N8N
-                        let botResponse;
-                        if (Array.isArray(data) && data.length > 0) {
-                            // N8N returns an array, get the first element
-                            const firstItem = data[0];
-                            botResponse = firstItem.output || firstItem.response || firstItem.message || "I'm sorry, I couldn't process that request. Please try again.";
-                        } else {
-                            // Handle direct object response
-                            botResponse = data.output || data.response || data.message || "I'm sorry, I couldn't process that request. Please try again.";
+                        // Parse the streaming response to extract the final output
+                        const lines = text.trim().split('\n');
+                        let botResponse = "I'm sorry, I couldn't process that request. Please try again.";
+                        
+                        // Look for the final JSON response with the output
+                        for (const line of lines.reverse()) {
+                            try {
+                                const parsed = JSON.parse(line);
+                                if (parsed.output) {
+                                    botResponse = parsed.output;
+                                    break;
+                                }
+                            } catch (e) {
+                                // Skip non-JSON lines
+                                continue;
+                            }
                         }
                         
                         addMessage(botResponse);
@@ -507,16 +516,16 @@ function loadTheme() {
                     let errorMessage = "I'm sorry, I'm having trouble connecting right now. Please try again later.";
                     let statusMessage = 'Connection error. Please try again.';
                     
-                    // Check for specific error types
-                    if (error.name === 'TypeError' && (error.message.includes('fetch') || error.message.includes('NetworkError'))) {
-                        errorMessage = "🌐 Network connection failed. This could be due to CORS restrictions or the server being unavailable. Check the browser console for more details.";
-                        statusMessage = 'Network error. Check console logs.';
+                    // Enhanced error handling for CORS and N8N issues
+                    if (error.name === 'TypeError' && error.message.includes('NetworkError')) {
+                        errorMessage = "🌐 **CORS Configuration Issue Detected**\n\nThe N8N webhook needs CORS headers. Please check:\n\n1. Your N8N workflow is active\n2. Add CORS headers to your N8N HTTP Response node\n3. Handle OPTIONS requests in N8N\n\nFor testing: Run `testWithCurl()` in console";
+                        statusMessage = 'CORS error. Fix N8N webhook CORS configuration.';
                     } else if (error.message.includes('500')) {
-                        errorMessage = "🔧 The n8n workflow is returning a server error (500). Please check your n8n workflow configuration - there might be an issue with the recent changes you made.";
-                        statusMessage = 'n8n workflow error (500). Check n8n logs.';
+                        errorMessage = "🔧 The N8N workflow returned a server error (500). This indicates an issue within your N8N workflow logic. Check your N8N execution logs and ensure all nodes are properly configured.";
+                        statusMessage = 'N8N workflow error (500). Check N8N execution logs.';
                     } else if (error.message.includes('404')) {
-                        errorMessage = "🚨 The n8n webhook is not active! Please go to your n8n instance, find the workflow, and activate it using the toggle switch in the top-right corner.";
-                        statusMessage = 'Webhook inactive (404). Activate n8n workflow.';
+                        errorMessage = "🚨 The N8N webhook is not active! Please go to your N8N instance, find the workflow, and activate it using the toggle switch in the top-right corner.";
+                        statusMessage = 'Webhook inactive (404). Activate N8N workflow.';
                     } else if (error.message.includes('403')) {
                         errorMessage = "🚫 Access forbidden (403). The webhook might be disabled or have authentication issues.";
                         statusMessage = 'Access forbidden (403).';
@@ -608,16 +617,18 @@ function loadTheme() {
                             action: 'sendMessage',
                             sessionId: 'test_session',
                             chatInput: 'test message'
-                        })
+                        }),
+                        mode: 'cors',
+                        credentials: 'omit'
                     });
                     
                     console.log('Test response status:', response.status);
                     console.log('Test response headers:', [...response.headers.entries()]);
                     
                     if (response.ok) {
-                        const data = await response.json();
-                        console.log('Test response data:', data);
-                        return { success: true, data };
+                        const text = await response.text();
+                        console.log('Test response text:', text);
+                        return { success: true, data: text };
                     } else {
                         const errorText = await response.text();
                         console.log('Test error response:', errorText);
