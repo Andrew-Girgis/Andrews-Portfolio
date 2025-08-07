@@ -371,10 +371,25 @@ function loadTheme() {
                 
                 const messageText = document.createElement('p');
                 
-                // Function to convert markdown links to HTML
-                function convertMarkdownLinks(text) {
-                    // Convert [text](url) to <a href="url" target="_blank" rel="noopener noreferrer">text</a>
-                    return text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color: #007bff; text-decoration: underline;">$1</a>');
+                // Function to convert markdown links and plain URLs to HTML
+                function convertLinksToHTML(text) {
+                    // First convert markdown links [text](url) to HTML
+                    text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color: #007bff; text-decoration: underline;">$1</a>');
+                    
+                    // Then convert plain URLs to clickable links
+                    text = text.replace(/https?:\/\/[^\s]+/g, function(url) {
+                        // Remove trailing punctuation if any
+                        const cleanUrl = url.replace(/[.,;!?]+$/, '');
+                        const trailing = url.substring(cleanUrl.length);
+                        return `<a href="${cleanUrl}" target="_blank" rel="noopener noreferrer" style="color: #007bff; text-decoration: underline;">${cleanUrl}</a>${trailing}`;
+                    });
+                    
+                    // Convert email addresses to mailto links
+                    text = text.replace(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g, function(email) {
+                        return `<a href="mailto:${email}" style="color: #007bff; text-decoration: underline;">${email}</a>`;
+                    });
+                    
+                    return text;
                 }
                 
                 if (streaming && !isUser) {
@@ -390,15 +405,15 @@ function loadTheme() {
                     const streamInterval = setInterval(() => {
                         if (index < content.length) {
                             const currentText = content.substring(0, index + 1);
-                            // Convert markdown links to HTML for the current text
-                            messageText.innerHTML = convertMarkdownLinks(currentText);
+                            // Convert links to HTML for the current text
+                            messageText.innerHTML = convertLinksToHTML(currentText);
                             index++;
                             // Auto-scroll during streaming
                             chatMessages.scrollTop = chatMessages.scrollHeight;
                         } else {
                             clearInterval(streamInterval);
                             // Final conversion to ensure all links are properly formatted
-                            messageText.innerHTML = convertMarkdownLinks(content);
+                            messageText.innerHTML = convertLinksToHTML(content);
                         }
                     }, 30); // Adjust speed here (30ms per character)
                 } else {
@@ -406,8 +421,8 @@ function loadTheme() {
                     if (isUser) {
                         messageText.textContent = content;
                     } else {
-                        // Convert markdown links to HTML for bot messages
-                        messageText.innerHTML = convertMarkdownLinks(content);
+                        // Convert links to HTML for bot messages
+                        messageText.innerHTML = convertLinksToHTML(content);
                     }
                     messageContent.appendChild(messageText);
                     messageDiv.appendChild(avatar);
@@ -427,7 +442,7 @@ function loadTheme() {
                 typingDiv.id = 'typing-indicator';
                 
                 const typingText = document.createElement('span');
-                typingText.textContent = 'Sierra is typing';
+                typingText.textContent = 'Sierra is thinking';
                 
                 const dotsContainer = document.createElement('div');
                 dotsContainer.className = 'typing-dots';
@@ -508,8 +523,6 @@ function loadTheme() {
                     console.log('Response status:', response.status);
                     console.log('Response headers:', response.headers);
                     
-                    removeTypingIndicator();
-                    
                     if (response.ok) {
                         const text = await response.text();
                         console.log('Response text:', text);
@@ -554,9 +567,13 @@ function loadTheme() {
                             }
                         }
                         
+                        // Remove typing indicator right before starting the streaming
+                        removeTypingIndicator();
                         addMessage(botResponse, false, true); // Enable streaming for bot messages
                         showStatus('Message sent successfully!', 'success');
                     } else {
+                        // Remove typing indicator on error too
+                        removeTypingIndicator();
                         // Try to get error details from response
                         let errorText = '';
                         try {
