@@ -3,10 +3,14 @@
     --bg-primary: linear-gradient(180deg, #5facff 0%, #ffffff 100%);
     --text-primary: #333333;
     --text-secondary: #666666;
-    --accent: rgb(0, 123, 255);
+    --accent: #007bff;
     --card-bg: #ffffff; 
     --card-shadow: 0 2px 5px rgba(0,0,0,0.1);
     --border-color: #ddd;
+    
+    /* Booking widget theme variables */
+    --calendar-bg: #ffffff;
+    --text-color: #333333;
 }
 
 [data-theme="dark"] {
@@ -18,6 +22,10 @@
     --card-bg: #252525;
     --card-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     --border-color: #444444;
+    
+    /* Booking widget dark theme variables */
+    --calendar-bg: #252525;
+    --text-color: #e0e0e0;
 }
 
 * {
@@ -1714,8 +1722,8 @@ input:checked + .slider:before {
     position: absolute;
     bottom: 80px;
     right: 0;
-    width: 400px;
-    height: 600px;
+    width: 500px;
+    height: 700px;
     background: #1a1a1a;
     border-radius: 20px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
@@ -2004,7 +2012,7 @@ input:checked + .slider:before {
 }
 
 /* Mobile responsiveness for custom chat */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
     .chat-widget {
         bottom: 10px;
         right: 10px;
@@ -2019,5 +2027,45 @@ input:checked + .slider:before {
     
     .message-content {
         max-width: 85%;
+    }
+}
+
+/* Booking Modal Animations */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes modalFadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Mobile responsiveness for booking modal */
+@media (max-width: 768px) {
+    #booking-modal-overlay .modal-content {
+        width: 95% !important;
+        height: 90% !important;
+        max-width: none !important;
+        max-height: none !important;
     }
 }

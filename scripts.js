@@ -210,35 +210,40 @@ function loadTheme() {
     document.addEventListener('DOMContentLoaded', function() {
         const infoButton = document.getElementById('infoButton');
         const modal = document.getElementById('infoModal');
-        const closeButton = modal.querySelector('.close-button');
+        
+        if (infoButton && modal) {
+            const closeButton = modal.querySelector('.close-button');
 
-        // Open modal
-        infoButton.addEventListener('click', function() {
-            modal.classList.add('show');
-            document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
-        });
+            // Open modal
+            infoButton.addEventListener('click', function() {
+                modal.classList.add('show');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+            });
 
-        // Close modal
-        closeButton.addEventListener('click', function() {
-            modal.classList.remove('show');
-            document.body.style.overflow = ''; // Restore scrolling
-        });
-
-        // Close modal when clicking outside
-        window.addEventListener('click', function(event) {
-            if (event.target === modal) {
-                modal.classList.remove('show');
-                document.body.style.overflow = '';
+            // Close modal
+            if (closeButton) {
+                closeButton.addEventListener('click', function() {
+                    modal.classList.remove('show');
+                    document.body.style.overflow = ''; // Restore scrolling
+                });
             }
-        });
 
-        // Close modal with Escape key
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape' && modal.classList.contains('show')) {
-                modal.classList.remove('show');
-                document.body.style.overflow = '';
-            }
-        });
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.classList.remove('show');
+                    document.body.style.overflow = '';
+                }
+            });
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && modal.classList.contains('show')) {
+                    modal.classList.remove('show');
+                    document.body.style.overflow = '';
+                }
+            });
+        }
     });
 
     // Theme Switch Functionality
@@ -350,7 +355,7 @@ function loadTheme() {
                 }, 3000);
             }
 
-            function addMessage(content, isUser = false, streaming = false) {
+            function addMessage(content, isUser = false, streaming = false, hasBookingWidget = false) {
                 const messageDiv = document.createElement('div');
                 messageDiv.className = isUser ? 'user-message' : 'bot-message';
                 
@@ -392,6 +397,172 @@ function loadTheme() {
                     return text;
                 }
                 
+                function addBookingWidget(chatMessagesContainer) {
+                    // Create the booking widget as a separate element outside of message bubbles
+                    const bookingWrapper = document.createElement('div');
+                    bookingWrapper.className = 'booking-widget-wrapper';
+                    bookingWrapper.style.cssText = `
+                        margin: 15px 20px;
+                        display: flex;
+                        justify-content: flex-start;
+                        padding-left: 50px;
+                    `;
+                    
+                    // Create unique ID for this booking widget
+                    const widgetId = `cal-widget-${Date.now()}`;
+                    
+                    const bookingContainer = document.createElement('div');
+                    bookingContainer.style.cssText = `
+                        border: 1px solid var(--border-color, #e0e0e0);
+                        border-radius: 12px;
+                        overflow: hidden;
+                        background: var(--calendar-bg, #fff);
+                        width: 300px;
+                        height: 300px;
+                        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                        transition: all 0.3s ease;
+                    `;
+                    
+                    const bookingFrame = document.createElement('div');
+                    bookingFrame.id = widgetId;
+                    bookingFrame.style.cssText = `
+                        width: 100%;
+                        height: 100%;
+                        overflow: auto;
+                    `;
+                    
+                    // Add loading indicator
+                    const loadingDiv = document.createElement('div');
+                    loadingDiv.style.cssText = `
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        height: 100%;
+                        font-size: 14px;
+                        color: var(--text-color, #666);
+                        flex-direction: column;
+                        gap: 10px;
+                        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                    `;
+                    loadingDiv.innerHTML = `
+                        <div style="font-size: 24px;">📅</div>
+                        <div>Loading calendar...</div>
+                    `;
+                    bookingFrame.appendChild(loadingDiv);
+                    
+                    bookingContainer.appendChild(bookingFrame);
+                    bookingWrapper.appendChild(bookingContainer);
+                    chatMessagesContainer.appendChild(bookingWrapper);
+                    
+                    // Initialize the Cal.com embed
+                    setTimeout(() => {
+                        initializeCalWidget(widgetId, loadingDiv);
+                    }, 100);
+                }
+                
+                function initializeCalWidget(widgetId, loadingDiv = null) {
+                    // Get current theme from the document
+                    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+                    const isLightTheme = currentTheme === 'light';
+                    
+                    // Clear any existing Cal setup for this specific widget
+                    if (window.Cal && window.Cal.ns && window.Cal.ns["30min"]) {
+                        console.log('Cal already exists, reusing...');
+                    }
+                    
+                    // Create the Cal.com initialization script with theme support
+                    const calScript = `
+                        (function (C, A, L) { 
+                            let p = function (a, ar) { a.q.push(ar); }; 
+                            let d = C.document; 
+                            C.Cal = C.Cal || function () { 
+                                let cal = C.Cal; 
+                                let ar = arguments; 
+                                if (!cal.loaded) { 
+                                    cal.ns = {}; 
+                                    cal.q = cal.q || []; 
+                                    d.head.appendChild(d.createElement("script")).src = A; 
+                                    cal.loaded = true; 
+                                } 
+                                if (ar[0] === L) { 
+                                    const api = function () { p(api, arguments); }; 
+                                    const namespace = ar[1]; 
+                                    api.q = api.q || []; 
+                                    if(typeof namespace === "string"){
+                                        cal.ns[namespace] = cal.ns[namespace] || api;
+                                        p(cal.ns[namespace], ar);
+                                        p(cal, ["initNamespace", namespace]);
+                                    } else p(cal, ar); 
+                                    return;
+                                } 
+                                p(cal, ar); 
+                            }; 
+                        })(window, "https://app.cal.com/embed/embed.js", "init");
+                        
+                        Cal("init", "30min", {origin:"https://app.cal.com"});
+                        
+                        Cal.ns["30min"]("inline", {
+                            elementOrSelector: "#${widgetId}",
+                            config: {"layout":"month_view","theme":"${isLightTheme ? 'light' : 'dark'}"},
+                            calLink: "andrew-girgis/30min",
+                        });
+                        
+                        Cal.ns["30min"]("ui", {
+                            "cssVarsPerTheme": {
+                                "light": {"cal-brand": "#007bff"},
+                                "dark": {"cal-brand": "#007bff"}
+                            },
+                            "hideEventTypeDetails": false,
+                            "layout": "month_view"
+                        });
+                    `;
+                    
+                    // Execute the script
+                    try {
+                        const scriptElement = document.createElement('script');
+                        scriptElement.textContent = calScript;
+                        document.head.appendChild(scriptElement);
+                        
+                        // Remove loading indicator after calendar loads
+                        if (loadingDiv) {
+                            setTimeout(() => {
+                                if (loadingDiv.parentNode) {
+                                    loadingDiv.remove();
+                                }
+                            }, 3000);
+                        }
+                        
+                        console.log('Cal.com widget initialized for element:', widgetId, 'with theme:', currentTheme);
+                    } catch (error) {
+                        console.error('Error initializing Cal.com widget:', error);
+                        
+                        // Fallback: show a direct link to the calendar
+                        const fallbackDiv = document.getElementById(widgetId);
+                        if (fallbackDiv) {
+                            fallbackDiv.innerHTML = `
+                                <div style="padding: 20px; text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: var(--calendar-bg, #fff); color: var(--text-color, #333);">
+                                    <div style="margin-bottom: 15px; font-size: 14px;">Calendar unavailable</div>
+                                    <a href="https://cal.com/andrew-girgis/30min" 
+                                       target="_blank" 
+                                       style="
+                                           display: inline-block;
+                                           background: linear-gradient(135deg, #007bff, #0056b3);
+                                           color: white;
+                                           padding: 8px 16px;
+                                           border-radius: 6px;
+                                           text-decoration: none;
+                                           font-weight: bold;
+                                           font-size: 12px;
+                                           box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+                                       ">
+                                        📅 Book Meeting
+                                    </a>
+                                </div>
+                            `;
+                        }
+                    }
+                }
+                
                 if (streaming && !isUser) {
                     // Add empty text initially for streaming effect
                     messageText.innerHTML = '';
@@ -414,6 +585,15 @@ function loadTheme() {
                             clearInterval(streamInterval);
                             // Final conversion to ensure all links are properly formatted
                             messageText.innerHTML = convertLinksToHTML(content);
+                            
+                            // Add booking widget after streaming is complete
+                            if (hasBookingWidget) {
+                                addBookingWidget(chatMessages);
+                                // Scroll to show the widget
+                                setTimeout(() => {
+                                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                                }, 100);
+                            }
                         }
                     }, 30); // Adjust speed here (30ms per character)
                 } else {
@@ -423,6 +603,11 @@ function loadTheme() {
                     } else {
                         // Convert links to HTML for bot messages
                         messageText.innerHTML = convertLinksToHTML(content);
+                        
+                        // Add booking widget for non-streaming messages
+                        if (hasBookingWidget) {
+                            addBookingWidget(chatMessages);
+                        }
                     }
                     messageContent.appendChild(messageText);
                     messageDiv.appendChild(avatar);
@@ -530,6 +715,8 @@ function loadTheme() {
                         // Parse the streaming response to extract the final output
                         const lines = text.trim().split('\n');
                         let botResponse = "I'm sorry, I couldn't process that request. Please try again.";
+                        let hasBookingWidget = false;
+                        let isHtmlEmbed = false;
                         
                         // Look for the final JSON response with the output
                         for (const line of lines.reverse()) {
@@ -543,6 +730,21 @@ function loadTheme() {
                                 if (parsed.output) {
                                     botResponse = parsed.output;
                                     console.log('Found output:', botResponse);
+                                    
+                                    // Check for booking widget flag
+                                    if (parsed.action === 'show_booking_widget') {
+                                        hasBookingWidget = true;
+                                    }
+                                    
+                                    // Check if the output contains Cal.com embed code
+                                    if (botResponse.includes('<!-- Cal inline embed code') || 
+                                        botResponse.includes('app.cal.com') ||
+                                        botResponse.includes('Cal.ns[')) {
+                                        hasBookingWidget = true;
+                                        isHtmlEmbed = true;
+                                        // Extract a user-friendly message
+                                        botResponse = "I'd be happy to help you book a meeting with Andrew! Here's his calendar:";
+                                    }
                                     break;
                                 }
                                 
@@ -553,6 +755,21 @@ function loadTheme() {
                                         if (contentJson.output) {
                                             botResponse = contentJson.output;
                                             console.log('Found output in content:', botResponse);
+                                            
+                                            // Check for booking widget flag in nested content
+                                            if (contentJson.action === 'show_booking_widget') {
+                                                hasBookingWidget = true;
+                                            }
+                                            
+                                            // Check if the output contains Cal.com embed code
+                                            if (botResponse.includes('<!-- Cal inline embed code') || 
+                                                botResponse.includes('app.cal.com') ||
+                                                botResponse.includes('Cal.ns[')) {
+                                                hasBookingWidget = true;
+                                                isHtmlEmbed = true;
+                                                // Extract a user-friendly message
+                                                botResponse = "I'd be happy to help you book a meeting with Andrew! Here's his calendar:";
+                                            }
                                             break;
                                         }
                                     } catch (contentError) {
@@ -567,9 +784,20 @@ function loadTheme() {
                             }
                         }
                         
+                        // Also check if the response contains booking-related keywords
+                        if (!hasBookingWidget) {
+                            const bookingKeywords = ['book', 'appointment', 'meeting', 'schedule', 'calendar'];
+                            const responseText = botResponse.toLowerCase();
+                            if (bookingKeywords.some(keyword => responseText.includes(keyword)) && 
+                                (responseText.includes('would you like') || responseText.includes('let me') || 
+                                 responseText.includes('calendar') || responseText.includes('appointment'))) {
+                                hasBookingWidget = true;
+                            }
+                        }
+                        
                         // Remove typing indicator right before starting the streaming
                         removeTypingIndicator();
-                        addMessage(botResponse, false, true); // Enable streaming for bot messages
+                        addMessage(botResponse, false, true, hasBookingWidget); // Enable streaming for bot messages
                         showStatus('Message sent successfully!', 'success');
                     } else {
                         // Remove typing indicator on error too
