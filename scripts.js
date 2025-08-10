@@ -417,8 +417,8 @@ function loadTheme() {
                         border-radius: 12px;
                         overflow: hidden;
                         background: var(--calendar-bg, #fff);
-                        width: 300px;
-                        height: 300px;
+                        width: 400px;
+                        height: 350px;
                         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
                         transition: all 0.3s ease;
                     `;
@@ -512,7 +512,7 @@ function loadTheme() {
                                 "light": {"cal-brand": "#007bff"},
                                 "dark": {"cal-brand": "#007bff"}
                             },
-                            "hideEventTypeDetails": false,
+                            "hideEventTypeDetails": true,
                             "layout": "month_view"
                         });
                     `;
@@ -623,11 +623,29 @@ function loadTheme() {
 
             function addTypingIndicator() {
                 const typingDiv = document.createElement('div');
-                typingDiv.className = 'typing-indicator';
+                typingDiv.className = 'bot-message';
                 typingDiv.id = 'typing-indicator';
+                
+                // Create Sierra's avatar for thinking indicator
+                const avatar = document.createElement('div');
+                avatar.className = 'message-avatar';
+                
+                const img = document.createElement('img');
+                img.src = 'images/Sierra_AI_agent_thinking.png';
+                img.alt = 'Sierra thinking';
+                avatar.appendChild(img);
+                
+                const messageContent = document.createElement('div');
+                messageContent.className = 'message-content';
                 
                 const typingText = document.createElement('span');
                 typingText.textContent = 'Sierra is thinking';
+                typingText.style.cssText = `
+                    font-size: 12px;
+                    color: #666;
+                    margin-bottom: 5px;
+                    display: block;
+                `;
                 
                 const dotsContainer = document.createElement('div');
                 dotsContainer.className = 'typing-dots';
@@ -638,8 +656,10 @@ function loadTheme() {
                     dotsContainer.appendChild(dot);
                 }
                 
-                typingDiv.appendChild(typingText);
-                typingDiv.appendChild(dotsContainer);
+                messageContent.appendChild(typingText);
+                messageContent.appendChild(dotsContainer);
+                typingDiv.appendChild(avatar);
+                typingDiv.appendChild(messageContent);
                 chatMessages.appendChild(typingDiv);
                 setTimeout(() => {
                     chatMessages.scrollTop = chatMessages.scrollHeight;
