@@ -13,6 +13,7 @@ import { motion } from "framer-motion";
 export interface Project {
   id: string;
   title: string;
+  subtitle?: string;
   description: string;
   image?: string;
   imageAlt?: string;
@@ -58,7 +59,14 @@ export function ProjectModal({ project, open, onOpenChange }: ProjectModalProps)
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold pr-8">{project.title}</DialogTitle>
+          <DialogTitle className="text-2xl font-bold pr-8">
+            {project.title}
+            {project.subtitle && (
+              <span className="block text-lg font-medium text-muted-foreground mt-1">
+                {project.subtitle}
+              </span>
+            )}
+          </DialogTitle>
           <DialogDescription className="text-base leading-relaxed mt-2">
             {project.description}
           </DialogDescription>

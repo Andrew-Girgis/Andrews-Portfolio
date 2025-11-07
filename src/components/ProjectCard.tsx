@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
 import { TagGroup } from "./TagGroup";
 import { Project } from "./ProjectModal";
+import { motion } from "framer-motion";
 
 interface ProjectCardProps {
   project: Project;
@@ -34,7 +35,7 @@ export function ProjectCard({ project, index, onDetailsClick }: ProjectCardProps
       }}
       tabIndex={0}
       role="article"
-      aria-label={`${project.title} project card. ${
+      aria-label={`${project.title}${project.subtitle ? ` — ${project.subtitle}` : ''} project card. ${
         project.status === "coming-soon" ? "Status: coming soon." : "Click for details."
       }`}
     >
@@ -60,9 +61,22 @@ export function ProjectCard({ project, index, onDetailsClick }: ProjectCardProps
       </div>
 
       <div className="p-6">
-        <h3 className="text-xl font-semibold text-foreground mb-3 line-clamp-2 group-hover:text-primary transition-colors">
-          {project.title}
-        </h3>
+        <div className="mb-3" role="heading" aria-level={3}>
+          <h3 className="text-lg font-semibold leading-snug text-primary line-clamp-2 text-balance">
+            {project.title}
+            {project.subtitle && <span className="sr-only"> — {project.subtitle}</span>}
+          </h3>
+          {project.subtitle && (
+            <motion.p
+              initial={{ opacity: 0, y: 2 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2, delay: 0.05 }}
+              className="text-sm text-muted-foreground leading-tight mt-1"
+            >
+              {project.subtitle}
+            </motion.p>
+          )}
+        </div>
 
         <TagGroup tags={project.tags} projectId={project.id} animated={true} />
 
