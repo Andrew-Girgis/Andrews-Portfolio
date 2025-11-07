@@ -250,7 +250,7 @@ const SierraChatbot = () => {
               <img 
                 src={sierraAvatar} 
                 alt="Sierra" 
-                className="w-7 h-7 rounded-full flex-shrink-0"
+                className="w-10 h-10 rounded-full flex-shrink-0"
               />
               <div className="flex-1">
                 <div className="font-bold text-sm mb-0.5">Sierra</div>
@@ -283,7 +283,7 @@ const SierraChatbot = () => {
               <img 
                 src={sierraAvatar} 
                 alt="Sierra" 
-                className="w-8 h-8 rounded-full"
+                className="w-9 h-9 rounded-full"
               />
               <h3 className="font-semibold text-foreground">Chat with Sierra</h3>
             </div>
@@ -356,7 +356,7 @@ const SierraChatbot = () => {
                 <img 
                   src={sierraThinking} 
                   alt="Sierra thinking" 
-                  className="w-8 h-8 rounded-full flex-shrink-0"
+                  className="w-10 h-10 rounded-full flex-shrink-0"
                 />
                 <div className="bg-muted rounded-lg px-4 py-2">
                   <div className="flex gap-1">
@@ -405,7 +405,12 @@ const SierraChatbot = () => {
         {isOpen ? (
           <X className="h-6 w-6" />
         ) : (
-          <MessageCircle className="h-6 w-6" />
+          <img 
+          src={sierraAvatar}
+          alt="Sierra"
+          className="h-15 w-15 rounded-full object-cover"
+          aria-hidden="true"
+          />
         )}
       </Button>
     </>
