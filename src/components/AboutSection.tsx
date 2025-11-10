@@ -2,6 +2,8 @@ import { GraduationCap, Code, Target, Heart, Download, ChevronDown } from "lucid
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import ProfilePictureSwitcher from "@/components/ui/ProfilePictureSwitcher";
+import mountainShot from "@/assets/mountain_shot.jpeg";
+import headshot from "@/assets/Headshot.jpeg";
 
 const AboutSection = () => {
   const scrollToProjects = () => {
@@ -26,13 +28,40 @@ const AboutSection = () => {
         </div>
 
         {/* Main Content */}
-        <div className="grid md:grid-cols-[300px_1fr] gap-12 items-start">
-          {/* Profile Section */}
-          <div className="flex flex-col items-center animate-scale-in">
-            <ProfilePictureSwitcher 
-              className="w-full aspect-[3/4] object-cover rounded-2xl shadow-large mb-6 hover:scale-105"
-              storageKey="aboutProfilePicture"
+        <div className="grid md:grid-cols-[300px_1fr] gap-12 md:items-stretch">
+          {/* Profile Section - Three Photo Stack */}
+          <div className="flex flex-col items-center md:items-start h-full animate-scale-in">
+            {/* Photo Cluster Container */}
+            <div className="relative w-full flex-1 mb-6 min-h-[520px] md:min-h-[620px]">
+              {/* Photo 1: Bottom layer - Main portrait with ProfilePictureSwitcher */}
+              <div className="absolute left-1/2 -translate-x-16 md:left-6 md:translate-x-0 -top-12 md:top-20 z-0">
+                <ProfilePictureSwitcher 
+                  className="w-[200px] md:w-[240px] aspect-[3/4] object-cover rounded-2xl shadow-large transition-all duration-300 hover:shadow-xl"
+                  storageKey="aboutProfilePicture"
+                />
+              </div>
+
+              {/* Photo 2: Middle layer - Headshot (overlaps top-right of Photo 1) */}
+                        {/* Photo 2: Middle layer (z-10) - Headshot, overlaps top-right of Photo 1 */}
+          <div className="absolute left-1/2 -translate-x-48 md:-left-24 md:translate-x-0 top-28 md:top-80 z-10">
+            <img
+              src={headshot}
+              alt="Andrew Girgis headshot"
+              className="w-[200px] md:w-[240px] aspect-[3/4] object-cover rounded-2xl shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]"
             />
+          </div>
+
+              {/* Photo 3: Top layer - Mountain shot (overlaps top-left of Photo 2) */}
+              <div className="absolute left-1/2 -translate-x-16 md:left-6 md:translate-x-0 top-[270px] md:top-[600px] z-20">
+                <img
+                  src={mountainShot}
+                  alt="Andrew enjoying nature and outdoor activities"
+                  className="w-[200px] md:w-[240px] aspect-[3/4] rounded-xl object-cover transition-all duration-300 hover:shadow-xl shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]"
+                />
+              </div>
+            </div>
+
+            {/* Download Resume Button */}
             <Button asChild variant="default" className="w-full rounded-full">
               <a
                 href="/Andrew_Girgis_Resume_v2025-11.pdf"
