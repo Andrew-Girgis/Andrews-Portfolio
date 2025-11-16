@@ -226,80 +226,103 @@ const HeroSection = () => {
       </div>
 
       {/* Info Button */}
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button
-            variant="outline"
-            size="icon"
-            className="absolute top-20 right-4 z-20 bg-background/20 backdrop-blur-sm border-white/30 hover:bg-background/40 text-white hover:text-white transition-all duration-300"
-          >
-            <Info className="h-5 w-5" />
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="text-2xl">About This Video</DialogTitle>
-            <DialogDescription className="text-base pt-2">
-              The hero video showcases various aspects of my life and passions
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 pt-4">
-            <div className="space-y-2">
-              <h3 className="font-semibold text-lg flex items-center gap-2">
-                <span className="text-primary">🎓</span> Education & Research
-              </h3>
-              <p className="text-sm text-muted-foreground pl-7">
-                Footage from my time at Brock University and University of Waterloo, where I developed my foundation in economics and data science.
-              </p>
-            </div>
-            
-            <div className="space-y-2">
-              <h3 className="font-semibold text-lg flex items-center gap-2">
-                <span className="text-primary">💼</span> Professional Work
-              </h3>
-              <p className="text-sm text-muted-foreground pl-7">
-                Clips showcasing my work in data analysis, economic modeling, and building AI solutions that drive business impact.
-              </p>
-            </div>
-            
-            <div className="space-y-2">
-              <h3 className="font-semibold text-lg flex items-center gap-2">
-                <span className="text-primary">🏋️</span> Fitness & Health
-              </h3>
-              <p className="text-sm text-muted-foreground pl-7">
-                Moments from my fitness journey - staying active and healthy is essential for maintaining peak performance in demanding analytical work.
-              </p>
-            </div>
-            
-            <div className="space-y-2">
-              <h3 className="font-semibold text-lg flex items-center gap-2">
-                <span className="text-primary">✈️</span> Travel & Exploration
-              </h3>
-              <p className="text-sm text-muted-foreground pl-7">
-                Adventures from around the world that broaden my perspective and inspire creative problem-solving in my work.
-              </p>
-            </div>
-            
-            <div className="space-y-2">
-              <h3 className="font-semibold text-lg flex items-center gap-2">
-                <span className="text-primary">🎯</span> Hobbies & Interests
-              </h3>
-              <p className="text-sm text-muted-foreground pl-7">
-                Activities that keep me balanced - from coding personal projects to exploring new technologies and staying curious about the world.
-              </p>
-            </div>
-            
-            <div className="space-y-2">
-              <h3 className="font-semibold text-lg flex items-center gap-2">
-                <span className="text-primary">👥</span> Community & Connections
-              </h3>
-              <p className="text-sm text-muted-foreground pl-7">
-                Time spent with friends, family, and professional networks - collaboration and meaningful relationships drive my best work.
-              </p>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+     {/* Info Button */}
+<Dialog>
+  <DialogTrigger asChild>
+    <Button
+      variant="outline"
+      size="icon"
+      className="absolute top-20 right-4 z-20 bg-background/20 backdrop-blur-sm border-white/30 hover:bg-background/40 text-white hover:text-white transition-all duration-300"
+    >
+      <Info className="h-5 w-5" />
+    </Button>
+  </DialogTrigger>
+  <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+    <DialogHeader>
+      <DialogTitle className="text-2xl">About This Video</DialogTitle>
+      <DialogDescription className="text-base pt-2">
+        This hero video is basically a highlight reel of what I care about most; tech, markets, cities, and a bit of Canadiana.
+      </DialogDescription>
+    </DialogHeader>
+
+    <div className="space-y-4 pt-4">
+      <div className="space-y-2">
+        <h3 className="font-semibold text-lg flex items-center gap-2">
+          <span className="text-primary">💻</span> Code &amp; Math
+        </h3>
+        <p className="text-sm text-muted-foreground pl-7">
+          These clips capture how much I enjoy working with code, math, and statistics. 
+          I love using data to build things, from analysis and dashboards to AI-powered tools 
+          that solve real problems for real people.
+        </p>
+      </div>
+
+      <div className="space-y-2">
+        <h3 className="font-semibold text-lg flex items-center gap-2">
+          <span className="text-primary">📈</span> Markets
+        </h3>
+        <p className="text-sm text-muted-foreground pl-7">
+          The market footage reflects my interest in finance, economics, and decision-making under uncertainty. 
+          I enjoy digging into data, spotting patterns, and turning noisy time series into clear, actionable stories.
+        </p>
+      </div>
+
+      <div className="space-y-2">
+        <h3 className="font-semibold text-lg flex items-center gap-2">
+          <span className="text-primary">🚗</span> Rivian EV
+        </h3>
+        <p className="text-sm text-muted-foreground pl-7">
+          The Rivian shots are a nod to my love for cars, electric vehicles, and sustainable tech. 
+          I’m excited about the future of transportation and how good design, engineering, and clean energy 
+          can live in the same product. I’m also a big fan of Tesla and other EV makers pushing the space forward.
+        </p>
+      </div>
+
+      <div className="space-y-2">
+        <h3 className="font-semibold text-lg flex items-center gap-2">
+          <span className="text-primary">🌆</span> Toronto Skyline
+        </h3>
+        <p className="text-sm text-muted-foreground pl-7">
+          Toronto is home. The skyline represents the energy of the city I grew up in; diverse, fast-moving, 
+          and full of opportunity. It also reflects my interest in urban development, housing, and real estate markets.
+        </p>
+      </div>
+
+      <div className="space-y-2">
+        <h3 className="font-semibold text-lg flex items-center gap-2">
+          <span className="text-primary">🚀</span> Discovery Rocket Launch
+        </h3>
+        <p className="text-sm text-muted-foreground pl-7">
+          The rocket launch footage is all about curiosity and ambition. 
+          Space exploration is a great metaphor for how I like to work; experimenting, 
+          learning quickly, and trying to push a little bit beyond what feels comfortable.
+        </p>
+      </div>
+
+      <div className="space-y-2">
+        <h3 className="font-semibold text-lg flex items-center gap-2">
+          <span className="text-primary">🇨🇦</span> The Canadian Flag
+        </h3>
+        <p className="text-sm text-muted-foreground pl-7">
+          I’m proud to be Canadian. The flag represents my connection to my community and the values that matter to me: 
+          openness, diversity, and building things that make life better for the people around me.
+        </p>
+      </div>
+
+      <div className="space-y-2">
+        <h3 className="font-semibold text-lg flex items-center gap-2">
+          <span className="text-primary">✍️</span> Handwritten Title
+        </h3>
+        <p className="text-sm text-muted-foreground pl-7">
+          When you see “Andrew Girgis&apos;s Portfolio” written on screen,that’s actually my real handwriting. 
+          Yes, I know it&apos;s not winning any calligraphy awards, but it felt more honest to keep my slightly 
+          chaotic penmanship in the final cut.
+        </p>
+      </div>
+    </div>
+  </DialogContent>
+</Dialog>
+
 
       {/* Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">

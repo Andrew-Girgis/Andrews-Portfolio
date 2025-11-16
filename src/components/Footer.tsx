@@ -1,5 +1,6 @@
 import { Linkedin, Github } from "lucide-react";
 import { FaXTwitter } from "react-icons/fa6";
+import { SiBuymeacoffee } from "react-icons/si";
 import pkg from "../../package.json";
 
 const Footer = () => {
@@ -87,7 +88,21 @@ const Footer = () => {
               </svg>
             </div>
           </a>
+
+           {/* Buy Me a Coffee */}
+          <a
+            href="https://www.buymeacoffee.com/andrewgirgis"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group"
+          >
+            <div className="w-12 h-12 rounded-full bg-card flex items-center justify-center shadow-medium hover:shadow-large transition-all duration-300 hover:scale-110 group-hover:bg-[#FFDD00]">
+              <SiBuymeacoffee className="h-6 w-6 text-foreground group-hover:text-background transition-colors" />
+            </div>
+          </a>
+
         </div>
+        
 
         <div className="space-y-2 text-muted-foreground text-sm">
           <p>© 2025 Andrew Girgis. All rights reserved.</p>

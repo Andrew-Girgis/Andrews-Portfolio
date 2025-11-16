@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import CalBookingWidget from "@/components/ui/CalBookingWidget";
 
 // Import your Sierra images (add these to your assets folder)
-import sierraAvatar from "@/assets/Sierra_AI_agent.png";
+import sierraAvatar from "@/assets/Sierra_AI_agent_new.png";
 import sierraThinking from "@/assets/Sierra_AI_agent_thinking.png";
 
 interface Message {
@@ -283,7 +283,7 @@ const SierraChatbot = () => {
               <img 
                 src={sierraAvatar} 
                 alt="Sierra" 
-                className="w-9 h-9 rounded-full"
+                className="w-10 h-10 rounded-full object-cover"
               />
               <h3 className="font-semibold text-foreground">Chat with Sierra</h3>
             </div>
@@ -316,9 +316,9 @@ const SierraChatbot = () => {
                 >
                   {!message.isUser && (
                     <img 
-                      src={sierraAvatar} 
+                      src={message.isStreaming ? sierraThinking : sierraAvatar} 
                       alt="Sierra" 
-                      className="w-8 h-8 rounded-full flex-shrink-0"
+                      className="w-10 h-10 rounded-full flex-shrink-0 object-cover"
                     />
                   )}
                   <div
@@ -356,7 +356,7 @@ const SierraChatbot = () => {
                 <img 
                   src={sierraThinking} 
                   alt="Sierra thinking" 
-                  className="w-10 h-10 rounded-full flex-shrink-0"
+                  className="w-12 h-12 rounded-full flex-shrink-0 object-cover"
                 />
                 <div className="bg-muted rounded-lg px-4 py-2">
                   <div className="flex gap-1">

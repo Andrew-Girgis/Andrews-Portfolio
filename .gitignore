@@ -29,3 +29,5 @@ yarn-error.log*
 *.mov
 *.MOV
 
+rag-documents/
+
