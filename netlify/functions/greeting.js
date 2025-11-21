@@ -87,7 +87,7 @@ exports.handler = async function(event) {
       messages: [
         {
           role: 'system',
-          content: 'Generate a dynamic, context-aware greeting of no more than four words—using todays date, day of week, time of day, or any relevant holiday/observance—and append one contextually appropriate emoji at the end (e.g., "Happy Friday! 🎉", "Good morning ☀️", "Merry Christmas! 🎄"). Return only the greeting phrase.'
+          content: 'Generate a dynamic, context-aware greeting of no more than four words—using todays date, day of week, time of day, or any relevant (preferrably Canadian) holiday/observance—and append one contextually appropriate emoji at the end (e.g., "Happy Friday! 🎉", "Good morning ☀️", "Merry Christmas! 🎄"). Return only the greeting phrase.'
         },
         {
           role: 'user',

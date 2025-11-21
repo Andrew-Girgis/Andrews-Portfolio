@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import heroBg from "@/assets/andrew_intro.mp4";
 import { useRef, useState, useEffect } from "react";
+import Loader from "@/components/ui/Loader";
 
 const HeroSection = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -23,6 +24,13 @@ const HeroSection = () => {
   const [showVolumeSlider, setShowVolumeSlider] = useState(false);
   const [greeting, setGreeting] = useState<string>("");
   const [isLoadingGreeting, setIsLoadingGreeting] = useState(true);
+  
+  // Loading states
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const [greetingLoaded, setGreetingLoaded] = useState(false);
+  
+  // Combined loading condition
+  const loading = !videoLoaded || !greetingLoaded;
 
   const scrollToAbout = () => {
     const element = document.getElementById("about");
@@ -59,6 +67,7 @@ const HeroSection = () => {
         setGreeting('Welcome! <span class="greeting-emoji">👋</span>');
       } finally {
         setIsLoadingGreeting(false);
+        setGreetingLoaded(true); // Always mark greeting as loaded
       }
     };
 
@@ -82,6 +91,14 @@ const HeroSection = () => {
       };
     }
   }, [volume]);
+  
+  // Start video playback only when both video and greeting are loaded
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video && !loading) {
+      video.play().catch(err => console.log('Video play failed:', err));
+    }
+  }, [loading]);
 
   const togglePlayPause = () => {
     const video = videoRef.current;
@@ -130,14 +147,21 @@ const HeroSection = () => {
       id="home"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
+      {/* Fullscreen Loader */}
+      {loading && (
+        <div className="loader-fullscreen">
+          <Loader />
+        </div>
+      )}
+      
       {/* Video Background */}
       <div className="absolute inset-0 z-0">
         <video
           ref={videoRef}
-          autoPlay
           muted
           loop
           playsInline
+          onLoadedData={() => setVideoLoaded(true)}
           className="w-full h-full object-cover"
         >
           <source src={heroBg} type="video/mp4" />

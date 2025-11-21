@@ -24,9 +24,8 @@ const WorkspaceSection = () => {
     };
 
     const handleMouseMove = (e: MouseEvent) => {
-      const rect = svg.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+      const x = e.clientX;
+      const y = e.clientY;
       setTooltipPosition({ x: x + 12, y: y + 12 });
     };
 
@@ -354,7 +353,7 @@ const WorkspaceSection = () => {
           {/* Tooltip Overlay */}
           <div
             ref={tooltipRef}
-            className={`absolute bg-gray-900/95 text-white px-4 py-2 rounded-lg text-sm max-w-xs pointer-events-none transition-opacity duration-150 z-10 ${
+            className={`fixed bg-gray-900/95 text-white px-4 py-2 rounded-lg text-sm max-w-xs pointer-events-none transition-opacity duration-150 z-50 ${
               tooltipVisible ? 'opacity-100' : 'opacity-0'
             }`}
             style={{
