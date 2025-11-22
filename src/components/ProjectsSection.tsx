@@ -24,7 +24,7 @@ const ProjectsSection = () => {
           id="projects-heading"
           className="text-4xl sm:text-5xl font-bold text-center text-foreground mb-16 animate-fade-in-up"
         >
-          Projects & Tools
+          Featured Projects
         </h2>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

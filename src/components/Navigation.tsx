@@ -75,7 +75,7 @@ const Navigation = () => {
               onClick={() => scrollToSection("projects")}
               className="text-sm font-medium text-white hover:text-white/90 transition-colors [text-shadow:_0_1px_8px_rgb(0_0_0_/_80%),_0_0_4px_rgb(0_0_0_/_100%)]"
             >
-              Projects & Tools
+              Projects
             </button>
             <button
               onClick={() => scrollToSection("workspace")}

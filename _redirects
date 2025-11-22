@@ -1,5 +1,0 @@
-/.well-known/acme-challenge/*   /:splat   200
-https://andrewgirgis.ca/*       https://www.andrew-girgis.com/:splat   301!
-https://www.andrewgirgis.ca/*   https://www.andrew-girgis.com/:splat   301!
-http://andrewgirgis.ca/*        https://www.andrew-girgis.com/:splat   301!
-http://www.andrewgirgis.ca/*    https://www.andrew-girgis.com/:splat   301!

@@ -1,0 +1,20 @@
+# Let ACME challenges bypass SPA routing
+/.well-known/acme-challenge/*   /.well-known/acme-challenge/:splat   200
+
+# Canonical host (example: www.andrew-girgis.com)
+https://andrewgirgis.ca/*       https://www.andrew-girgis.com/:splat   301!
+https://www.andrewgirgis.ca/*   https://www.andrew-girgis.com/:splat   301!
+http://andrewgirgis.ca/*        https://www.andrew-girgis.com/:splat   301!
+http://www.andrewgirgis.ca/*    https://www.andrew-girgis.com/:splat   301!
+https://andrew-girgis.com/*     https://www.andrew-girgis.com/:splat   301!
+http://andrew-girgis.com/*      https://www.andrew-girgis.com/:splat   301!
+
+# Short tracking URLs
+/linkedin   /?utm_source=linkedin&utm_medium=bio&utm_campaign=prelaunch_2025      301!
+/x          /?utm_source=x&utm_medium=bio&utm_campaign=prelaunch_2025              301!
+/github     /?utm_source=github&utm_medium=bio&utm_campaign=prelaunch_2025         301!
+/kaggle     /?utm_source=kaggle&utm_medium=bio&utm_campaign=prelaunch_2025         301!
+/resume     /?utm_source=resume&utm_medium=offline&utm_campaign=prelaunch_2025     301!
+
+# SPA catch-all route
+/*          /index.html   200
