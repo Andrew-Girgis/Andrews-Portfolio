@@ -65,13 +65,13 @@ const AboutSection = () => {
             <Button asChild variant="default" className="w-full rounded-full">
               <a
                 href="/Andrews-Resume.pdf"
-                download
-                aria-label="Download Andrew Girgis resume (PDF)"
+                target="_blank"
+                aria-label="View Andrew Girgis resume (PDF)"
                 className="flex items-center justify-center gap-2 w-full"
                 rel="noopener noreferrer"
               >
                 <Download className="mr-2 h-4 w-4" />
-                Download Resume
+                View Resume
               </a>
             </Button>
           </div>
