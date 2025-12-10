@@ -6,22 +6,22 @@ import censusExplorerImage from "@/assets/censusExplorerImage.png";
 import { Project } from "@/components/ProjectModal";
 
 export const projects: Project[] = [
-  {
-    id: "small-businesses-big-impact",
-    title: "Small Businesses, Big Impact",
-    subtitle: "Government Funding and Innovation Growth",
-    description:
-      "This study explores the impact of government funding on the innovation and growth of small businesses within a country's economy. It aims to analyze how financial support influences entrepreneurial success, technological advancements, and overall economic development.",
-    image: innovationImage,
-    imageAlt: "Innovation and small business growth visualization",
-    status: "coming-soon",
-    tags: {
-      technology: ["python", "r", "stata"],
-      domain: ["economics", "public-policy"],
-      type: ["research"],
-      method: ["econometrics", "regression-analysis"],
-    },
-  },
+  // {
+  //   id: "small-businesses-big-impact",
+  //   title: "Small Businesses, Big Impact",
+  //   subtitle: "Government Funding and Innovation Growth",
+  //   description:
+  //     "This study explores the impact of government funding on the innovation and growth of small businesses within a country's economy. It aims to analyze how financial support influences entrepreneurial success, technological advancements, and overall economic development.",
+  //   image: innovationImage,
+  //   imageAlt: "Innovation and small business growth visualization",
+  //   status: "coming-soon",
+  //   tags: {
+  //     technology: ["python", "r", "stata"],
+  //     domain: ["economics", "public-policy"],
+  //     type: ["research"],
+  //     method: ["econometrics", "regression-analysis"],
+  //   },
+  // },
   {
     id: "automotive-dashboard",
     title: "Driving Performance",

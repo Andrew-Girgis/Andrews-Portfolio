@@ -15,6 +15,43 @@ interface Message {
   isStreaming?: boolean;
 }
 
+/**
+ * Generate or retrieve a persistent anonymous user ID.
+ * This ID persists across page refreshes and browser sessions.
+ * @returns A stable UUID for this browser.
+ */
+function getOrCreateUserId(): string {
+  const key = 'n8n_user_id';
+
+  // SSR safety: If running server-side, return a placeholder
+  if (typeof window === 'undefined') {
+    console.warn('getOrCreateUserId called on server-side, returning placeholder');
+    return 'server-side-placeholder';
+  }
+
+  // 1. If the ID exists in localStorage, reuse it
+  let userId = window.localStorage.getItem(key);
+  if (userId) {
+    return userId;
+  }
+
+  // 2. Otherwise, create a new one
+  if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+    userId = window.crypto.randomUUID();
+  } else {
+    // Fallback UUID generator for older browsers
+    userId = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+      const r = (Math.random() * 16) | 0;
+      const v = c === 'x' ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
+  }
+
+  // 3. Persist it across page loads
+  window.localStorage.setItem(key, userId);
+  return userId;
+}
+
 const SierraChatbot = () => {
   console.log("🤖 SierraChatbot component mounted");
   const [isOpen, setIsOpen] = useState(false);
@@ -114,13 +151,14 @@ const SierraChatbot = () => {
         setSessionInitialized(true);
       }
 
-      const response = await fetch('https://n8n.andrew-girgis.com/webhook/chat', {
+      const response = await fetch(import.meta.env.VITE_PUBLIC_N8N_WEBHOOK_URL || 'https://n8n.andrew-girgis.com/webhook/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           action: 'sendMessage',
+          user_id: getOrCreateUserId(),
           sessionId: sessionId,
           chatInput: messageToSend
         }),
@@ -276,7 +314,7 @@ const SierraChatbot = () => {
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-24 right-4 sm:right-6 z-50 w-[90vw] sm:w-96 h-[500px] bg-background border border-border rounded-lg shadow-2xl flex flex-col animate-in slide-in-from-bottom-5 duration-300">
+        <div className="fixed bottom-24 right-4 sm:right-6 z-50 w-[90vw] sm:w-96 h-[500px] bg-background border border-border rounded-lg shadow-2xl flex flex-col animate-in slide-in-from-bottom-5 duration-300 overflow-hidden">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-border bg-card">
             <div className="flex items-center gap-2">

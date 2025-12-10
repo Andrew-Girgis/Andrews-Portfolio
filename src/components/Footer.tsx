@@ -90,7 +90,7 @@ const Footer = () => {
           </a>
 
            {/* Buy Me a Coffee */}
-          <a
+          {/* <a
             href="https://www.buymeacoffee.com/andrewgirgis"
             target="_blank"
             rel="noopener noreferrer"
@@ -99,7 +99,7 @@ const Footer = () => {
             <div className="w-12 h-12 rounded-full bg-card flex items-center justify-center shadow-medium hover:shadow-large transition-all duration-300 hover:scale-110 group-hover:bg-[#FFDD00]">
               <SiBuymeacoffee className="h-6 w-6 text-foreground group-hover:text-background transition-colors" />
             </div>
-          </a>
+          </a> */}
 
         </div>
         

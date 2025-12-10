@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/index";
 import NotFound from "./pages/notfound";
 import BookingDemo from "./pages/BookingDemo";
-import SierraChatbot from "@/components/ui/sierrachatbot";
+// import SierraChatbot from "@/components/ui/sierrachatbot";
 
 const queryClient = new QueryClient();
 
@@ -23,7 +23,7 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
         </Routes>
         {/* Chatbot - appears on all pages */}
-        <SierraChatbot />
+        {/* <SierraChatbot /> */}
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

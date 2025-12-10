@@ -298,7 +298,7 @@ const HeroSection = () => {
         <p className="text-sm text-muted-foreground pl-7">
           The Rivian shots are a nod to my love for cars, electric vehicles, and sustainable tech. 
           I’m excited about the future of transportation and how good design, engineering, and clean energy 
-          can live in the same product. I’m also a big fan of Tesla and other EV makers pushing the space forward.
+          can live in the same product. I’m a huge fan of Rivian and also a big fan of Tesla and other EV makers pushing the space forward.
         </p>
       </div>
 

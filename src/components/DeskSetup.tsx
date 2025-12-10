@@ -135,18 +135,21 @@ export const DeskSetup: React.FC<DeskSetupProps> = ({ onSelect, className = '' }
         setHoveredProduct(product);
         setActiveElementId(elementId);
         
+        // Use smaller stroke width for tiny elements
+        const strokeWidth = elementId === 'smiski-outline' ? '2.5px' : '10px';
+        
         // Apply hover stroke animation to element and child paths
         target.setAttribute('stroke', '#027BFF');
-        target.setAttribute('stroke-width', '10px');
+        target.setAttribute('stroke-width', strokeWidth);
         target.style.stroke = '#027BFF';
-        target.style.strokeWidth = '10px';
+        target.style.strokeWidth = strokeWidth;
         
         const childPaths = target.querySelectorAll('path');
         childPaths.forEach((path) => {
           path.setAttribute('stroke', '#027BFF');
-          path.setAttribute('stroke-width', '10px');
+          path.setAttribute('stroke-width', strokeWidth);
           path.style.stroke = '#027BFF';
-          path.style.strokeWidth = '10px';
+          path.style.strokeWidth = strokeWidth;
         });
         
         // Animate stroke dash if it's a path

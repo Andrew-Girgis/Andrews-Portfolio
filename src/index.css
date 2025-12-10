@@ -135,7 +135,7 @@ All colors MUST be HSL.
     display: inline-block;
     font-size: 1.1em;
     margin-left: 0.25rem;
-    animation: wave 1s ease-in-out infinite;
+    /* animation: wave 1s ease-in-out infinite; */
   }
   
   @keyframes wave {
