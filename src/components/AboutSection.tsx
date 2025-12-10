@@ -64,7 +64,7 @@ const AboutSection = () => {
             {/* Download Resume Button */}
             <Button asChild variant="default" className="w-full rounded-full">
               <a
-                href="/Andrew_Girgis_Resume_v2025-11.pdf"
+                href="/Andrews-Resume.pdf"
                 download
                 aria-label="Download Andrew Girgis resume (PDF)"
                 className="flex items-center justify-center gap-2 w-full"
