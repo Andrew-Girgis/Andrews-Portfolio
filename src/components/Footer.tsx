@@ -105,7 +105,7 @@ const Footer = () => {
         
 
         <div className="space-y-2 text-muted-foreground text-sm">
-          <p>© 2025 Andrew Girgis. All rights reserved.</p>
+          <p>© 2025 Andrew Girgis</p>
           <p className="text-xs">v{version}</p>
         </div>
       </div>
