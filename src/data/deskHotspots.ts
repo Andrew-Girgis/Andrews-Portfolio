@@ -75,7 +75,7 @@ export const HOTSPOT_CONFIG: Record<string, HotspotProduct> = {
     link: 'https://amzn.to/48uzPLk'
   },
   'Macbook-Outline': {
-    name: 'M4 MacBook Air "',
+    name: 'M4 MacBook Air',
     description: '32GB RAM, 1TB SSD, my portable powerhouse for Data Analysis on the go',
     link: 'https://amzn.to/4rhRI7A'
   },

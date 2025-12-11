@@ -22,7 +22,7 @@ const AboutSection = () => {
             Andrew Girgis
           </h2>
           <p className="text-xl text-muted-foreground">
-            Economist | Data Scientist 
+            Data Scientist | Applied Economist
             {/* | Entrepreneur */}
           </p>
         </div>

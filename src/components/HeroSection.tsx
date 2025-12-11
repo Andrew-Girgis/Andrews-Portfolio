@@ -225,7 +225,7 @@ const HeroSection = () => {
           Andrew Girgis
         </h1>
         <p className="text-xl sm:text-2xl md:text-3xl text-white/90 mb-4 max-w-3xl mx-auto font-light">
-          Data Scientist • Economist 
+          Data Scientist • Applied Economist 
         </p>
         
         {/* AI-Generated Greeting */}
