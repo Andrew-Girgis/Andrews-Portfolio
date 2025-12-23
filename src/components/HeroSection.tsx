@@ -9,7 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import heroBg from "@/assets/andrew_intro.mp4";
-import heroBgMobile from "@/assets/andrew_intro_mobile1.mp4";
+import heroBgMobile from "@/assets/andrew_intro_mobile3.mp4";
 import { useRef, useState, useEffect } from "react";
 import Loader from "@/components/ui/Loader";
 
@@ -31,8 +31,8 @@ const HeroSection = () => {
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [greetingLoaded, setGreetingLoaded] = useState(false);
   
-  // Combined loading condition - skip video loading on mobile
-  const loading = isMobile ? !greetingLoaded : (!videoLoaded || !greetingLoaded);
+  // Combined loading condition - both video and greeting need to load
+  const loading = !videoLoaded || !greetingLoaded;
 
   // Detect mobile device on mount
   useEffect(() => {
@@ -168,30 +168,27 @@ const HeroSection = () => {
         </div>
       )}
       
-      {/* Video Background - Desktop Only */}
-      {!isMobile && (
-        <>
-          <div className="absolute inset-0 z-0">
-            <video
-              ref={videoRef}
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              onLoadedData={() => setVideoLoaded(true)}
-              className="w-full h-full object-cover"
-            >
-              <source src={heroBg} type="video/mp4" />
-              {/* Mobile video commented out for future use */}
-              {/* <source src={heroBgMobile} type="video/mp4" /> */}
-              Your browser does not support the video tag.
-            </video>
-            {/* Subtle bottom gradient matching website background - 100% opacity */}
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent via-90% to-background/100" />
-          </div>
+      {/* Video Background - All Devices */}
+      <div className="absolute inset-0 z-0">
+        <video
+          ref={videoRef}
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          onLoadedData={() => setVideoLoaded(true)}
+          className="w-full h-full object-cover"
+        >
+          <source src={isMobile ? heroBgMobile : heroBg} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        {/* Subtle bottom gradient matching website background - 100% opacity */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent via-90% to-background/100" />
+      </div>
 
-          {/* Video Controls - Desktop Only */}
-          <div className="absolute top-20 left-4 z-20 flex items-center gap-2">
+      {/* Video Controls - Desktop Only */}
+      {!isMobile && (
+        <div className="absolute top-20 left-4 z-20 flex items-center gap-2">
         {/* Play/Pause Button */}
         <Button
           variant="outline"
@@ -237,33 +234,21 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
-        </>
-      )}
-
-      {/* Mobile Background - Solid gradient instead of video */}
-      {isMobile && (
-        <div className="absolute inset-0 z-0 bg-gradient-to-b from-primary/20 via-background/50 to-background" />
       )}
 
       {/* Content */}
       <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 animate-fade-in-up">
-        <h1 className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight ${
-          isMobile ? "text-foreground" : "text-white"
-        }`}>
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight">
           Andrew Girgis
         </h1>
-        <p className={`text-xl sm:text-2xl md:text-3xl mb-4 max-w-3xl mx-auto font-light ${
-          isMobile ? "text-foreground/90" : "text-white/90"
-        }`}>
+        <p className="text-xl sm:text-2xl md:text-3xl text-white/90 mb-4 max-w-3xl mx-auto font-light">
           Data Scientist • Applied Economist 
         </p>
         
         {/* AI-Generated Greeting */}
         {!isLoadingGreeting && greeting && (
           <div 
-            className={`text-lg sm:text-xl mb-8 max-w-2xl mx-auto font-medium animate-fade-in ${
-              isMobile ? "text-foreground/90" : "text-white/90"
-            }`}
+            className="text-lg sm:text-xl text-white/90 mb-8 max-w-2xl mx-auto font-medium animate-fade-in"
             dangerouslySetInnerHTML={{ __html: greeting }}
           />
         )}
