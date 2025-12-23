@@ -1,8 +1,8 @@
 import innovationImage from "@/assets/innovation_canada.jpg";
 import evStocksImage from "@/assets/future_of_EVStocks.jpg";
 import networkImage from "@/assets/Network_Analysis_Portfolio.jpg";
-import autoDashboardImage from "@/assets/autodashboardprojectimage.png";
-import censusExplorerImage from "@/assets/censusExplorerImage.png";
+import autoDashboardImage from "@/assets/autodashboardprojectimage.jpg";
+import censusExplorerImage from "@/assets/censusExplorerImage.jpg";
 import { Project } from "@/components/ProjectModal";
 
 export const projects: Project[] = [
