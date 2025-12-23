@@ -18,6 +18,7 @@ const HeroSection = () => {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true); // Always start muted for autoplay
   const [isMobile, setIsMobile] = useState(false);
+  const [videoSrcLoaded, setVideoSrcLoaded] = useState(false); // Track if src has been attached
   const [volume, setVolume] = useState(() => {
     // Check localStorage for volume preference, default to 0.7
     const stored = localStorage.getItem("heroVideoVolume");
@@ -27,12 +28,11 @@ const HeroSection = () => {
   const [greeting, setGreeting] = useState<string>("");
   const [isLoadingGreeting, setIsLoadingGreeting] = useState(true);
   
-  // Loading states
-  const [videoLoaded, setVideoLoaded] = useState(false);
+  // Loading states - only wait for greeting, not video
   const [greetingLoaded, setGreetingLoaded] = useState(false);
   
-  // Combined loading condition - both video and greeting need to load
-  const loading = !videoLoaded || !greetingLoaded;
+  // Only wait for greeting to load, not video (video loads after first paint)
+  const loading = !greetingLoaded;
 
   // Detect mobile device on mount
   useEffect(() => {
@@ -106,13 +106,36 @@ const HeroSection = () => {
     }
   }, [volume]);
   
-  // Start video playback only when both video and greeting are loaded
+  // iOS-safe video loading: Attach video source AFTER first paint
   useEffect(() => {
     const video = videoRef.current;
-    if (video && !loading) {
-      video.play().catch(err => console.log('Video play failed:', err));
+    if (!video || videoSrcLoaded) return;
+
+    // Wait for window load to ensure HTML/CSS have rendered
+    const attachVideoSource = () => {
+      // Add delay to ensure first paint completes before media loading
+      setTimeout(() => {
+        const videoSrc = isMobile ? heroBgMobile : heroBg;
+        video.src = videoSrc;
+        setVideoSrcLoaded(true);
+        
+        // Attempt autoplay (may fail silently on iOS, which is acceptable)
+        video.play().catch(() => {
+          // iOS may block autoplay - this is non-critical
+          console.log('Video autoplay blocked (expected on some devices)');
+        });
+      }, 300);
+    };
+
+    if (document.readyState === 'complete') {
+      // Already loaded
+      attachVideoSource();
+    } else {
+      // Wait for load event
+      window.addEventListener('load', attachVideoSource);
+      return () => window.removeEventListener('load', attachVideoSource);
     }
-  }, [loading]);
+  }, [isMobile, videoSrcLoaded]);
 
   const togglePlayPause = () => {
     const video = videoRef.current;
@@ -169,17 +192,17 @@ const HeroSection = () => {
       )}
       
       {/* Video Background - All Devices */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 bg-gradient-to-b from-background/10 to-background/30">
         <video
           ref={videoRef}
           muted
           loop
           playsInline
-          preload="metadata"
-          onLoadedData={() => setVideoLoaded(true)}
+          preload="none"
           className="w-full h-full object-cover"
         >
-          <source src={isMobile ? heroBgMobile : heroBg} type="video/mp4" />
+          {/* Video source is attached dynamically after first paint via useEffect */}
+          {/* This prevents iOS Safari from blocking page load */}
           Your browser does not support the video tag.
         </video>
         {/* Subtle bottom gradient matching website background - 100% opacity */}
