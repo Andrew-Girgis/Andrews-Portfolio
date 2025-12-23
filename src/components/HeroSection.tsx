@@ -9,6 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import heroBg from "@/assets/andrew_intro.mp4";
+import heroBgMobile from "@/assets/andrew_intro_mobile1.mp4";
 import { useRef, useState, useEffect } from "react";
 import Loader from "@/components/ui/Loader";
 
@@ -16,6 +17,7 @@ const HeroSection = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true); // Always start muted for autoplay
+  const [isMobile, setIsMobile] = useState(false);
   const [volume, setVolume] = useState(() => {
     // Check localStorage for volume preference, default to 0.7
     const stored = localStorage.getItem("heroVideoVolume");
@@ -31,6 +33,18 @@ const HeroSection = () => {
   
   // Combined loading condition
   const loading = !videoLoaded || !greetingLoaded;
+
+  // Detect mobile device on mount
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const scrollToAbout = () => {
     const element = document.getElementById("about");
@@ -161,10 +175,11 @@ const HeroSection = () => {
           muted
           loop
           playsInline
+          preload="metadata"
           onLoadedData={() => setVideoLoaded(true)}
           className="w-full h-full object-cover"
         >
-          <source src={heroBg} type="video/mp4" />
+          <source src={isMobile ? heroBgMobile : heroBg} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         {/* Subtle bottom gradient matching website background - 100% opacity */}
