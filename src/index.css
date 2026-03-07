@@ -37,7 +37,14 @@ All colors MUST be HSL.
     --ring: 212 100% 48%;
     
     --radius: 0.75rem;
-    
+
+    /* Warm accent for CTAs */
+    --accent-warm: 28 85% 55%;
+    --accent-warm-foreground: 0 0% 100%;
+
+    /* Alternating section background */
+    --surface-alt: 220 20% 97%;
+
     /* Custom design tokens */
     --gradient-hero: linear-gradient(135deg, hsl(212 100% 48%) 0%, hsl(212 95% 35%) 100%);
     --gradient-subtle: linear-gradient(180deg, hsl(210 40% 98%) 0%, hsl(0 0% 100%) 100%);
@@ -101,6 +108,13 @@ All colors MUST be HSL.
     --sidebar-border: 220 15% 20%;
     --sidebar-ring: 212 100% 55%;
     
+    /* Warm accent for CTAs (dark) */
+    --accent-warm: 32 90% 58%;
+    --accent-warm-foreground: 0 0% 100%;
+
+    /* Alternating section background (dark) */
+    --surface-alt: 220 18% 14%;
+
     /* Dark mode custom tokens */
     --gradient-hero: linear-gradient(135deg, hsl(212 100% 35%) 0%, hsl(212 95% 25%) 100%);
     --gradient-subtle: linear-gradient(180deg, hsl(220 18% 13%) 0%, hsl(220 20% 10%) 100%);
@@ -160,6 +174,14 @@ All colors MUST be HSL.
     --cal-brand-color: hsl(212 100% 48%);
   }
   
+  /* Graph-paper grid pattern for data-science aesthetic */
+  .grid-pattern {
+    background-image:
+      linear-gradient(hsl(var(--border) / 0.3) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--border) / 0.3) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
   /* Fullscreen loader overlay */
   .loader-fullscreen {
     position: fixed;

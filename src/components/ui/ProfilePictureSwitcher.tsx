@@ -40,12 +40,17 @@ const ProfilePictureSwitcher = ({
   };
 
   return (
-    <img
-      src={images[currentImageIndex]}
-      alt="Andrew Girgis"
-      className={`cursor-pointer transition-all duration-300 ${className}`}
+    <button
       onClick={handleClick}
-    />
+      aria-label="Click to change profile picture style"
+      className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-2xl"
+    >
+      <img
+        src={images[currentImageIndex]}
+        alt="Andrew Girgis"
+        className={`cursor-pointer transition-all duration-300 ${className}`}
+      />
+    </button>
   );
 };
 

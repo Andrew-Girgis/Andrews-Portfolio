@@ -65,7 +65,7 @@ export function TagGroup({ tags, projectId, animated = true }: TagGroupProps) {
         {allTags.map(({ tag, category, key }) => (
           <Badge
             key={key}
-            className={`text-xs px-2 py-0.5 ${categoryStyles[category]}`}
+            className={`text-[11px] font-mono tracking-wide px-2 py-0.5 hover:scale-105 transition-transform cursor-default ${categoryStyles[category]}`}
             role="listitem"
           >
             {tag.replace(/-/g, " ")}
@@ -88,7 +88,7 @@ export function TagGroup({ tags, projectId, animated = true }: TagGroupProps) {
       {allTags.map(({ tag, category, key }) => (
         <motion.span key={key} variants={itemVariants}>
           <Badge
-            className={`text-xs px-2 py-0.5 ${categoryStyles[category]}`}
+            className={`text-[11px] font-mono tracking-wide px-2 py-0.5 hover:scale-105 transition-transform cursor-default ${categoryStyles[category]}`}
             role="listitem"
           >
             {tag.replace(/-/g, " ")}

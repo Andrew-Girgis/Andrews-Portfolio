@@ -261,7 +261,7 @@ const HeroSection = () => {
 
       {/* Content */}
       <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 animate-fade-in-up">
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-serif text-white mb-6 tracking-tight">
           Andrew Girgis
         </h1>
         <p className="text-xl sm:text-2xl md:text-3xl text-white/90 mb-4 max-w-3xl mx-auto font-light">
@@ -282,7 +282,7 @@ const HeroSection = () => {
         <Button
           onClick={scrollToAbout}
           size="lg"
-          className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-8 py-6 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+          className="bg-accent-warm hover:bg-accent-warm/90 text-accent-warm-foreground rounded-full px-8 py-6 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
         >
           Learn More About Me
           <ChevronDown className="ml-2 h-5 w-5 animate-bounce" />

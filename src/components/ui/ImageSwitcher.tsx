@@ -31,13 +31,17 @@ const NavIconSwitcher = () => {
   };
 
   return (
-    <img
-      src={images[currentImageIndex]}
-      alt="Andrew's Avatar"
-      className="w-10 h-10 rounded-full cursor-pointer transition-transform hover:scale-110"
+    <button
       onClick={handleClick}
-      title="Click to change avatar"
-    />
+      aria-label="Click to change avatar"
+      className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+    >
+      <img
+        src={images[currentImageIndex]}
+        alt="Andrew's Avatar"
+        className="w-10 h-10 rounded-full cursor-pointer transition-transform hover:scale-110"
+      />
+    </button>
   );
 };
 
