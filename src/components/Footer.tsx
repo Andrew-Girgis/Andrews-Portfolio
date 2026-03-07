@@ -88,7 +88,7 @@ const Footer = () => {
               <h3 className="text-xl font-bold font-serif text-foreground mb-2">Andrew Girgis</h3>
               <p className="text-sm text-muted-foreground mb-4">Data Scientist & Applied Economist</p>
               <Button asChild variant="outline" size="sm" className="rounded-full">
-                <a href="/booking">Book a Chat</a>
+                <a href="https://cal.com/andrew-girgis/1on1" target="_blank" rel="noopener noreferrer">Book a Chat</a>
               </Button>
             </div>
 

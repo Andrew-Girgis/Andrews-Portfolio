@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Moon, Sun, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import NavIconSwitcher from "./ui/ImageSwitcher";
+import logoLight from "@/assets/AG_Logo_Design_light.svg";
+import logoDark from "@/assets/AG_Logo_Design_dark.svg";
 import { AnimatePresence, motion } from "framer-motion";
 import { useActiveSection } from "@/hooks/useActiveSection";
 
@@ -61,13 +62,18 @@ const Navigation = () => {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            {/* Clickable Avatar Icon */}
-            <div
+            {/* Logo — click to go home */}
+            <button
               onClick={() => scrollToSection("home")}
-              className="cursor-pointer"
+              aria-label="Go to top"
+              className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded flex items-center justify-start w-12"
             >
-              <NavIconSwitcher />
-            </div>
+              <img
+                src={!isScrolled || theme === "dark" ? logoLight : logoDark}
+                alt="AG Logo"
+                className={`w-auto ${!isScrolled || theme === "dark" ? "h-10" : "h-10"}`}
+              />
+            </button>
 
             {/* Navigation Links - Desktop */}
             <div className="hidden md:flex items-center gap-8">

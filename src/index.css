@@ -1,3 +1,19 @@
+@font-face {
+  font-family: 'Geist';
+  src: url('/node_modules/geist/dist/fonts/geist-sans/Geist-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GeistPixel';
+  src: url('/node_modules/geist/dist/fonts/geist-pixel/GeistPixel-Square.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -39,7 +55,7 @@ All colors MUST be HSL.
     --radius: 0.75rem;
 
     /* Warm accent for CTAs */
-    --accent-warm: 28 85% 55%;
+    --accent-warm: 212 100% 48%;
     --accent-warm-foreground: 0 0% 100%;
 
     /* Alternating section background */
@@ -109,7 +125,7 @@ All colors MUST be HSL.
     --sidebar-ring: 212 100% 55%;
     
     /* Warm accent for CTAs (dark) */
-    --accent-warm: 32 90% 58%;
+    --accent-warm: 212 100% 55%;
     --accent-warm-foreground: 0 0% 100%;
 
     /* Alternating section background (dark) */
