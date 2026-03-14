@@ -25,7 +25,18 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+/* ASCII Skyline footer */
+.ascii-skyline-container .ascii-art {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  font-size: 4px;
+  line-height: 5.5px;
+  white-space: pre;
+  width: max-content;
+  margin: 0;
+  padding: 0;
+}
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here.
 All colors MUST be HSL.
 */
 

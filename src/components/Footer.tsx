@@ -9,6 +9,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import AsciiSkyline from "@/components/AsciiSkyline";
 import pkg from "../../package.json";
 
 const socialLinks = [
@@ -155,12 +156,18 @@ const Footer = () => {
             </div>
           </a> */}
 
-          <div className="border-t border-border pt-8 space-y-2 text-muted-foreground text-sm text-center">
-            <p>&copy; {new Date().getFullYear()} Andrew Girgis</p>
-            <p className="text-xs">v{version}</p>
-          </div>
         </div>
       </ScrollReveal>
+
+      {/* Full-bleed ASCII skyline — outside max-w container */}
+      <div className="-mx-4 sm:-mx-6 lg:-mx-8 mt-8">
+        <AsciiSkyline />
+      </div>
+
+      <div className="pt-4 pb-2 space-y-1 text-muted-foreground text-sm text-center">
+        <p>&copy; {new Date().getFullYear()} Andrew Girgis</p>
+        <p className="text-xs">v{version}</p>
+      </div>
     </footer>
   );
 };
