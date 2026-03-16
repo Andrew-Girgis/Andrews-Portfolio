@@ -17,14 +17,16 @@ const itemVariants = {
 };
 
 async function fetchLastCodeCommitDate(repo: string): Promise<string | null> {
-  // Get recent commits, find the first one that changed non-md files
+  // Get recent commits (limited to 5 to conserve API quota)
   const res = await fetch(
-    `https://api.github.com/repos/${repo}/commits?per_page=20`,
+    `https://api.github.com/repos/${repo}/commits?per_page=5`,
     { headers: { Accept: "application/vnd.github.v3+json" } }
   );
   if (!res.ok) return null;
   const commits = await res.json();
+  if (!commits.length) return null;
 
+  // Check each commit sequentially (stop early on first code change)
   for (const commit of commits) {
     const detailRes = await fetch(commit.url, {
       headers: { Accept: "application/vnd.github.v3+json" },
@@ -39,7 +41,7 @@ async function fetchLastCodeCommitDate(repo: string): Promise<string | null> {
       return commit.commit.committer.date;
     }
   }
-  // Fallback to most recent commit if all are docs-only
+  // Fallback to most recent commit if all 5 are docs-only
   return commits[0]?.commit?.committer?.date ?? null;
 }
 
@@ -49,12 +51,11 @@ async function fetchLastCommitDates(
   const dates = new Map<string, string>();
   const repoProjects = projectList.filter((p) => p.githubRepo);
 
-  await Promise.allSettled(
-    repoProjects.map(async (p) => {
-      const date = await fetchLastCodeCommitDate(p.githubRepo!);
-      if (date) dates.set(p.id, date);
-    })
-  );
+  // Fetch sequentially to avoid blowing through rate limit
+  for (const p of repoProjects) {
+    const date = await fetchLastCodeCommitDate(p.githubRepo!);
+    if (date) dates.set(p.id, date);
+  }
 
   return dates;
 }
