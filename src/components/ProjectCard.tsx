@@ -51,34 +51,39 @@ export function ProjectCard({ project, onDetailsClick }: ProjectCardProps) {
       {/* Colored top accent bar */}
       <div className={`h-[3px] w-full ${getCategoryAccentColor(project.tags)}`} />
 
-      <div className="relative h-48 md:h-52 overflow-hidden">
-        {!imageLoaded && (
-          <div className="absolute inset-0 bg-muted animate-pulse" />
-        )}
-        <img
-          src={project.image}
-          alt={project.imageAlt ?? project.title}
-          loading="lazy"
-          onLoad={() => setImageLoaded(true)}
-          className={`w-full h-full object-cover transition-all duration-500 group-hover:scale-105 group-hover:brightness-110 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-        />
-        {/* Always-visible gradient overlay at bottom */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-        {/* Stronger hover gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        {project.status === "coming-soon" && (
-          <div
-            className="absolute top-0 right-0 bg-gradient-to-br from-primary via-primary to-primary/80 text-primary-foreground px-4 py-2 text-xs font-semibold uppercase tracking-wide shadow-lg"
-            style={{
-              clipPath: "polygon(0 0, 100% 0, 100% 100%, 20% 100%)",
-            }}
-            aria-label="Status: Coming Soon"
-            role="status"
-          >
-            Coming Soon
-          </div>
-        )}
-      </div>
+      {project.image ? (
+        <div className="relative h-48 md:h-52 overflow-hidden">
+          {!imageLoaded && (
+            <div className="absolute inset-0 bg-muted animate-pulse" />
+          )}
+          <img
+            src={project.image}
+            alt={project.imageAlt ?? project.title}
+            loading="lazy"
+            onLoad={() => setImageLoaded(true)}
+            style={project.imagePosition ? { objectPosition: project.imagePosition } : undefined}
+            className={`w-full h-full object-cover transition-all duration-500 group-hover:scale-105 group-hover:brightness-110 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+          />
+          {/* Always-visible gradient overlay at bottom */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+          {/* Stronger hover gradient */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          {project.status === "coming-soon" && (
+            <div
+              className="absolute top-0 right-0 bg-gradient-to-br from-primary via-primary to-primary/80 text-primary-foreground px-4 py-2 text-xs font-semibold uppercase tracking-wide shadow-lg"
+              style={{
+                clipPath: "polygon(0 0, 100% 0, 100% 100%, 20% 100%)",
+              }}
+              aria-label="Status: Coming Soon"
+              role="status"
+            >
+              Coming Soon
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className={`h-3 w-full ${getCategoryAccentColor(project.tags)}`} />
+      )}
 
       <div className="p-6">
         <div className="mb-3" role="heading" aria-level={3}>

@@ -17,8 +17,11 @@ export interface Project {
   description: string;
   image?: string;
   imageAlt?: string;
+  imagePosition?: string;
   status?: "available" | "coming-soon";
   link?: string;
+  githubRepo?: string;
+  lastCommitDate?: string;
   tags?: {
     technology?: string[];
     domain?: string[];
@@ -72,11 +75,18 @@ export function ProjectModal({ project, open, onOpenChange }: ProjectModalProps)
           </DialogDescription>
         </DialogHeader>
 
+        {project.lastCommitDate && (
+          <p className="text-sm text-muted-foreground">
+            Last updated: {new Date(project.lastCommitDate).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+          </p>
+        )}
+
         {project.image && (
           <div className="w-full rounded-lg overflow-hidden">
             <img
               src={project.image}
               alt={project.imageAlt ?? project.title}
+              style={project.imagePosition ? { objectPosition: project.imagePosition } : undefined}
               className="w-full object-cover max-h-[360px]"
             />
           </div>
