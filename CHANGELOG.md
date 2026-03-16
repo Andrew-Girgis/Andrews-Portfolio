@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/Andrew-Girgis/Andrews-Portfolio/compare/v2.1.0...v2.2.0) (2026-03-16)
+
+
+### Features
+
+* add project images, sorting, show more/less, and auto-update workflow ([a02c853](https://github.com/Andrew-Girgis/Andrews-Portfolio/commit/a02c8539a46fb45c60a62df1f48999cccacf2bf9))
+
 ## [2.1.0](https://github.com/Andrew-Girgis/Andrews-Portfolio/compare/v2.0.1...v2.1.0) (2026-03-14)
 
 
