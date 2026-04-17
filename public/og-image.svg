@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0f172a"/>
+  <rect x="0" y="0" width="1200" height="630" fill="url(#grad)" opacity="0.6"/>
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:0.3"/>
+    </linearGradient>
+  </defs>
+  <text x="600" y="270" font-family="system-ui, -apple-system, sans-serif" font-size="96" font-weight="700" fill="#f8fafc" text-anchor="middle">Andrew Girgis</text>
+  <text x="600" y="380" font-family="system-ui, -apple-system, sans-serif" font-size="42" font-weight="400" fill="#94a3b8" text-anchor="middle">Data Scientist &amp; Economist</text>
+  <line x1="480" y1="320" x2="720" y2="320" stroke="#3b82f6" stroke-width="3" stroke-linecap="round"/>
+  <text x="600" y="480" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="300" fill="#64748b" text-anchor="middle">AI · Data Analytics · Sustainability · Economics</text>
+</svg>
