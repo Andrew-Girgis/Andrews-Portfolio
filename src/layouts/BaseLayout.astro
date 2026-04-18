@@ -1,0 +1,64 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Andrew Girgis - Data Scientist & Economist",
+  description = "Data Scientist with expertise in AI, data analytics, and sustainability. Turning complex data into meaningful solutions.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/AG_Logo_Design_dark.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="Andrew Girgis" />
+    <meta
+      name="keywords"
+      content="Andrew Girgis, Data Scientist, AI, Machine Learning, Data Analytics, Sustainability, Economics, Python, R, SQL"
+    />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.andrew-girgis.com" />
+    <meta
+      property="og:image"
+      content="https://www.andrew-girgis.com/og-image.svg"
+    />
+    <meta property="og:image:type" content="image/svg+xml" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:image"
+      content="https://www.andrew-girgis.com/og-image.svg"
+    />
+
+    <script is:inline>
+      (function () {
+        const stored = localStorage.getItem("theme");
+        const theme = stored === "light" || stored === "dark" ? stored : "dark";
+        document.documentElement.classList.add(theme);
+      })();
+    </script>
+  </head>
+  <body class="min-h-screen bg-background text-foreground font-mono transition-colors duration-300">
+    <slot />
+  </body>
+</html>

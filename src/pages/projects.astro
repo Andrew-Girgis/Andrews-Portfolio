@@ -1,0 +1,14 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navigation from "../components/NavigationNew";
+import ProjectsPage from "../components/ProjectsPage";
+import Footer from "../components/FooterNew";
+---
+
+<BaseLayout title="Projects - Andrew Girgis">
+  <Navigation client:load />
+  <main class="pt-20">
+    <ProjectsPage client:load />
+  </main>
+  <Footer client:visible />
+</BaseLayout>

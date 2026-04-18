@@ -38,3 +38,5 @@ rag-documents/
 # ASCII Three.js scene (keep locally, too large for git)
 src/assets/ASCII Scene (1).html
 
+dist/
+.astro/

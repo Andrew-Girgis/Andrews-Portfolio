@@ -1,0 +1,18 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HeroSectionNew from "../components/HeroSectionNew";
+import Navigation from "../components/NavigationNew";
+import AboutSection from "../components/AboutSectionNew";
+import FeaturedProjects from "../components/FeaturedProjects";
+import Footer from "../components/FooterNew";
+---
+
+<BaseLayout>
+  <Navigation client:load />
+  <main>
+    <HeroSectionNew client:load />
+    <AboutSection client:visible />
+    <FeaturedProjects client:visible />
+  </main>
+  <Footer client:visible />
+</BaseLayout>

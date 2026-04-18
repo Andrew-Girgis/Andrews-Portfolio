@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { HOTSPOT_CONFIG, HotspotProduct } from '../data/deskHotspots';
-import svgPath from '../assets/houstan_setup_transparent.svg';
+import { HOTSPOT_CONFIG, HotspotProduct } from '@/data/deskHotspots';
+const svgPath = "/houstan_setup_transparent.svg";
 
 interface TooltipPosition {
   x: number;
@@ -276,7 +276,7 @@ export const DeskSetup: React.FC<DeskSetupProps> = ({ onSelect, className = '' }
       {/* Tooltip - using fixed positioning to escape container bounds */}
       {hoveredProduct && (
         <div
-          className="fixed bg-gray-900/95 text-white px-4 py-2 rounded-lg text-sm max-w-xs pointer-events-none transition-opacity duration-150 z-50"
+          className="fixed bg-card/95 text-foreground px-4 py-2 rounded-lg text-sm max-w-xs pointer-events-none transition-opacity duration-150 z-50 border border-border shadow-lg backdrop-blur-sm"
           style={{
             left: `${tooltipPosition.x}px`,
             top: `${tooltipPosition.y}px`,
