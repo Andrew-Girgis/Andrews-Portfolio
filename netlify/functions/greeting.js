@@ -49,8 +49,15 @@ exports.handler = async function(event) {
   try {
     // Check if API key is configured
     if (!process.env.OPENAI_API_KEY) {
-      console.error('OpenAI API key is not configured');
-      throw new Error('OpenAI API key is not configured');
+      console.warn('OpenAI API key is not configured, returning fallback greeting');
+      return {
+        statusCode: 200,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify({ text: 'Welcome!' })
+      };
     }
 
     // Check cache first

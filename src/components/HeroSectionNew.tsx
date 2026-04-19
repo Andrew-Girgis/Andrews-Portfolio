@@ -5,6 +5,10 @@ import { saturnFrames } from "@/data/load-frames";
 import { saturnArt } from "@/data/ascii-art";
 import { useCallback, useState } from "react";
 
+type HeroTypingWindow = Window & {
+  __heroTypingComplete?: boolean;
+};
+
 const lines = [
   { text: "Andrew Girgis", font: "handwriting", delay: 500 },
   { text: "Data Scientist · Applied Economist", font: "handwriting", delay: 0 },
@@ -24,6 +28,8 @@ const HeroSection = () => {
   const handleTypingComplete = useCallback(() => {
     setTypingDone(true);
     if (typeof window !== "undefined") {
+      const heroWindow = window as HeroTypingWindow;
+      heroWindow.__heroTypingComplete = true;
       window.dispatchEvent(new CustomEvent("hero-typing-complete"));
     }
   }, []);

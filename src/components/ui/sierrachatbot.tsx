@@ -8,6 +8,13 @@ import CalBookingWidget from "@/components/ui/CalBookingWidget";
 import sierraAvatar from "@/assets/Sierra_AI_agent_new.png";
 import sierraThinking from "@/assets/Sierra_AI_agent_thinking.png";
 
+type HeroTypingWindow = Window & {
+  __heroTypingComplete?: boolean;
+};
+
+const SIERRA_WAVE_STORAGE_KEY = "hasSeenSierraWave";
+const SIERRA_WAVE_VIDEO_SRC = "/sierra-wave.webm";
+
 interface Message {
   content: string;
   isUser: boolean;
@@ -53,12 +60,12 @@ function getOrCreateUserId(): string {
 }
 
 const SierraChatbot = () => {
-  console.log("🤖 SierraChatbot component mounted");
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [showWelcome, setShowWelcome] = useState(false);
+  const [showLauncherVideo, setShowLauncherVideo] = useState(false);
   const [sessionId] = useState(() => 
     `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
   );
@@ -66,6 +73,7 @@ const SierraChatbot = () => {
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatMessagesRef = useRef<HTMLDivElement>(null);
+  const launcherVideoRef = useRef<HTMLVideoElement>(null);
 
   // Auto-scroll to bottom when messages change
   const scrollToBottom = () => {
@@ -76,10 +84,56 @@ const SierraChatbot = () => {
     scrollToBottom();
   }, [messages, isTyping]);
 
+  useEffect(() => {
+    const supportsLauncherVideo = (() => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        return false;
+      }
+
+      const userAgent = window.navigator.userAgent;
+      const isSafari = /^((?!chrome|android).)*safari/i.test(userAgent) && !/CriOS|FxiOS|EdgiOS/.test(userAgent);
+      if (isSafari) {
+        return false;
+      }
+
+      const video = document.createElement("video");
+      return video.canPlayType('video/webm; codecs="vp9"') !== "";
+    })();
+
+    if (!supportsLauncherVideo) {
+      return;
+    }
+
+    const navigationEntry = window.performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming | undefined;
+    const isReload = navigationEntry?.type === "reload";
+    const hasSeenWave = sessionStorage.getItem(SIERRA_WAVE_STORAGE_KEY) === "true";
+
+    if (!hasSeenWave || isReload) {
+      setShowLauncherVideo(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!showLauncherVideo) return;
+
+    const video = launcherVideoRef.current;
+    if (!video) return;
+
+    video.currentTime = 0;
+    void video.play().catch(() => {
+      sessionStorage.setItem(SIERRA_WAVE_STORAGE_KEY, "true");
+      setShowLauncherVideo(false);
+    });
+  }, [showLauncherVideo]);
+
   // Show welcome popup after the hero typing finishes, with a fallback for non-hero pages.
   useEffect(() => {
     const hasSeenWelcome = sessionStorage.getItem('hasSeenWelcome');
-    if (hasSeenWelcome) return;
+    const heroWindow = window as HeroTypingWindow;
+
+    if (hasSeenWelcome) {
+      return;
+    }
 
     const openWelcome = () => {
       setShowWelcome(true);
@@ -87,8 +141,14 @@ const SierraChatbot = () => {
 
     const handleHeroTypingComplete = () => {
       clearTimeout(fallbackTimer);
+      heroWindow.__heroTypingComplete = true;
       openWelcome();
     };
+
+    if (heroWindow.__heroTypingComplete) {
+      openWelcome();
+      return;
+    }
 
     const fallbackTimer = window.setTimeout(() => {
       openWelcome();
@@ -122,6 +182,16 @@ const SierraChatbot = () => {
   const openChatFromWelcome = () => {
     dismissWelcome();
     setIsOpen(true);
+  };
+
+  const hideLauncherVideo = () => {
+    sessionStorage.setItem(SIERRA_WAVE_STORAGE_KEY, "true");
+    setShowLauncherVideo(false);
+    const video = launcherVideoRef.current;
+    if (video) {
+      video.pause();
+      video.currentTime = 0;
+    }
   };
 
   const convertLinksToHTML = (text: string) => {
@@ -295,15 +365,15 @@ const SierraChatbot = () => {
       {showWelcome && !isOpen && (
         <div
           onClick={openChatFromWelcome}
-          className="fixed bottom-24 right-4 sm:right-6 z-[1002] w-[90vw] sm:w-[420px] bg-gradient-to-br from-gray-900 to-gray-800 text-white p-4 rounded-xl shadow-2xl border border-primary cursor-pointer hover:shadow-primary/30 transition-all hover:-translate-y-1 animate-in slide-in-from-bottom-5 duration-500"
+          className="fixed bottom-24 right-4 sm:right-6 z-[10000] w-[90vw] sm:w-[420px] bg-gradient-to-br from-gray-900 to-gray-800 text-white p-4 rounded-xl shadow-2xl border border-primary cursor-pointer hover:shadow-primary/30 transition-all hover:-translate-y-1 animate-in slide-in-from-bottom-5 duration-500"
         >
           <div className="absolute -bottom-2 right-8 h-4 w-4 rotate-45 border-b border-r border-primary bg-gray-800" />
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 flex-1">
               <img loading="eager" 
-                src={sierraAvatar} 
+                src={sierraAvatar.src} 
                 alt="Sierra" 
-                className="w-10 h-10 rounded-full flex-shrink-0"
+                className="w-10 h-10 rounded-full flex-shrink-0 object-contain scale-90"
               />
               <div className="flex-1">
                 <div className="font-bold text-sm mb-0.5">Sierra</div>
@@ -334,9 +404,9 @@ const SierraChatbot = () => {
           <div className="flex items-center justify-between p-4 border-b border-border bg-card">
             <div className="flex items-center gap-2">
               <img loading="lazy" 
-                src={sierraAvatar} 
+                src={sierraAvatar.src} 
                 alt="Sierra" 
-                className="w-10 h-10 rounded-full object-cover"
+                className="w-10 h-10 rounded-full object-contain scale-90"
               />
               <h3 className="font-semibold text-foreground">Chat with Sierra</h3>
             </div>
@@ -369,9 +439,9 @@ const SierraChatbot = () => {
                 >
                   {!message.isUser && (
                     <img loading="lazy" 
-                      src={message.isStreaming ? sierraThinking : sierraAvatar} 
+                      src={(message.isStreaming ? sierraThinking : sierraAvatar).src} 
                       alt="Sierra" 
-                      className="w-10 h-10 rounded-full flex-shrink-0 object-cover"
+                      className="w-10 h-10 rounded-full flex-shrink-0 object-contain scale-90"
                     />
                   )}
                   <div
@@ -407,9 +477,9 @@ const SierraChatbot = () => {
             {isTyping && (
               <div className="flex gap-3">
                 <img loading="lazy" 
-                  src={sierraThinking} 
+                  src={sierraThinking.src} 
                   alt="Sierra thinking" 
-                  className="w-12 h-12 rounded-full flex-shrink-0 object-cover"
+                  className="w-12 h-12 rounded-full flex-shrink-0 object-contain scale-90"
                 />
                 <div className="bg-muted rounded-lg px-4 py-2">
                   <div className="flex gap-1">
@@ -449,19 +519,36 @@ const SierraChatbot = () => {
       {/* Toggle Button */}
       <Button
         onClick={() => {
-          console.log("💬 Chat button clicked!");
+          if (showLauncherVideo) {
+            hideLauncherVideo();
+          }
           setIsOpen(!isOpen);
         }}
-        className="fixed bottom-4 right-4 sm:right-6 z-[9999] h-14 w-14 rounded-full shadow-2xl hover:scale-110 transition-transform bg-primary hover:bg-primary/90"
+        variant="ghost"
+        className={`fixed z-[9999] h-auto w-auto rounded-none border-0 bg-transparent p-0 shadow-none hover:bg-transparent ${showLauncherVideo ? "bottom-[-32px] right-[-100px] sm:right-2" : "bottom-4 right-4 sm:right-6"}`}
         size="icon"
       >
         {isOpen ? (
           <X className="h-6 w-6" />
+        ) : showLauncherVideo ? (
+          <video
+            ref={launcherVideoRef}
+            autoPlay
+            muted
+            playsInline
+            preload="auto"
+            onEnded={hideLauncherVideo}
+            onError={hideLauncherVideo}
+            className="block h-40 w-auto object-contain"
+            aria-label="Sierra waving"
+          >
+            <source src={SIERRA_WAVE_VIDEO_SRC} type="video/webm" />
+          </video>
         ) : (
           <img loading="eager" 
-          src={sierraAvatar}
+          src={sierraAvatar.src}
           alt="Sierra"
-          className="h-14 w-14 rounded-full object-cover"
+          className="block h-16 w-auto object-contain"
           aria-hidden="true"
           />
         )}

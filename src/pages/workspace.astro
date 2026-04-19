@@ -2,7 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Navigation from "../components/NavigationNew";
 import WorkspaceSection from "../components/WorkspaceSectionNew";
-import Footer from "../components/FooterNew";
+import Footer from "../components/FooterNew.astro";
 ---
 
 <BaseLayout title="Workspace - Andrew Girgis">
@@ -10,5 +10,5 @@ import Footer from "../components/FooterNew";
   <main class="pt-20">
     <WorkspaceSection client:load />
   </main>
-  <Footer client:visible />
+  <Footer />
 </BaseLayout>

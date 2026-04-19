@@ -1,0 +1,40 @@
+---
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
+
+const html = await readFile(join(process.cwd(), "public", "ascii-skyline.html"), "utf8");
+---
+
+<div data-ascii-skyline class="w-full overflow-hidden relative">
+  <div class="absolute top-0 left-0 right-0 h-10 bg-gradient-to-b from-card to-transparent z-10 pointer-events-none" />
+  <div data-ascii-skyline-content class="ascii-skyline-container" set:html={html} />
+</div>
+
+<script is:inline>
+  (() => {
+    const script = document.currentScript;
+    const container = script?.previousElementSibling;
+    if (!(container instanceof HTMLElement)) return;
+
+    const content = container.querySelector("[data-ascii-skyline-content]");
+    if (!(content instanceof HTMLElement)) return;
+
+    const updateScale = () => {
+      const pre = content.querySelector("pre");
+      if (!(pre instanceof HTMLElement)) return;
+
+      const intrinsicWidth = pre.scrollWidth;
+      const availableWidth = container.clientWidth;
+      if (!intrinsicWidth || !availableWidth) return;
+
+      const scale = availableWidth / intrinsicWidth;
+      content.style.transformOrigin = "top left";
+      content.style.transform = `scale(${scale})`;
+      container.style.height = `${content.scrollHeight * scale}px`;
+    };
+
+    requestAnimationFrame(updateScale);
+    const resizeObserver = new ResizeObserver(updateScale);
+    resizeObserver.observe(container);
+  })();
+</script>

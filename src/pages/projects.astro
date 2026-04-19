@@ -2,7 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Navigation from "../components/NavigationNew";
 import ProjectsPage from "../components/ProjectsPage";
-import Footer from "../components/FooterNew";
+import Footer from "../components/FooterNew.astro";
 ---
 
 <BaseLayout title="Projects - Andrew Girgis">
@@ -10,5 +10,5 @@ import Footer from "../components/FooterNew";
   <main class="pt-20">
     <ProjectsPage client:load />
   </main>
-  <Footer client:visible />
+  <Footer />
 </BaseLayout>

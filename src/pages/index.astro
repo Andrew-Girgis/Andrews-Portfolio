@@ -4,7 +4,7 @@ import HeroSectionNew from "../components/HeroSectionNew";
 import Navigation from "../components/NavigationNew";
 import AboutSection from "../components/AboutSectionNew";
 import FeaturedProjects from "../components/FeaturedProjects";
-import Footer from "../components/FooterNew";
+import Footer from "../components/FooterNew.astro";
 ---
 
 <BaseLayout>
@@ -14,5 +14,5 @@ import Footer from "../components/FooterNew";
     <AboutSection client:visible />
     <FeaturedProjects client:visible />
   </main>
-  <Footer client:visible />
+  <Footer />
 </BaseLayout>
