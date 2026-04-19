@@ -1,5 +1,24 @@
 import { useEffect, useRef } from "react";
 
+interface Star {
+  x: number;
+  y: number;
+  radius: number;
+  opacity: number;
+  speed: number;
+}
+
+interface ShootingStar {
+  x: number;
+  y: number;
+  length: number;
+  speed: number;
+  angle: number;
+  opacity: number;
+  life: number;
+  maxLife: number;
+}
+
 const StarField = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>(0);
@@ -17,8 +36,11 @@ const StarField = () => {
 
     let width = 0;
     let height = 0;
-    const stars: { x: number; y: number; radius: number; opacity: number; speed: number }[] = [];
+    const stars: Star[] = [];
+    const shootingStars: ShootingStar[] = [];
     const STAR_COUNT = 200;
+    const MAX_SHOOTING_STARS = 3;
+    const SHOOTING_STAR_CHANCE = 0.003;
 
     const resize = () => {
       width = canvas!.parentElement?.clientWidth ?? window.innerWidth;
@@ -40,6 +62,26 @@ const StarField = () => {
       }
     };
 
+    const spawnShootingStar = () => {
+      if (shootingStars.length >= MAX_SHOOTING_STARS) return;
+      const angle = (Math.random() * 15 + 15) * (Math.PI / 180);
+      const goingRight = Math.random() > 0.5;
+      shootingStars.push({
+        x: goingRight
+          ? Math.random() * width * 0.6
+          : width * 0.4 + Math.random() * width * 0.6,
+        y: Math.random() * height * 0.6,
+        length: Math.random() * 60 + 60,
+        speed: Math.random() * 4 + 4,
+        angle: goingRight ? angle : Math.PI - angle,
+        opacity: 1,
+        life: Math.floor(Math.random() * 30 + 30),
+        maxLife: 0,
+      });
+      shootingStars[shootingStars.length - 1].maxLife =
+        shootingStars[shootingStars.length - 1].life;
+    };
+
     let time = 0;
     const animate = () => {
       if (!ctx || !canvas) return;
@@ -56,6 +98,50 @@ const StarField = () => {
         ctx!.fill();
       }
 
+      if (!prefersReducedMotion) {
+        if (Math.random() < SHOOTING_STAR_CHANCE) {
+          spawnShootingStar();
+        }
+
+        for (let i = shootingStars.length - 1; i >= 0; i--) {
+          const ss = shootingStars[i];
+          ss.x += Math.cos(ss.angle) * ss.speed;
+          ss.y += Math.sin(ss.angle) * ss.speed;
+          ss.life--;
+          ss.opacity = ss.life / ss.maxLife;
+
+          if (ss.life <= 0) {
+            shootingStars.splice(i, 1);
+            continue;
+          }
+
+          const tailX = ss.x - Math.cos(ss.angle) * ss.length * ss.opacity;
+          const tailY = ss.y - Math.sin(ss.angle) * ss.length * ss.opacity;
+
+          const gradient = ctx!.createLinearGradient(
+            ss.x,
+            ss.y,
+            tailX,
+            tailY
+          );
+          gradient.addColorStop(0, `rgba(255, 255, 255, ${ss.opacity * 0.9})`);
+          gradient.addColorStop(1, `rgba(255, 255, 255, 0)`);
+
+          ctx!.beginPath();
+          ctx!.moveTo(ss.x, ss.y);
+          ctx!.lineTo(tailX, tailY);
+          ctx!.strokeStyle = gradient;
+          ctx!.lineWidth = 1.5;
+          ctx!.lineCap = "round";
+          ctx!.stroke();
+
+          ctx!.beginPath();
+          ctx!.arc(ss.x, ss.y, 1.5, 0, Math.PI * 2);
+          ctx!.fillStyle = `rgba(255, 255, 255, ${ss.opacity})`;
+          ctx!.fill();
+        }
+      }
+
       time += 1;
       animationRef.current = requestAnimationFrame(animate);
     };
@@ -67,6 +153,7 @@ const StarField = () => {
     window.addEventListener("resize", () => {
       resize();
       initStars();
+      shootingStars.length = 0;
     });
 
     return () => {

@@ -1,6 +1,5 @@
 import StarField from "./StarField";
 import TypingAnimation from "./TypingAnimation";
-import { cnTowerArt } from "@/data/ascii-art";
 import { useState } from "react";
 
 const lines = [
@@ -27,10 +26,15 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background z-[1]" />
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-16 flex flex-col md:flex-row items-center gap-8 md:gap-16">
-        <div className="flex-1 flex justify-center">
-          <pre className="font-mono text-[8px] sm:text-[10px] md:text-xs text-muted-foreground whitespace-pre leading-tight select-none max-w-full overflow-hidden">
-            {cnTowerArt.join("\n")}
-          </pre>
+        <div className="flex-1 flex justify-center overflow-hidden">
+          <iframe
+            src="/ascii-scene.html"
+            title="3D ASCII Scene"
+            className="w-full border-none"
+            style={{ height: "500px", background: "transparent" }}
+            allow="transparent"
+            loading="lazy"
+          />
         </div>
 
         <div className="flex-1 text-center md:text-left">
