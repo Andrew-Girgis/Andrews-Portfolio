@@ -101,7 +101,7 @@ const TypingAnimation = ({ lines, speed = 50, onComplete }: TypingAnimationProps
       {displayedLines.map((line, i) => {
         const fontClass =
           i < totalStaticLines && lines[i].font === "handwriting"
-            ? "font-handwriting"
+            ? "font-mono"
             : i < totalStaticLines && lines[i].font === "pixel"
               ? "font-pixel"
               : "font-mono";
