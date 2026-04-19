@@ -3,7 +3,7 @@ import TypingAnimation from "./TypingAnimation";
 import AsciiArtPlayer from "./AsciiArtPlayer";
 import { saturnFrames } from "@/data/load-frames";
 import { saturnArt } from "@/data/ascii-art";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 const lines = [
   { text: "Andrew Girgis", font: "handwriting", delay: 500 },
@@ -20,6 +20,13 @@ const HeroSection = () => {
   };
 
   const frames = saturnFrames.length > 0 ? saturnFrames : [saturnArt.join("\n")];
+
+  const handleTypingComplete = useCallback(() => {
+    setTypingDone(true);
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("hero-typing-complete"));
+    }
+  }, []);
 
   return (
     <section
@@ -43,7 +50,7 @@ const HeroSection = () => {
           <TypingAnimation
             lines={lines}
             speed={45}
-            onComplete={() => setTypingDone(true)}
+            onComplete={handleTypingComplete}
           />
 
           <div

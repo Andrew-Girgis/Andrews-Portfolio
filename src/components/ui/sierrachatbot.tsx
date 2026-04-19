@@ -76,16 +76,30 @@ const SierraChatbot = () => {
     scrollToBottom();
   }, [messages, isTyping]);
 
-  // Show welcome popup after 2 seconds
+  // Show welcome popup after the hero typing finishes, with a fallback for non-hero pages.
   useEffect(() => {
     const hasSeenWelcome = sessionStorage.getItem('hasSeenWelcome');
-    if (!hasSeenWelcome) {
-      const timer = setTimeout(() => {
-        setShowWelcome(true);
-      }, 2000);
+    if (hasSeenWelcome) return;
 
-      return () => clearTimeout(timer);
-    }
+    const openWelcome = () => {
+      setShowWelcome(true);
+    };
+
+    const handleHeroTypingComplete = () => {
+      clearTimeout(fallbackTimer);
+      openWelcome();
+    };
+
+    const fallbackTimer = window.setTimeout(() => {
+      openWelcome();
+    }, 15000);
+
+    window.addEventListener('hero-typing-complete', handleHeroTypingComplete);
+
+    return () => {
+      clearTimeout(fallbackTimer);
+      window.removeEventListener('hero-typing-complete', handleHeroTypingComplete);
+    };
   }, []);
 
   // Auto-dismiss welcome popup after 10 seconds
@@ -281,11 +295,12 @@ const SierraChatbot = () => {
       {showWelcome && !isOpen && (
         <div
           onClick={openChatFromWelcome}
-          className="fixed bottom-32 right-4 sm:right-6 z-[1002] w-[90vw] sm:w-[500px] bg-gradient-to-br from-gray-900 to-gray-800 text-white p-4 rounded-xl shadow-2xl border border-primary cursor-pointer hover:shadow-primary/30 transition-all hover:-translate-y-1 animate-in slide-in-from-bottom-5 duration-500"
+          className="fixed bottom-24 right-4 sm:right-6 z-[1002] w-[90vw] sm:w-[420px] bg-gradient-to-br from-gray-900 to-gray-800 text-white p-4 rounded-xl shadow-2xl border border-primary cursor-pointer hover:shadow-primary/30 transition-all hover:-translate-y-1 animate-in slide-in-from-bottom-5 duration-500"
         >
+          <div className="absolute -bottom-2 right-8 h-4 w-4 rotate-45 border-b border-r border-primary bg-gray-800" />
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 flex-1">
-              <img loading="lazy" 
+              <img loading="eager" 
                 src={sierraAvatar} 
                 alt="Sierra" 
                 className="w-10 h-10 rounded-full flex-shrink-0"
@@ -293,7 +308,7 @@ const SierraChatbot = () => {
               <div className="flex-1">
                 <div className="font-bold text-sm mb-0.5">Sierra</div>
                 <div className="text-sm text-gray-200">
-                  👋 Welcome to Andrew's portfolio! Click here to chat with me.
+                  Hey! I'm Sierra, Andrew's AI chatbot. Let me know if you have any questions about Andrew.
                 </div>
               </div>
             </div>
@@ -443,10 +458,10 @@ const SierraChatbot = () => {
         {isOpen ? (
           <X className="h-6 w-6" />
         ) : (
-          <img loading="lazy" 
+          <img loading="eager" 
           src={sierraAvatar}
           alt="Sierra"
-          className="h-15 w-15 rounded-full object-cover"
+          className="h-14 w-14 rounded-full object-cover"
           aria-hidden="true"
           />
         )}
