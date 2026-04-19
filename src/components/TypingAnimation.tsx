@@ -118,14 +118,22 @@ const TypingAnimation = ({ lines, speed = 50, onComplete }: TypingAnimationProps
               ? "text-base sm:text-lg text-primary"
               : "text-base sm:text-lg";
 
+        const cursorSizeClass = i === 0
+          ? "text-3xl sm:text-4xl md:text-5xl"
+          : i === 1
+            ? "text-lg sm:text-xl md:text-2xl"
+            : isGreetingLine
+              ? "text-base sm:text-lg"
+              : "text-base sm:text-lg";
+
         return (
           <p
             key={i}
             className={`${fontClass} ${sizeClass} text-foreground leading-relaxed`}
           >
             {line}
-            {isLastLine && showCursor && (
-              <span className="text-primary ml-0.5 text-xl sm:text-2xl">|</span>
+            {isLastLine && (
+              <span className={`${cursorSizeClass} text-primary ml-0.5 inline-block ${showCursor ? "opacity-100" : "opacity-0"}`}>|</span>
             )}
           </p>
         );
