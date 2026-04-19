@@ -111,12 +111,12 @@ const TypingAnimation = ({ lines, speed = 50, onComplete }: TypingAnimationProps
         const isGreetingLine = i >= totalStaticLines;
 
         const sizeClass = i === 0
-          ? "text-[8rem] sm:text-[10rem] md:text-[12rem] whitespace-nowrap"
+          ? "text-3xl sm:text-4xl md:text-5xl whitespace-nowrap"
           : i === 1
-            ? "text-[72px]"
+            ? "text-lg sm:text-xl md:text-2xl"
             : isGreetingLine
-              ? "text-[32px] text-primary"
-              : "text-[72px]";
+              ? "text-base sm:text-lg text-primary"
+              : "text-base sm:text-lg";
 
         return (
           <p
