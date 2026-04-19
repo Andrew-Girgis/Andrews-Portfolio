@@ -1,7 +1,6 @@
 import StarField from "./StarField";
 import TypingAnimation from "./TypingAnimation";
-import HeroTerminal from "./Terminal/HeroTerminal";
-import { TerminalProvider } from "./Terminal/TerminalContext";
+import { cnTowerArt } from "@/data/ascii-art";
 import { useState } from "react";
 
 const lines = [
@@ -29,9 +28,9 @@ const HeroSection = () => {
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-16 flex flex-col md:flex-row items-center gap-8 md:gap-16">
         <div className="flex-1 flex justify-center">
-          <TerminalProvider>
-            <HeroTerminal />
-          </TerminalProvider>
+          <pre className="font-mono text-[8px] sm:text-[10px] md:text-xs text-muted-foreground whitespace-pre leading-tight select-none max-w-full overflow-hidden">
+            {cnTowerArt.join("\n")}
+          </pre>
         </div>
 
         <div className="flex-1 text-center md:text-left">
