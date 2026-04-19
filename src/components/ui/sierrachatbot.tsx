@@ -285,7 +285,7 @@ const SierraChatbot = () => {
         >
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 flex-1">
-              <img 
+              <img loading="lazy" 
                 src={sierraAvatar} 
                 alt="Sierra" 
                 className="w-10 h-10 rounded-full flex-shrink-0"
@@ -318,7 +318,7 @@ const SierraChatbot = () => {
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-border bg-card">
             <div className="flex items-center gap-2">
-              <img 
+              <img loading="lazy" 
                 src={sierraAvatar} 
                 alt="Sierra" 
                 className="w-10 h-10 rounded-full object-cover"
@@ -353,7 +353,7 @@ const SierraChatbot = () => {
                   className={`flex gap-3 ${message.isUser ? 'justify-end' : 'justify-start'}`}
                 >
                   {!message.isUser && (
-                    <img 
+                    <img loading="lazy" 
                       src={message.isStreaming ? sierraThinking : sierraAvatar} 
                       alt="Sierra" 
                       className="w-10 h-10 rounded-full flex-shrink-0 object-cover"
@@ -391,7 +391,7 @@ const SierraChatbot = () => {
 
             {isTyping && (
               <div className="flex gap-3">
-                <img 
+                <img loading="lazy" 
                   src={sierraThinking} 
                   alt="Sierra thinking" 
                   className="w-12 h-12 rounded-full flex-shrink-0 object-cover"
@@ -443,7 +443,7 @@ const SierraChatbot = () => {
         {isOpen ? (
           <X className="h-6 w-6" />
         ) : (
-          <img 
+          <img loading="lazy" 
           src={sierraAvatar}
           alt="Sierra"
           className="h-15 w-15 rounded-full object-cover"

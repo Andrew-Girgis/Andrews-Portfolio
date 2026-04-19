@@ -71,6 +71,7 @@ const Navigation = () => {
               <img
                 src={!isScrolled || theme === "dark" ? logoLight : logoDark}
                 alt="AG Logo"
+                loading="eager"
                 className={`w-auto ${!isScrolled || theme === "dark" ? "h-10" : "h-10"}`}
               />
             </button>

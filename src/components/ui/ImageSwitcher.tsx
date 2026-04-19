@@ -39,6 +39,7 @@ const NavIconSwitcher = () => {
       <img
         src={images[currentImageIndex]}
         alt="Andrew's Avatar"
+        loading="lazy"
         className="w-10 h-10 rounded-full cursor-pointer transition-transform hover:scale-110"
       />
     </button>

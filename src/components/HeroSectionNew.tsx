@@ -1,5 +1,8 @@
 import StarField from "./StarField";
 import TypingAnimation from "./TypingAnimation";
+import AsciiArtPlayer from "./AsciiArtPlayer";
+import { saturnFrames } from "@/data/load-frames";
+import { saturnArt } from "@/data/ascii-art";
 import { useState } from "react";
 
 const lines = [
@@ -16,6 +19,8 @@ const HeroSection = () => {
     el?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const frames = saturnFrames.length > 0 ? saturnFrames : [saturnArt.join("\n")];
+
   return (
     <section
       id="home"
@@ -26,14 +31,11 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background z-[1]" />
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-16 flex flex-col md:flex-row items-center gap-8 md:gap-16">
-        <div className="flex-1 flex justify-center overflow-hidden">
-          <iframe
-            src="/ascii-scene.html"
-            title="3D ASCII Scene"
-            className="w-full border-none"
-            style={{ height: "500px", background: "transparent" }}
-            allow="transparent"
-            loading="lazy"
+        <div className="flex-1 flex justify-center">
+          <AsciiArtPlayer
+            frames={frames}
+            fps={5}
+            className="max-w-full"
           />
         </div>
 

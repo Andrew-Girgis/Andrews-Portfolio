@@ -166,43 +166,35 @@
   filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(1.2);
 }
 
-@keyframes ring-orbit {
-  0%, 100% {
-    color: hsl(var(--muted-foreground));
-    opacity: 0.7;
+@keyframes ascii-sweep {
+  0% {
+    background-position: -100% 0;
   }
-  50% {
-    color: hsl(var(--accent));
-    opacity: 1;
+  100% {
+    background-position: 200% 0;
   }
 }
 
-@keyframes planet-glow {
-  0%, 100% {
-    opacity: 0.8;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-.ring-animate {
-  animation: ring-orbit 3.5s ease-in-out infinite;
-}
-
-.planet-glow {
-  animation: planet-glow 3s ease-in-out infinite;
+.ascii-sweep {
+  color: hsl(var(--foreground));
+  background: linear-gradient(
+    90deg,
+    hsl(var(--foreground)) 0%,
+    hsl(var(--accent)) 30%,
+    hsl(var(--foreground)) 60%,
+    hsl(var(--foreground)) 100%
+  );
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: ascii-sweep 16s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ring-animate {
-    animation: none;
-    color: hsl(var(--accent));
-    opacity: 0.85;
-  }
-  .planet-glow {
-    animation: none;
+  .ascii-sweep {
+    -webkit-text-fill-color: unset;
+    background: none;
     color: hsl(var(--foreground));
-    opacity: 0.9;
   }
 }

@@ -48,6 +48,7 @@ const ProfilePictureSwitcher = ({
       <img
         src={images[currentImageIndex]}
         alt="Andrew Girgis"
+        loading="lazy"
         className={`cursor-pointer transition-all duration-300 ${className}`}
       />
     </button>

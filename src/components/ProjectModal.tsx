@@ -86,6 +86,7 @@ export function ProjectModal({ project, open, onOpenChange }: ProjectModalProps)
             <img
               src={project.image}
               alt={project.imageAlt ?? project.title}
+              loading="lazy"
               style={project.imagePosition ? { objectPosition: project.imagePosition } : undefined}
               className="w-full object-cover max-h-[360px]"
             />
