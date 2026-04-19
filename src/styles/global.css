@@ -28,8 +28,6 @@
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-  /* FALLBACK: Until handwriting.woff2 is placed in public/fonts/,
-     the browser will use the cursive fallback below */
 }
 
 @font-palette-values --geist-pixel-hero {

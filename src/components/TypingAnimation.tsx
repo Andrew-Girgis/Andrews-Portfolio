@@ -97,7 +97,7 @@ const TypingAnimation = ({ lines, speed = 50, onComplete }: TypingAnimationProps
   const currentLineObj = currentLineIndex < totalStaticLines ? lines[currentLineIndex] : null;
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-0">
       {displayedLines.map((line, i) => {
         const fontClass =
           i < totalStaticLines && lines[i].font === "handwriting"
@@ -111,12 +111,12 @@ const TypingAnimation = ({ lines, speed = 50, onComplete }: TypingAnimationProps
         const isGreetingLine = i >= totalStaticLines;
 
         const sizeClass = i === 0
-          ? "text-3xl sm:text-4xl md:text-5xl"
+          ? "text-[8rem] sm:text-[10rem] md:text-[12rem] whitespace-nowrap"
           : i === 1
-            ? "text-lg sm:text-xl md:text-2xl"
+            ? "text-[72px]"
             : isGreetingLine
-              ? "text-base sm:text-lg text-primary"
-              : "text-sm sm:text-base";
+              ? "text-[32px] text-primary"
+              : "text-[72px]";
 
         return (
           <p
@@ -125,7 +125,7 @@ const TypingAnimation = ({ lines, speed = 50, onComplete }: TypingAnimationProps
           >
             {line}
             {isLastLine && showCursor && (
-              <span className="text-primary ml-0.5">|</span>
+              <span className="text-primary ml-0.5 text-xl sm:text-2xl">|</span>
             )}
           </p>
         );

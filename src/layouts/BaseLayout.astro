@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import GlobalTerminal from "../components/Terminal/GlobalTerminal";
 
 interface Props {
   title?: string;
@@ -60,5 +61,6 @@ const {
   </head>
   <body class="min-h-screen bg-background text-foreground font-mono transition-colors duration-300">
     <slot />
+    <GlobalTerminal client:load />
   </body>
 </html>
