@@ -97,7 +97,7 @@ const TypingAnimation = ({ lines, speed = 50, onComplete }: TypingAnimationProps
   const currentLineObj = currentLineIndex < totalStaticLines ? lines[currentLineIndex] : null;
 
   return (
-    <div className="space-y-0">
+    <div className="space-y-3">
       {displayedLines.map((line, i) => {
         const fontClass =
           i < totalStaticLines && lines[i].font === "handwriting"
