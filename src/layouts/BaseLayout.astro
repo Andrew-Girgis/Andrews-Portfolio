@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import Sierra from "../components/ui/sierrachatbot";
 
 interface Props {
   title?: string;
@@ -58,7 +59,8 @@ const {
       })();
     </script>
   </head>
-  <body class="min-h-screen bg-background text-foreground font-mono transition-colors duration-300">
+<body class="min-h-screen bg-background text-foreground font-mono transition-colors duration-300">
     <slot />
-    </body>
+    <Sierra client:load />
+  </body>
 </html>

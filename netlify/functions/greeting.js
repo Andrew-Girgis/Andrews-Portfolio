@@ -21,7 +21,8 @@ function isCacheValid() {
 async function getHoliday() {
   try {
     const today = DateTime.now().setZone('America/Toronto').toISODate();
-    const response = await fetch(`https://date.nager.at/api/v3/publicholidays/2024/CA`);
+    const currentYear = new Date().getFullYear();
+    const response = await fetch(`https://date.nager.at/api/v3/publicholidays/${currentYear}/CA`);
     const holidays = await response.json();
     
     const todayHoliday = holidays.find(h => h.date === today);
