@@ -4,11 +4,12 @@ interface AsciiArtPlayerProps {
   frames: string[];
   fps?: number;
   className?: string;
+  size?: number | "fit";
 }
 
 const CHAR_WIDTH_RATIO = 0.602;
 
-const AsciiArtPlayer = ({ frames, fps = 5, className = "" }: AsciiArtPlayerProps) => {
+const AsciiArtPlayer = ({ frames, fps = 5, className = "", size = "fit" }: AsciiArtPlayerProps) => {
   const [frameIndex, setFrameIndex] = useState(0);
   const [fontSize, setFontSize] = useState<number | null>(null);
   const prefersReducedMotion = useRef(false);
@@ -33,17 +34,21 @@ const AsciiArtPlayer = ({ frames, fps = 5, className = "" }: AsciiArtPlayerProps
   }, [frames]);
 
   const updateFontSize = useCallback(() => {
+    if (typeof size === "number") {
+      setFontSize(size);
+      return;
+    }
     if (!containerRef.current || maxLineWidth.current === 0) return;
     const containerWidth = containerRef.current.clientWidth;
     const calculated = containerWidth / (maxLineWidth.current * CHAR_WIDTH_RATIO);
-    const clamped = Math.min(24, Math.max(4, calculated));
+    const clamped = Math.min(72, Math.max(4, calculated));
     setFontSize(clamped);
-  }, []);
+  }, [size]);
 
   useEffect(() => {
     updateFontSize();
 
-    if (!containerRef.current) return;
+    if (typeof size === "number" || !containerRef.current) return;
     const observer = new ResizeObserver(() => {
       updateFontSize();
     });

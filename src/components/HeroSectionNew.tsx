@@ -43,16 +43,18 @@ const HeroSection = () => {
 
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background z-[1]" />
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-16 flex flex-col md:flex-row items-center gap-8 md:gap-16">
-        <div className="flex-1 flex justify-center">
+<div className="absolute inset-0 z-[2] overflow-hidden opacity-95 pointer-events-none">
+        <div className="absolute left-1/3 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <AsciiArtPlayer
             frames={frames}
             fps={5}
-            className="max-w-full"
+            size={10}
           />
         </div>
+      </div>
 
-        <div className="flex-1 text-center md:text-left">
+      <div className="relative z-[3] w-full min-h-screen flex items-center">
+        <div className="w-full md:w-1/2 md:ml-auto px-6 sm:px-8 lg:px-16 text-left">
           <TypingAnimation
             lines={lines}
             speed={45}

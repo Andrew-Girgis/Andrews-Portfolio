@@ -1,13 +1,33 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
+import "../styles/global.css";
+import NotFoundPage from "../components/NotFoundPage";
+
+const initialPath = Astro.url.pathname;
 ---
 
-<BaseLayout title="404 - Page Not Found">
-  <main class="min-h-screen flex items-center justify-center bg-background text-foreground font-mono">
-    <div class="text-center space-y-4">
-      <p class="text-6xl font-bold text-primary">404</p>
-      <p class="text-xl text-muted-foreground">Page not found</p>
-      <a href="/" class="text-primary hover:underline">Go home</a>
-    </div>
-  </main>
-</BaseLayout>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" type="image/svg+xml" href="/AG_Logo_Design_dark.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <title>404 - Query Returned No Results</title>
+    <script is:inline>
+      (function () {
+        const stored = localStorage.getItem("theme");
+        const theme = stored === "light" || stored === "dark" ? stored : "dark";
+        document.documentElement.classList.add(theme);
+      })();
+    </script>
+  </head>
+  <body class="min-h-screen bg-background text-foreground font-mono transition-colors duration-300">
+    <NotFoundPage client:load initialPath={initialPath} />
+  </body>
+</html>

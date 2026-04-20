@@ -371,7 +371,7 @@ const SierraChatbot = () => {
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 flex-1">
               <img loading="eager" 
-                src={sierraAvatar.src} 
+                src={sierraAvatar} 
                 alt="Sierra" 
                 className="w-10 h-10 rounded-full flex-shrink-0 object-contain scale-90"
               />
@@ -404,7 +404,7 @@ const SierraChatbot = () => {
           <div className="flex items-center justify-between p-4 border-b border-border bg-card">
             <div className="flex items-center gap-2">
               <img loading="lazy" 
-                src={sierraAvatar.src} 
+                src={sierraAvatar} 
                 alt="Sierra" 
                 className="w-10 h-10 rounded-full object-contain scale-90"
               />
@@ -439,7 +439,7 @@ const SierraChatbot = () => {
                 >
                   {!message.isUser && (
                     <img loading="lazy" 
-                      src={(message.isStreaming ? sierraThinking : sierraAvatar).src} 
+                      src={message.isStreaming ? sierraThinking : sierraAvatar} 
                       alt="Sierra" 
                       className="w-10 h-10 rounded-full flex-shrink-0 object-contain scale-90"
                     />
@@ -477,7 +477,7 @@ const SierraChatbot = () => {
             {isTyping && (
               <div className="flex gap-3">
                 <img loading="lazy" 
-                  src={sierraThinking.src} 
+                  src={sierraThinking} 
                   alt="Sierra thinking" 
                   className="w-12 h-12 rounded-full flex-shrink-0 object-contain scale-90"
                 />
@@ -546,7 +546,7 @@ const SierraChatbot = () => {
           </video>
         ) : (
           <img loading="eager" 
-          src={sierraAvatar.src}
+          src={sierraAvatar}
           alt="Sierra"
           className="block h-16 w-auto object-contain"
           aria-hidden="true"
