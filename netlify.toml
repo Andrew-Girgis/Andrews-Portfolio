@@ -2,15 +2,14 @@
   command = "npm run build"
   publish = "dist"
 
-[functions]
-  directory = "netlify/functions"
-
-[[plugins]]
-  package = "@netlify/plugin-functions-install-core"
+[[redirects]]
+  from = "/api/greeting"
+  to = "https://sierra-api.andrew-girgis.workers.dev/api/greeting"
+  status = 200
 
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
+  from = "/api/chat"
+  to = "https://sierra-api.andrew-girgis.workers.dev/api/chat"
   status = 200
 
 # Security headers

@@ -7,6 +7,7 @@ interface TypingAnimationProps {
 }
 
 const TypingAnimation = ({ lines, speed = 50, onComplete }: TypingAnimationProps) => {
+  const [mounted, setMounted] = useState(false);
   const [displayedLines, setDisplayedLines] = useState<string[]>([]);
   const [currentLineIndex, setCurrentLineIndex] = useState(0);
   const [currentCharIndex, setCurrentCharIndex] = useState(0);
@@ -16,11 +17,15 @@ const TypingAnimation = ({ lines, speed = 50, onComplete }: TypingAnimationProps
   const hasFetchedGreeting = useRef(false);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
     const fetchGreeting = async () => {
       if (hasFetchedGreeting.current) return;
       hasFetchedGreeting.current = true;
       try {
-        const response = await fetch("/.netlify/functions/greeting");
+        const response = await fetch("/api/greeting");
         const contentType = response.headers.get("content-type");
         if (!contentType || !contentType.includes("application/json")) {
           setGreetingText("Welcome!");
@@ -98,10 +103,34 @@ const TypingAnimation = ({ lines, speed = 50, onComplete }: TypingAnimationProps
 
   return (
     <div className="space-y-3">
+      {!mounted && displayedLines.length === 0 && (
+        <>
+          {lines.map((line, i) => (
+            <p
+              key={`ssr-${i}`}
+              className={`${
+                line.font === "handwriting"
+                  ? "font-handwriting"
+                  : line.font === "pixel"
+                    ? "font-pixel"
+                    : "font-mono"
+              } ${
+                i === 0
+                  ? "text-3xl sm:text-4xl md:text-5xl whitespace-nowrap"
+                  : i === 1
+                    ? "text-lg sm:text-xl md:text-2xl"
+                    : "text-base sm:text-lg"
+              } text-foreground leading-relaxed`}
+            >
+              {line.text}
+            </p>
+          ))}
+        </>
+      )}
       {displayedLines.map((line, i) => {
         const fontClass =
           i < totalStaticLines && lines[i].font === "handwriting"
-            ? "font-mono"
+            ? "font-handwriting"
             : i < totalStaticLines && lines[i].font === "pixel"
               ? "font-pixel"
               : "font-mono";

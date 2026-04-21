@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 
 const AboutSection = () => {
+  const [mounted, setMounted] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setMounted(true);
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -18,13 +20,17 @@ const AboutSection = () => {
     return () => observer.disconnect();
   }, []);
 
+  const animClass = !mounted
+    ? "opacity-100 translate-y-0"
+    : isVisible
+      ? "opacity-100 translate-y-0"
+      : "opacity-0 translate-y-8";
+
   return (
     <section id="about" className="py-24 px-4 sm:px-6 lg:px-8 bg-surface-alt">
       <div
         ref={ref}
-        className={`max-w-4xl mx-auto transition-all duration-700 ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-        }`}
+        className={`max-w-4xl mx-auto transition-all duration-700 ${animClass}`}
       >
         <h2 className="text-2xl font-bold text-foreground mb-8 font-mono">
           <span className="text-primary">$</span> cat about-me.txt

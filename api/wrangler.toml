@@ -1,0 +1,14 @@
+name = "sierra-api"
+main = "src/index.ts"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+SUPABASE_URL = "https://mgdtwdlfmxybuivdyvwx.supabase.co"
+
+[[kv_namespaces]]
+binding = "GREETING_CACHE"
+id = "2354318972d14ceaa295b0dd98056ef3"
+
+[dev]
+port = 8788

@@ -15,5 +15,3 @@ http://www.andrewgirgis.ca/*    https://andrew-girgis.com/:splat   301!
 /resume     /?utm_source=resume&utm_medium=offline&utm_campaign=2025    301!
 /application     /?utm_source=application&utm_medium=application&utm_campaign=2025     301!
 
-# SPA catch-all route
-/*          /index.html   200

@@ -4,15 +4,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import CalBookingWidget from "@/components/ui/CalBookingWidget";
 
-// Import your Sierra images (add these to your assets folder)
 import sierraAvatar from "@/assets/Sierra_AI_agent_new.png";
 import sierraThinking from "@/assets/Sierra_AI_agent_thinking.png";
+
+const sierraAvatarSrc = typeof sierraAvatar === "string" ? sierraAvatar : sierraAvatar.src;
+const sierraThinkingSrc = typeof sierraThinking === "string" ? sierraThinking : sierraThinking.src;
 
 type HeroTypingWindow = Window & {
   __heroTypingComplete?: boolean;
 };
 
 const SIERRA_WAVE_STORAGE_KEY = "hasSeenSierraWave";
+const CHAT_API_URL = "/api/chat";
 const SIERRA_WAVE_VIDEO_SRC = "/sierra-wave.webm";
 
 interface Message {
@@ -28,36 +31,37 @@ interface Message {
  * @returns A stable UUID for this browser.
  */
 function getOrCreateUserId(): string {
-  const key = 'n8n_user_id';
+    const key = 'sierra_user_id';
 
-  // SSR safety: If running server-side, return a placeholder
-  if (typeof window === 'undefined') {
-    console.warn('getOrCreateUserId called on server-side, returning placeholder');
-    return 'server-side-placeholder';
-  }
+    if (typeof window === 'undefined') {
+      return 'server-side-placeholder';
+    }
 
-  // 1. If the ID exists in localStorage, reuse it
-  let userId = window.localStorage.getItem(key);
-  if (userId) {
+    let userId = window.localStorage.getItem(key);
+    if (userId) {
+      return userId;
+    }
+
+    if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+      userId = window.crypto.randomUUID();
+    } else {
+      userId = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+        const r = (Math.random() * 16) | 0;
+        const v = c === 'x' ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+      });
+    }
+
+    window.localStorage.setItem(key, userId);
     return userId;
   }
 
-  // 2. Otherwise, create a new one
-  if (window.crypto && typeof window.crypto.randomUUID === 'function') {
-    userId = window.crypto.randomUUID();
-  } else {
-    // Fallback UUID generator for older browsers
-    userId = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-      const r = (Math.random() * 16) | 0;
-      const v = c === 'x' ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    });
+  function extractPageContext() {
+    return {
+      currentPage: window.location.pathname,
+      pageTitle: document.title,
+    };
   }
-
-  // 3. Persist it across page loads
-  window.localStorage.setItem(key, userId);
-  return userId;
-}
 
 const SierraChatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -69,7 +73,6 @@ const SierraChatbot = () => {
   const [sessionId] = useState(() => 
     `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
   );
-  const [sessionInitialized, setSessionInitialized] = useState(false);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatMessagesRef = useRef<HTMLDivElement>(null);
@@ -217,128 +220,124 @@ const SierraChatbot = () => {
   const sendMessage = async (message: string) => {
     if (!message.trim()) return;
 
-    // Add user message
     setMessages(prev => [...prev, { content: message, isUser: true }]);
     setInputValue("");
     setIsTyping(true);
 
-    // Create a placeholder for the streaming message
-    const messageIndex = messages.length + 1; // +1 because we just added user message
+    const messageIndex = messages.length + 1;
     setMessages(prev => [...prev, { content: "", isUser: false, isStreaming: true }]);
-    setIsTyping(false); // Stop typing indicator, start streaming
+    setIsTyping(false);
 
     try {
-      let messageToSend = message;
-      
-      if (!sessionInitialized) {
-        messageToSend = `Hi! I'm interested in learning about Andrew Girgis. ${message}`;
-        setSessionInitialized(true);
-      }
+      const pageContext = extractPageContext();
 
-      const response = await fetch(import.meta.env.VITE_PUBLIC_N8N_WEBHOOK_URL || 'https://n8n.andrew-girgis.com/webhook/chat', {
+      const response = await fetch(CHAT_API_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           action: 'sendMessage',
           user_id: getOrCreateUserId(),
           sessionId: sessionId,
-          chatInput: messageToSend
+          chatInput: message,
+          currentPage: pageContext.currentPage,
+          pageTitle: pageContext.pageTitle,
         }),
-        mode: 'cors',
-        credentials: 'omit'
       });
 
-      if (response.ok) {
-        const text = await response.text();
-        const lines = text.trim().split('\n');
-        let botResponse = "";
-        let hasBookingWidget = false;
-        let foundOutput = false;
+      if (!response.ok || !response.body) {
+        throw new Error(`HTTP ${response.status}`);
+      }
 
-        // Parse response to find the output
-        for (const line of lines.reverse()) {
-          if (line.trim() === '') continue;
-          
+      let fullResponse = "";
+      let bookingIntent = false;
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || '';
+
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue;
+          const jsonStr = line.slice(6).trim();
+          if (!jsonStr) continue;
+
           try {
-            const parsed = JSON.parse(line);
-            
-            if (parsed.output) {
-              botResponse = parsed.output;
-              foundOutput = true;
-              
-              if (parsed.action === 'show_booking_widget') {
-                hasBookingWidget = true;
-              }
-              
-              // Check for Cal.com embed
-              if (botResponse.includes('app.cal.com') || botResponse.includes('Cal.ns[')) {
-                hasBookingWidget = true;
-                botResponse = "I'd be happy to help you book a meeting with Andrew! Here's his calendar:";
-              }
-              break;
+            const event = JSON.parse(jsonStr);
+
+            if (event.type === 'token' && event.content) {
+              fullResponse += event.content;
+              setMessages(prev => {
+                const newMessages = [...prev];
+                newMessages[messageIndex] = {
+                  content: fullResponse,
+                  isUser: false,
+                  isStreaming: true,
+                };
+                return newMessages;
+              });
+            } else if (event.type === 'done') {
+              bookingIntent = event.bookingIntent || false;
+              setMessages(prev => {
+                const newMessages = [...prev];
+                newMessages[messageIndex] = {
+                  content: fullResponse,
+                  isUser: false,
+                  isStreaming: false,
+                  hasBookingWidget: bookingIntent,
+                };
+                return newMessages;
+              });
+            } else if (event.type === 'error') {
+              setMessages(prev => {
+                const newMessages = [...prev];
+                newMessages[messageIndex] = {
+                  content: event.message || "I'm sorry, something went wrong. Please try again.",
+                  isUser: false,
+                  isStreaming: false,
+                };
+                return newMessages;
+              });
             }
-            
-            if (parsed.type === 'item' && parsed.content) {
-              try {
-                const contentJson = JSON.parse(parsed.content);
-                if (contentJson.output) {
-                  botResponse = contentJson.output;
-                  foundOutput = true;
-                  
-                  if (contentJson.action === 'show_booking_widget') {
-                    hasBookingWidget = true;
-                  }
-                  break;
-                }
-              } catch (e) {
-                continue;
-              }
-            }
-          } catch (e) {
+          } catch {
             continue;
           }
         }
+      }
 
-        if (!foundOutput) {
-          botResponse = "I'm sorry, I couldn't process that request. Please try again.";
-        }
-
-        // Check for booking keywords
-        if (!hasBookingWidget) {
-          const bookingKeywords = ['book', 'appointment', 'meeting', 'schedule', 'calendar'];
-          const responseText = botResponse.toLowerCase();
-          if (bookingKeywords.some(keyword => responseText.includes(keyword))) {
-            hasBookingWidget = true;
-          }
-        }
-
-        // Stream the text character by character
-        let currentText = "";
-        const words = botResponse.split(' ');
-        
-        for (let i = 0; i < words.length; i++) {
-          currentText += (i > 0 ? ' ' : '') + words[i];
-          
+      if (!bookingIntent) {
+        const bookingKeywords = ['book', 'appointment', 'meeting', 'schedule', 'calendar'];
+        const responseText = fullResponse.toLowerCase();
+        if (bookingKeywords.some(keyword => responseText.includes(keyword))) {
+          bookingIntent = true;
           setMessages(prev => {
             const newMessages = [...prev];
             newMessages[messageIndex] = {
-              content: currentText,
-              isUser: false,
-              isStreaming: i < words.length - 1,
-              hasBookingWidget: i === words.length - 1 ? hasBookingWidget : undefined
+              ...newMessages[messageIndex],
+              hasBookingWidget: true,
             };
             return newMessages;
           });
-          
-          // Adjust delay based on word length (faster for short words)
-          await new Promise(resolve => setTimeout(resolve, 30 + Math.random() * 20));
         }
-
-      } else {
-        throw new Error(`HTTP ${response.status}`);
       }
+
+      if (fullResponse.includes('app.cal.com') || fullResponse.includes('Cal.ns[')) {
+        setMessages(prev => {
+          const newMessages = [...prev];
+          newMessages[messageIndex] = {
+            ...newMessages[messageIndex],
+            content: "I'd be happy to help you book a meeting with Andrew! Here's his calendar:",
+            hasBookingWidget: true,
+          };
+          return newMessages;
+        });
+      }
+
     } catch (error) {
       console.error('Chat error:', error);
       setMessages(prev => {
@@ -371,7 +370,7 @@ const SierraChatbot = () => {
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 flex-1">
               <img loading="eager" 
-                src={sierraAvatar} 
+                src={sierraAvatarSrc} 
                 alt="Sierra" 
                 className="w-10 h-10 rounded-full flex-shrink-0 object-contain scale-90"
               />
@@ -404,7 +403,7 @@ const SierraChatbot = () => {
           <div className="flex items-center justify-between p-4 border-b border-border bg-card">
             <div className="flex items-center gap-2">
               <img loading="lazy" 
-                src={sierraAvatar} 
+                src={sierraAvatarSrc} 
                 alt="Sierra" 
                 className="w-10 h-10 rounded-full object-contain scale-90"
               />
@@ -439,7 +438,7 @@ const SierraChatbot = () => {
                 >
                   {!message.isUser && (
                     <img loading="lazy" 
-                      src={message.isStreaming ? sierraThinking : sierraAvatar} 
+                      src={message.isStreaming ? sierraThinkingSrc : sierraAvatarSrc} 
                       alt="Sierra" 
                       className="w-10 h-10 rounded-full flex-shrink-0 object-contain scale-90"
                     />
@@ -477,7 +476,7 @@ const SierraChatbot = () => {
             {isTyping && (
               <div className="flex gap-3">
                 <img loading="lazy" 
-                  src={sierraThinking} 
+                  src={sierraThinkingSrc} 
                   alt="Sierra thinking" 
                   className="w-12 h-12 rounded-full flex-shrink-0 object-contain scale-90"
                 />
@@ -546,9 +545,9 @@ const SierraChatbot = () => {
           </video>
         ) : (
           <img loading="eager" 
-          src={sierraAvatar}
-          alt="Sierra"
-          className="block h-16 w-auto object-contain"
+src={sierraAvatarSrc}
+           alt="Sierra"
+           className="block h-16 w-auto object-contain"
           aria-hidden="true"
           />
         )}

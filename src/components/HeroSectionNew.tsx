@@ -3,20 +3,25 @@ import TypingAnimation from "./TypingAnimation";
 import AsciiArtPlayer from "./AsciiArtPlayer";
 import { saturnFrames } from "@/data/load-frames";
 import { saturnArt } from "@/data/ascii-art";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 type HeroTypingWindow = Window & {
   __heroTypingComplete?: boolean;
 };
 
 const lines = [
-  { text: "Andrew Girgis", font: "handwriting", delay: 500 },
-  { text: "Data Scientist · Applied Economist", font: "handwriting", delay: 0 },
-  { text: "Turning complex data into meaningful solutions", font: "handwriting", delay: 0 },
+  { text: "Andrew Girgis", font: "mono", delay: 500 },
+  { text: "Data Scientist · Applied Economist", font: "mono", delay: 0 },
+  { text: "Turning complex data into meaningful solutions", font: "mono", delay: 0 },
 ];
 
 const HeroSection = () => {
   const [typingDone, setTypingDone] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const scrollToAbout = () => {
     const el = document.getElementById("about");
@@ -33,6 +38,12 @@ const HeroSection = () => {
       window.dispatchEvent(new CustomEvent("hero-typing-complete"));
     }
   }, []);
+
+  const btnClass = !mounted
+    ? "opacity-100 translate-y-0"
+    : typingDone
+      ? "opacity-100 translate-y-0"
+      : "opacity-0 translate-y-4";
 
   return (
     <section
@@ -62,7 +73,7 @@ const HeroSection = () => {
           />
 
           <div
-            className={`mt-8 transition-all duration-700 ${typingDone ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+            className={`mt-8 transition-all duration-700 ${btnClass}`}
           >
             <button
               onClick={scrollToAbout}

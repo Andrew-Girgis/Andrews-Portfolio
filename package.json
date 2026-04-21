@@ -59,6 +59,7 @@
     "input-otp": "^1.4.2",
     "lucide-react": "^0.462.0",
     "luxon": "^3.4.4",
+    "netlify-cli": "^25.0.1",
     "next-themes": "^0.3.0",
     "node-fetch": "^2.7.0",
     "openai": "^4.24.1",

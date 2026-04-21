@@ -60,6 +60,12 @@ const {
     </script>
   </head>
 <body class="min-h-screen bg-background text-foreground font-mono transition-colors duration-300">
+    <noscript>
+      <style>
+        .astro-island { display: block !important; }
+        .astro-island[ssr] { opacity: 1 !important; transform: none !important; }
+      </style>
+    </noscript>
     <slot />
     <Sierra client:load />
   </body>

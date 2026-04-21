@@ -2,10 +2,12 @@ import { useState, useEffect, useRef } from "react";
 import { projects } from "@/data/projects";
 
 const FeaturedProjects = () => {
+  const [mounted, setMounted] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setMounted(true);
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -21,13 +23,17 @@ const FeaturedProjects = () => {
 
   const featured = projects.filter((p) => p.featured).slice(0, 3);
 
+  const animClass = !mounted
+    ? "opacity-100 translate-y-0"
+    : isVisible
+      ? "opacity-100 translate-y-0"
+      : "opacity-0 translate-y-8";
+
   return (
     <section id="projects" className="py-24 px-4 sm:px-6 lg:px-8">
       <div
         ref={ref}
-        className={`max-w-6xl mx-auto transition-all duration-700 ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-        }`}
+        className={`max-w-6xl mx-auto transition-all duration-700 ${animClass}`}
       >
         <div className="flex items-baseline justify-between mb-8">
           <h2 className="text-2xl font-bold text-foreground font-mono">
