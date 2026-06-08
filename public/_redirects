@@ -1,11 +1,16 @@
 # Let ACME challenges bypass SPA routing
 /.well-known/acme-challenge/*   /.well-known/acme-challenge/:splat   200
 
-# Canonical host redirects (old .ca domain to new .com domain)
-https://andrewgirgis.ca/*       https://andrew-girgis.com/:splat   301!
-https://www.andrewgirgis.ca/*   https://andrew-girgis.com/:splat   301!
-http://andrewgirgis.ca/*        https://andrew-girgis.com/:splat   301!
-http://www.andrewgirgis.ca/*    https://andrew-girgis.com/:splat   301!
+# Canonical host redirects to girg.is
+https://andrewgirgis.ca/*        https://girg.is/:splat   301!
+https://www.andrewgirgis.ca/*    https://girg.is/:splat   301!
+http://andrewgirgis.ca/*         https://girg.is/:splat   301!
+http://www.andrewgirgis.ca/*     https://girg.is/:splat   301!
+
+https://andrew-girgis.com/*      https://girg.is/:splat   301!
+https://www.andrew-girgis.com/*  https://girg.is/:splat   301!
+http://andrew-girgis.com/*       https://girg.is/:splat   301!
+http://www.andrew-girgis.com/*   https://girg.is/:splat   301!
 
 # Short tracking URLs
 /linkedin   /?utm_source=linkedin&utm_medium=bio&utm_campaign=prelaunch_2025      301!
