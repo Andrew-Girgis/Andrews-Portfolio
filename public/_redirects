@@ -12,6 +12,11 @@ https://www.andrew-girgis.com/*  https://girg.is/:splat   301!
 http://andrew-girgis.com/*       https://girg.is/:splat   301!
 http://www.andrew-girgis.com/*   https://girg.is/:splat   301!
 
+# http redirect to https
+http://girg.is/*      https://girg.is/:splat   301!
+https://www.girg.is/* https://girg.is/:splat   301!
+http://www.girg.is/*  https://girg.is/:splat   301!
+
 # Short tracking URLs
 /linkedin   /?utm_source=linkedin&utm_medium=bio&utm_campaign=prelaunch_2025      301!
 /x          /?utm_source=x&utm_medium=bio&utm_campaign=prelaunch_2025              301!
