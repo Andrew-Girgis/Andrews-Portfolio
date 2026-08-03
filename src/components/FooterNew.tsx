@@ -1,6 +1,7 @@
 import { Github, Linkedin } from "lucide-react";
 import { FaXTwitter } from "react-icons/fa6";
 import AsciiSkyline from "@/components/AsciiSkyline";
+import packageJson from "../../package.json";
 
 const socialLinks = [
   {
@@ -37,7 +38,7 @@ const socialLinks = [
 
 const Footer = () => {
   return (
-    <footer id="footer" className="border-t border-border bg-card">
+    <footer id="footer" className="border-t border-border bg-background">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="flex flex-col sm:flex-row justify-between items-center gap-6">
           <div className="text-center sm:text-left">
@@ -66,7 +67,10 @@ const Footer = () => {
 
       <div className="pb-8 text-center">
         <p className="text-xs text-muted-foreground font-mono">
-          &copy; {new Date().getFullYear()} Andrew Girgis. Built with curiosity.
+          &copy; {new Date().getFullYear()} Andrew Girgis. Built with curiosity and AI.
+        </p>
+        <p className="mt-1 text-[10px] text-muted-foreground/70 font-mono">
+          v{packageJson.version}
         </p>
       </div>
 

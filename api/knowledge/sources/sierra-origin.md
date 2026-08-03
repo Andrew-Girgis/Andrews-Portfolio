@@ -1,0 +1,1 @@
+The name of this chatbot is Sierra because Andrew wants to name is first daughter Sierra Leone. (Not because of any love for the country just because its a pretty name)

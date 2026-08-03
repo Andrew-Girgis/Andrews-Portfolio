@@ -4,15 +4,21 @@ import HeroSectionNew from "../components/HeroSectionNew";
 import Navigation from "../components/NavigationNew";
 import AboutSection from "../components/AboutSectionNew";
 import FeaturedProjects from "../components/FeaturedProjects";
+import WorkspaceSection from "../components/WorkspaceSectionNew";
+import StarField from "../components/StarField";
 import Footer from "../components/FooterNew.astro";
 ---
 
 <BaseLayout>
   <Navigation client:load />
-  <main>
-    <HeroSectionNew client:load />
-    <AboutSection client:visible />
-    <FeaturedProjects client:visible />
+  <main class="relative overflow-hidden bg-background">
+    <StarField client:load />
+    <div class="relative z-10 bg-background/20">
+      <HeroSectionNew client:load />
+      <AboutSection client:visible />
+      <FeaturedProjects client:visible />
+      <WorkspaceSection client:load />
+    </div>
   </main>
   <Footer />
 </BaseLayout>

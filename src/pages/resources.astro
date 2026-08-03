@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navigation from "../components/NavigationNew";
+import ComingSoonPage from "../components/ComingSoonPage";
+import Footer from "../components/FooterNew.astro";
+---
+
+<BaseLayout title="Resources - Andrew Girgis">
+  <Navigation client:load />
+  <main class="pt-20">
+    <ComingSoonPage
+      client:load
+      command="ls ./resources"
+      title="resources"
+      description="Content, books, podcasts, videos, posts, and other resources I recommend."
+    />
+  </main>
+  <Footer />
+</BaseLayout>

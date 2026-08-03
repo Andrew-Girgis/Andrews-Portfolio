@@ -3,6 +3,7 @@
 *.md
 
 !README.md
+!api/knowledge/**/*.md
 
 # Environment variables
 .env
@@ -34,11 +35,16 @@ yarn-error.log*
 *.MOV
 
 rag-documents/
+api/knowledge/generated/
 
 # ASCII Three.js scene (keep locally, too large for git)
 src/assets/ASCII Scene (1).html
 
 dist/
 .astro/
+.wrangler/
 
 Sierra Temp.json
+
+# s: encrypted secrets
+.senv

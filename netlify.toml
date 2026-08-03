@@ -8,8 +8,18 @@
   status = 200
 
 [[redirects]]
+  from = "/api/health"
+  to = "https://sierra-api.andrew-girgis.workers.dev/api/health"
+  status = 200
+
+[[redirects]]
   from = "/api/chat"
   to = "https://sierra-api.andrew-girgis.workers.dev/api/chat"
+  status = 200
+
+[[redirects]]
+  from = "/api/booking/*"
+  to = "https://sierra-api.andrew-girgis.workers.dev/api/booking/:splat"
   status = 200
 
 # Security headers

@@ -40,6 +40,38 @@ export const projects: Project[] = [
     },
   },
   {
+    id: "microsoft-workspace-skill",
+    title: "Microsoft Workspace Skill",
+    subtitle: "Microsoft Graph Integration for Agent Workflows",
+    description:
+      "A Hermes Agent skill that connects Outlook email, calendar, contacts, and profile data through Microsoft Graph. It supports OAuth setup, token refresh, email search and sending, calendar scheduling, free/busy lookup, Teams meeting creation, and safe preview-based email sending for agent-assisted productivity workflows.",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/microsoft-workspace-skill",
+    githubRepo: "Andrew-Girgis/microsoft-workspace-skill",
+    tags: {
+      technology: ["python", "microsoft-graph", "oauth2"],
+      domain: ["productivity", "ai-agents"],
+      type: ["agent-tooling", "integration"],
+      method: ["api-integration", "oauth", "automation"],
+    },
+  },
+  {
+    id: "kag",
+    title: "kag",
+    subtitle: "Kaggle Competition Workspace TUI",
+    description:
+      "A Textual-based terminal app that turns Kaggle competition setup into a repeatable workflow. It provides a searchable competition picker, scaffolds notebooks, notes, data folders, virtual environments, and git repositories, checks Kaggle access, and enriches project notes from competition pages.",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/kag",
+    githubRepo: "Andrew-Girgis/kag",
+    tags: {
+      technology: ["python", "textual", "kaggle-api"],
+      domain: ["developer-tools", "data-science"],
+      type: ["cli", "tui"],
+      method: ["project-scaffolding", "workflow-automation"],
+    },
+  },
+  {
     id: "municipalities-budget-scraper",
     title: "Municipalities Budget Scraper",
     subtitle: "AI-Powered Municipal Financial Report Discovery",
@@ -59,6 +91,38 @@ export const projects: Project[] = [
     },
   },
   {
+    id: "municipal-waste-schedule-etl",
+    title: "Municipal Waste Schedule ETL",
+    subtitle: "Public-Sector Waste Collection Data Pipeline",
+    description:
+      "A Python ETL pipeline that extracts municipal waste collection schedules from ReCollect-powered services, augments Peel recycling data from Circular Materials, and normalizes nested event JSON into analytics-ready schedule outputs. The pipeline supports multiple Ontario municipalities, audit-friendly raw response storage, retry-aware API clients, and staged extraction, transformation, and merge scripts.",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/municipal-waste-schedule-etl",
+    githubRepo: "Andrew-Girgis/municipal-waste-schedule-etl",
+    tags: {
+      technology: ["python", "recollect-api", "pandas"],
+      domain: ["civic-tech", "public-policy", "data-engineering"],
+      type: ["etl-pipeline"],
+      method: ["api-extraction", "data-normalization", "data-pipeline"],
+    },
+  },
+  {
+    id: "public-jobs-scraper",
+    title: "Public Jobs Scraper",
+    subtitle: "Cross-Jurisdiction Government Job Research Pipeline",
+    description:
+      "A research-grade scraping system for technical government job postings across Canada, Australia, and the United Kingdom. It monitors 14 jurisdictions, applies fuzzy title matching to reduce false positives, standardizes job details for comparative public-administration analysis, supports parallel Playwright collection, and includes Supabase upload workflows with GPT-assisted extraction for inconsistent pages.",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/public_jobs_scraper",
+    githubRepo: "Andrew-Girgis/public_jobs_scraper",
+    tags: {
+      technology: ["python", "playwright", "supabase", "openai"],
+      domain: ["public-policy", "career", "government"],
+      type: ["scraper", "research-dataset"],
+      method: ["web-scraping", "fuzzy-matching", "ai-extraction"],
+    },
+  },
+  {
     id: "linkedin-job-scraper",
     title: "LinkedIn Job Scraper",
     subtitle: "Intelligent Job Data Extraction with LLM Enhancement",
@@ -75,6 +139,22 @@ export const projects: Project[] = [
       domain: ["career", "data-engineering"],
       type: ["scraper", "full-stack-app"],
       method: ["web-scraping", "nlp", "data-pipeline"],
+    },
+  },
+  {
+    id: "linkedin-company-scraper",
+    title: "LinkedIn Company Scraper",
+    subtitle: "Company Enrichment for Job Search Data Pipelines",
+    description:
+      "A Python scraper that extracts structured company data from LinkedIn pages, including company IDs, industry, size, headquarters, specialties, websites, and descriptions. It supports batch processing, rate limiting, optional Gemini URL verification, Supabase storage, and company ID extraction for downstream job search and business intelligence workflows.",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/linkedin-company-scraper",
+    githubRepo: "Andrew-Girgis/linkedin-company-scraper",
+    tags: {
+      technology: ["python", "selenium", "gemini", "supabase"],
+      domain: ["career", "data-engineering"],
+      type: ["scraper"],
+      method: ["web-scraping", "entity-enrichment", "data-pipeline"],
     },
   },
   {

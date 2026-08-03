@@ -12,17 +12,17 @@
  * @example
  * ```tsx
  * // Basic usage
- * <CalBookingWidget calLink="andrew-girgis/30min" />
+ * <CalBookingWidget calLink="andrew-girgis/1on1" />
  * 
  * // With custom layout
  * <CalBookingWidget 
- *   calLink="andrew-girgis/30min"
+ *   calLink="andrew-girgis/1on1"
  *   layout="week_view"
  * />
  * 
  * // In chatbot context
  * {message.hasBookingWidget && (
- *   <CalBookingWidget calLink="andrew-girgis/30min" />
+ *   <CalBookingWidget calLink="andrew-girgis/1on1" />
  * )}
  * ```
  * 
@@ -44,12 +44,12 @@ interface CalBookingWidgetProps {
 
 declare global {
   interface Window {
-    Cal?: any;
+    Cal?: unknown;
   }
 }
 
 const CalBookingWidget = ({ 
-  calLink = "andrew-girgis/30min",
+  calLink = "andrew-girgis/1on1",
   theme,
   layout = "month_view"
 }: CalBookingWidgetProps) => {

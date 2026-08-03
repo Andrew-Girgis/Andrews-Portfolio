@@ -1,4 +1,3 @@
-import StarField from "./StarField";
 import TypingAnimation from "./TypingAnimation";
 import AsciiArtPlayer from "./AsciiArtPlayer";
 import { saturnFrames } from "@/data/load-frames";
@@ -11,8 +10,8 @@ type HeroTypingWindow = Window & {
 
 const lines = [
   { text: "Andrew Girgis", font: "mono", delay: 500 },
-  { text: "Data Scientist · Applied Economist", font: "mono", delay: 0 },
-  { text: "Turning complex data into meaningful solutions", font: "mono", delay: 0 },
+  { text: "Builder · Data Scientist", font: "mono", delay: 0 },
+  { text: "Using data, AI, and software to solve real-world problems.", font: "mono", delay: 0 },
 ];
 
 const HeroSection = () => {
@@ -48,10 +47,8 @@ const HeroSection = () => {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
-      <StarField />
-
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background z-[1]" />
 
 <div className="absolute inset-0 z-[2] overflow-hidden opacity-95 pointer-events-none">

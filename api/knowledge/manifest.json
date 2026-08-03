@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "embedding": {
+    "provider": "cohere",
+    "model": "embed-v4.0",
+    "outputDimension": 1024,
+    "embeddingType": "float",
+    "documentInputType": "search_document",
+    "queryInputType": "search_query"
+  },
+  "vectorize": {
+    "indexName": "sierra-knowledge",
+    "metric": "cosine"
+  },
+  "d1": {
+    "databaseName": "sierra-db"
+  },
+  "chunking": {
+    "targetChars": 1400,
+    "overlapChars": 180,
+    "minChunkChars": 220
+  },
+  "sources": [
+    {
+      "id": "portfolio-projects",
+      "enabled": true,
+      "loader": "projects-data",
+      "path": "src/data/projects.ts",
+      "type": "project"
+    },
+    {
+      "id": "workspace-hotspots",
+      "enabled": true,
+      "loader": "workspace-data",
+      "path": "src/data/deskHotspots.ts",
+      "type": "workspace"
+    },
+    {
+      "id": "curated-sierra",
+      "enabled": true,
+      "loader": "directory",
+      "path": "api/knowledge/sources",
+      "type": "meta",
+      "include": ["sierra.md", "sierra-origin.md"]
+    },
+    {
+      "id": "curated-profile",
+      "enabled": true,
+      "loader": "directory",
+      "path": "api/knowledge/sources/profile",
+      "type": "profile",
+      "include": ["**/*.md"]
+    },
+    {
+      "id": "curated-project-docs",
+      "enabled": true,
+      "loader": "directory",
+      "path": "api/knowledge/sources/projects",
+      "type": "project",
+      "include": ["**/*.md"]
+    },
+    {
+      "id": "curated-research",
+      "enabled": true,
+      "loader": "directory",
+      "path": "api/knowledge/sources/research",
+      "type": "research",
+      "include": ["**/*.md"]
+    },
+    {
+      "id": "curated-coursework",
+      "enabled": true,
+      "loader": "directory",
+      "path": "api/knowledge/sources/coursework",
+      "type": "coursework",
+      "include": ["**/*.md"]
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+Sierra Conversational Booking Roadmap
+=====================================
+
+Phase One Decisions
+-------------------
+
+- Use the Cal.com event type `andrew-girgis/1on1`.
+- Support new bookings only.
+- Ask the visitor to choose between the event's configured 15-minute and
+  30-minute durations before searching for availability.
+- Inspect the `1on1` event's booking fields before implementing the Cal.com
+  payload. Ask for the meeting purpose conversationally, allow the visitor to
+  skip it, and, when supplied, verify the supported Cal.com mechanism for
+  including it in the calendar event description. Do not assume an arbitrary
+  API field will update the calendar description.
+- Inspect whether attendee email verification is enabled. Only show the
+  verification-code conversation when Cal.com requires it.
+- Do not add Turnstile in phase one. Protect availability lookup, natural-
+  language parsing, email verification, and booking confirmation with strict,
+  operation-specific rate limits and usage monitoring.
+- Cap AI-backed operations globally in D1: 200 Sierra chat generations and 50
+  free-text availability interpretations per UTC day. Preset date buttons and
+  direct Cal.com availability lookups do not consume the parsing allowance.
+
+Future Work
+-----------
+
+- Add conversational rescheduling using Cal.com booking UIDs and explicit
+  attendee verification.
+- Add conversational cancellation using Cal.com booking UIDs and explicit
+  attendee verification.
+- Add booking webhooks for created, rescheduled, and cancelled events, with
+  signature verification and replay protection.
+- Add Turnstile if traffic, automated booking attempts, spam, or AI API usage
+  makes rate limits alone insufficient.
+- Add attendee self-service links as a lower-risk alternative to allowing the
+  assistant to mutate existing bookings directly.
+- Review rate-limit telemetry and set budget alerts for OpenAI, Cohere,
+  Cloudflare, and any authenticated Cal.com usage.
+
+Security Reminder
+-----------------
+
+Rate limits reduce cost and abuse but do not prove that a booking request came
+from a human. If calendar spam appears, add Turnstile to final confirmation
+without changing the rest of the conversational workflow.

@@ -1,14 +1,53 @@
 name = "sierra-api"
 main = "src/index.ts"
-compatibility_date = "2024-12-01"
+compatibility_date = "2026-08-02"
 compatibility_flags = ["nodejs_compat"]
 
 [vars]
-SUPABASE_URL = "https://mgdtwdlfmxybuivdyvwx.supabase.co"
+RAG_BACKEND = "cloudflare"
+CAL_USERNAME = "andrew-girgis"
+CAL_EVENT_TYPE_SLUG = "1on1"
+ALLOWED_ORIGINS = "https://andrew-girgis.com,https://www.andrew-girgis.com,http://localhost:8080,http://localhost:8081,http://localhost:8888"
+CHAT_DAILY_AI_LIMIT = "200"
+BOOKING_PARSE_DAILY_AI_LIMIT = "50"
 
 [[kv_namespaces]]
 binding = "GREETING_CACHE"
 id = "2354318972d14ceaa295b0dd98056ef3"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "sierra-db"
+database_id = "95d85936-4311-4f0f-b1da-e7a96dd41371"
+
+[[vectorize]]
+binding = "VECTORIZE"
+index_name = "sierra-knowledge"
+remote = true
+
+[[ratelimits]]
+name = "CHAT_RATE_LIMITER"
+namespace_id = "1001"
+
+  [ratelimits.simple]
+  limit = 10
+  period = 60
+
+[[ratelimits]]
+name = "BOOKING_RATE_LIMITER"
+namespace_id = "1002"
+
+  [ratelimits.simple]
+  limit = 10
+  period = 60
+
+[[ratelimits]]
+name = "BOOKING_CONFIRM_RATE_LIMITER"
+namespace_id = "1003"
+
+  [ratelimits.simple]
+  limit = 3
+  period = 60
 
 [dev]
 port = 8788

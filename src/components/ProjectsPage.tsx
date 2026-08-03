@@ -1,21 +1,69 @@
 import { projects } from "@/data/projects";
 import { useState } from "react";
-import Navigation from "./NavigationNew";
 
-const allTags = Array.from(
-  new Set(projects.flatMap((p) => [...p.tags.technology, ...p.tags.domain]))
-).sort();
+const categories = [
+  "ai",
+  "data-science",
+  "data-engineering",
+  "data-visualization",
+  "developer-tools",
+  "finance",
+  "civic-tech",
+  "productivity",
+  "consumer-tech",
+];
+
+const categoryAliases: Record<string, string[]> = {
+  ai: ["ai", "ai-agents", "voice-ai", "computer-vision", "deep-learning", "openai", "gemini", "pgvector"],
+  "data-science": [
+    "data-science",
+    "computer-vision",
+    "deep-learning",
+    "predictive-model",
+    "research",
+    "text-analysis",
+    "natural-language-processing",
+    "sentiment-analysis",
+    "scikit-learn",
+    "tensorflow",
+    "keras",
+    "nltk",
+    "garch",
+    "var",
+  ],
+  "data-engineering": ["data-engineering", "etl-pipeline", "scraper", "data-pipeline", "web-scraping"],
+  "data-visualization": ["data-visualization", "dashboard", "network-visualization", "shiny", "gephi"],
+  "developer-tools": ["developer-tools", "agent-tooling", "cli", "tui", "project-scaffolding"],
+  finance: ["finance", "fintech", "personal-finance", "real-estate"],
+  "civic-tech": ["civic-tech", "public-policy", "government", "demographics"],
+  productivity: ["productivity"],
+  "consumer-tech": ["consumer-tech"],
+};
+
+const projectMatchesCategory = (project: (typeof projects)[number], category: string) => {
+  const aliases = categoryAliases[category] ?? [category];
+  const projectTags = [
+    ...project.tags.technology,
+    ...project.tags.domain,
+    ...project.tags.type,
+    ...project.tags.method,
+  ];
+
+  return aliases.some((alias) => projectTags.includes(alias));
+};
 
 const ProjectsPage = () => {
-  const [activeTag, setActiveTag] = useState<string | null>(null);
+  const [activeCategory, setActiveCategory] = useState("all");
 
-  const filtered = activeTag
-    ? projects.filter(
-        (p) =>
-          p.tags.technology.includes(activeTag) ||
-          p.tags.domain.includes(activeTag)
-      )
-    : projects;
+  const filtered = activeCategory === "all"
+    ? projects
+    : projects.filter((project) => projectMatchesCategory(project, activeCategory));
+
+  const filterOptions = ["all", ...categories];
+
+  const projectCount = (category: string) => category === "all"
+    ? projects.length
+    : projects.filter((project) => projectMatchesCategory(project, category)).length;
 
   return (
     <div className="min-h-screen bg-background">
@@ -24,31 +72,22 @@ const ProjectsPage = () => {
           <span className="text-primary">$</span> ls -a ./projects
         </h1>
         <p className="text-muted-foreground mb-8">
-          Browse all projects by technology or domain.
+          Browse all projects by category.
         </p>
 
         <div className="flex flex-wrap gap-2 mb-8">
-          <button
-            onClick={() => setActiveTag(null)}
-            className={`px-3 py-1 text-xs font-mono rounded-full border transition-colors ${
-              activeTag === null
-                ? "border-primary text-primary bg-primary/10"
-                : "border-border text-muted-foreground hover:text-foreground hover:border-primary"
-            }`}
-          >
-            all
-          </button>
-          {allTags.map((tag) => (
+          {filterOptions.map((category) => (
             <button
-              key={tag}
-              onClick={() => setActiveTag(tag)}
+              key={category}
+              onClick={() => setActiveCategory(category)}
               className={`px-3 py-1 text-xs font-mono rounded-full border transition-colors ${
-                activeTag === tag
+                activeCategory === category
                   ? "border-primary text-primary bg-primary/10"
                   : "border-border text-muted-foreground hover:text-foreground hover:border-primary"
               }`}
             >
-              {tag}
+              {category}
+              <span className="ml-1 opacity-60">{projectCount(category)}</span>
             </button>
           ))}
         </div>

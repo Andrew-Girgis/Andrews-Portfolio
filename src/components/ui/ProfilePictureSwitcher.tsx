@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 
-// Import all profile images
-import profilePhoto from "@/assets/AndrewPhoto.jpg";
-import profileHxH from "@/assets/Andrew_HxH.png";
-import profileJuju from "@/assets/Andrew_juju.png";
-import profileSolo from "@/assets/Andrew_solo.png";
+const images = [
+  "/about/AndrewPhoto.jpg",
+  "/about/Andrew_HxH.png",
+  "/about/Andrew_juju.png",
+  "/about/Andrew_solo.png",
+];
 
 interface ProfilePictureSwitcherProps {
   className?: string;
@@ -15,18 +16,12 @@ const ProfilePictureSwitcher = ({
   className = "", 
   storageKey = "profilePicture" 
 }: ProfilePictureSwitcherProps) => {
-  // Array of profile images
-  const images = [
-    profilePhoto,  // Original
-    profileHxH,    // Hunter x Hunter style
-    profileJuju,   // Jujutsu Kaisen style
-    profileSolo,   // Solo Leveling style
-  ];
-
   // Initialize state from localStorage or default to 0
   const [currentImageIndex, setCurrentImageIndex] = useState(() => {
+    if (typeof window === "undefined") return 0;
     const stored = localStorage.getItem(storageKey);
-    return stored !== null ? parseInt(stored, 10) : 0;
+    const index = stored !== null ? parseInt(stored, 10) : 0;
+    return Number.isInteger(index) && index >= 0 && index < images.length ? index : 0;
   });
 
   // Sync with localStorage whenever index changes

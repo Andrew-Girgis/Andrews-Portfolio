@@ -37,7 +37,7 @@ const FeaturedProjects = () => {
       >
         <div className="flex items-baseline justify-between mb-8">
           <h2 className="text-2xl font-bold text-foreground font-mono">
-            <span className="text-primary">$</span> ls ./projects
+            <span className="text-primary">$</span> ls ./projects | head -n 3
           </h2>
           <a
             href="/projects"
@@ -54,7 +54,7 @@ const FeaturedProjects = () => {
               href={project.link}
               target={project.link.startsWith("#") ? undefined : "_blank"}
               rel={project.link.startsWith("#") ? undefined : "noopener noreferrer"}
-              className="group block rounded-lg border border-border bg-card overflow-hidden hover:border-primary/50 transition-all duration-300"
+              className="group block rounded-lg border border-border bg-card/80 backdrop-blur-sm overflow-hidden hover:border-primary/50 transition-all duration-300"
               style={{ animationDelay: `${i * 100}ms` }}
             >
               {project.image && (

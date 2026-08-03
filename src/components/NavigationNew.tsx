@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { Moon, Sun, Menu, X } from "lucide-react";
-import { writeups } from "@/data/writeups";
 
 const allNavItems = [
   { id: "home", label: "Home", href: "/" },
   { id: "about", label: "About", href: "/#about" },
   { id: "projects", label: "Projects", href: "/projects" },
-  { id: "writeups", label: "Writeups", href: "/writeups", show: () => writeups.length > 0 },
+  { id: "writing", label: "Writing", href: "/writing" },
+  { id: "resources", label: "Resources", href: "/resources" },
   { id: "workspace", label: "Workspace", href: "/workspace" },
 ];
 

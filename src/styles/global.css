@@ -1,37 +1,37 @@
 @font-face {
-  font-family: 'GeistMono';
-  src: url('/fonts/GeistMono-Variable.woff2') format('woff2');
+  font-family: "GeistMono";
+  src: url("/fonts/GeistMono-Variable.woff2") format("woff2");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Geist';
-  src: url('/fonts/Geist-Variable.woff2') format('woff2');
+  font-family: "Geist";
+  src: url("/fonts/Geist-Variable.woff2") format("woff2");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'GeistPixel';
-  src: url('/fonts/GeistPixel-Circle.woff2') format('woff2');
+  font-family: "GeistPixel";
+  src: url("/fonts/GeistPixel-Circle.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Handwriting';
-  src: url('/fonts/handwriting.woff2') format('woff2');
+  font-family: "Handwriting";
+  src: url("/fonts/handwriting.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-palette-values --geist-pixel-hero {
-  font-family: 'GeistPixel';
+  font-family: "GeistPixel";
   override-colors:
     0 rgba(255, 255, 255, 1),
     1 rgba(255, 255, 255, 0.12);
@@ -43,7 +43,7 @@
 
 @layer base {
   :root {
-    --background: 186 55% 83%;
+    --background: 31 51% 93%;
     --foreground: 194 98% 17%;
     --card: 186 60% 80%;
     --card-foreground: 194 98% 17%;
@@ -121,39 +121,68 @@
 }
 
 @keyframes typing-cursor {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
 .typing-cursor::after {
-  content: '|';
+  content: "|";
   animation: typing-cursor 0.8s infinite;
   margin-left: 2px;
 }
 
 @keyframes fade-in {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes fade-in-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes scale-in {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @keyframes slide-in {
-  from { opacity: 0; transform: translateX(-20px); }
-  to { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 /* ASCII Skyline */
 .ascii-skyline-container .ascii-art {
-  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  font-family: "JetBrains Mono", "Fira Code", "Courier New", monospace;
   font-size: 4px;
   line-height: 5.5px;
   white-space: pre;
@@ -163,7 +192,192 @@
 }
 
 :root:not(.dark) .ascii-skyline-container {
-  filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(1.2);
+  filter: none;
+}
+
+:root:not(.dark)
+  .ascii-skyline-container
+  :is(
+    .c998,
+    .c1026,
+    .c1103,
+    .c1104,
+    .c1116,
+    .c1135,
+    .c1136,
+    .c1152,
+    .c1171,
+    .c1172,
+    .c1185,
+    .c1186,
+    .c1187,
+    .c1188,
+    .c1204,
+    .c1205,
+    .c1220,
+    .c1221,
+    .c1272,
+    .c1276,
+    .c1295,
+    .c1296,
+    .c1297,
+    .c1307,
+    .c1319,
+    .c1330,
+    .c1345,
+    .c1354,
+    .c1381,
+    .c1382,
+    .c1396,
+    .c1432,
+    .c1447,
+    .c1448,
+    .c1458,
+    .c1467,
+    .c1480,
+    .c1486,
+    .c1489,
+    .c1500,
+    .c1501,
+    .c1502,
+    .c1512,
+    .c1528,
+    .c1539,
+    .c1548,
+    .c1558,
+    .c1559,
+    .c1560,
+    .c1561,
+    .c1572,
+    .c1573,
+    .c1584,
+    .c1585,
+    .c1586,
+    .c1593,
+    .c1602,
+    .c1614,
+    .c1618,
+    .c1619,
+    .c1631,
+    .c1641,
+    .c1653,
+    .c1661,
+    .c1675,
+    .c1676,
+    .c1677,
+    .c1682,
+    .c1692,
+    .c1698,
+    .c1699,
+    .c1700,
+    .c1702,
+    .c1707,
+    .c1708,
+    .c1726,
+    .c1741,
+    .c1742,
+    .c1745,
+    .c1746,
+    .c1750,
+    .c1751,
+    .c1752,
+    .c1755,
+    .c1763,
+    .c1764,
+    .c1769,
+    .c1790,
+    .c1791,
+    .c1795,
+    .c1796,
+    .c1797,
+    .c1807,
+    .c1811,
+    .c1812,
+    .c1813,
+    .c1832,
+    .c1833,
+    .c1834,
+    .c1835,
+    .c1837,
+    .c1845,
+    .c1846,
+    .c1847,
+    .c1848,
+    .c1849,
+    .c1851,
+    .c1860,
+    .c1861,
+    .c1869,
+    .c1870,
+    .c1877,
+    .c1878,
+    .c1879,
+    .c1899,
+    .c1900,
+    .c1912,
+    .c1913,
+    .c1916,
+    .c1917,
+    .c1918,
+    .c1919,
+    .c1925,
+    .c1926,
+    .c1927,
+    .c1936,
+    .c1937,
+    .c1938,
+    .c1939,
+    .c1945,
+    .c1946,
+    .c1947,
+    .c1948,
+    .c1949,
+    .c1950,
+    .c1956,
+    .c1957,
+    .c1958,
+    .c1959,
+    .c1960,
+    .c1968,
+    .c1969,
+    .c1970,
+    .c1976,
+    .c1977,
+    .c1978,
+    .c1983,
+    .c1984,
+    .c1985,
+    .c1986,
+    .c1987,
+    .c1989,
+    .c1993,
+    .c1994,
+    .c2002,
+    .c2003,
+    .c2011,
+    .c2012,
+    .c2022,
+    .c2023,
+    .c2024,
+    .c2025,
+    .c2027,
+    .c2043,
+    .c2044,
+    .c2045,
+    .c2046,
+    .c2047,
+    .c2048,
+    .c2057,
+    .c2058,
+    .c2066,
+    .c2071,
+    .c2072,
+    .c2077,
+    .c2078,
+    .c2081,
+    .c2092
+) {
+  color: #D80621 !important;
 }
 
 @keyframes ascii-sweep {

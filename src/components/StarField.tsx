@@ -41,10 +41,23 @@ const StarField = () => {
     const STAR_COUNT = 200;
     const MAX_SHOOTING_STARS = 3;
     const SHOOTING_STAR_CHANCE = 0.003;
+    let isDarkTheme = document.documentElement.classList.contains("dark");
+
+    const getStarColor = (opacity: number) => {
+      return isDarkTheme
+        ? `rgba(200, 220, 255, ${opacity})`
+        : `rgba(55, 55, 55, ${opacity})`;
+    };
+
+    const getShootingStarColor = (opacity: number) => {
+      return isDarkTheme
+        ? `rgba(255, 255, 255, ${opacity})`
+        : `rgba(55, 55, 55, ${opacity})`;
+    };
 
     const resize = () => {
-      width = canvas!.parentElement?.clientWidth ?? window.innerWidth;
-      height = canvas!.parentElement?.clientHeight ?? window.innerHeight;
+      width = window.innerWidth;
+      height = window.innerHeight;
       canvas!.width = width;
       canvas!.height = height;
     };
@@ -55,8 +68,8 @@ const StarField = () => {
         stars.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          radius: Math.random() * 1.5 + 0.3,
-          opacity: Math.random() * 0.8 + 0.2,
+          radius: Math.random() * 1.7 + 0.4,
+          opacity: Math.random() * 0.85 + 0.25,
           speed: Math.random() * 0.003 + 0.001,
         });
       }
@@ -94,7 +107,7 @@ const StarField = () => {
 
         ctx!.beginPath();
         ctx!.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx!.fillStyle = `rgba(200, 220, 255, ${twinkle})`;
+        ctx!.fillStyle = getStarColor(isDarkTheme ? twinkle : Math.max(twinkle, 0.35));
         ctx!.fill();
       }
 
@@ -124,8 +137,8 @@ const StarField = () => {
             tailX,
             tailY
           );
-          gradient.addColorStop(0, `rgba(255, 255, 255, ${ss.opacity * 0.9})`);
-          gradient.addColorStop(1, `rgba(255, 255, 255, 0)`);
+          gradient.addColorStop(0, getShootingStarColor(ss.opacity * 0.9));
+          gradient.addColorStop(1, getShootingStarColor(0));
 
           ctx!.beginPath();
           ctx!.moveTo(ss.x, ss.y);
@@ -137,7 +150,7 @@ const StarField = () => {
 
           ctx!.beginPath();
           ctx!.arc(ss.x, ss.y, 1.5, 0, Math.PI * 2);
-          ctx!.fillStyle = `rgba(255, 255, 255, ${ss.opacity})`;
+          ctx!.fillStyle = getShootingStarColor(ss.opacity);
           ctx!.fill();
         }
       }
@@ -150,22 +163,30 @@ const StarField = () => {
     initStars();
     animate();
 
-    window.addEventListener("resize", () => {
+    const handleResize = () => {
       resize();
       initStars();
       shootingStars.length = 0;
+    };
+
+    const themeObserver = new MutationObserver(() => {
+      isDarkTheme = document.documentElement.classList.contains("dark");
     });
+
+    window.addEventListener("resize", handleResize);
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
 
     return () => {
       cancelAnimationFrame(animationRef.current);
-      window.removeEventListener("resize", resize);
+      window.removeEventListener("resize", handleResize);
+      themeObserver.disconnect();
     };
   }, []);
 
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full pointer-events-none"
+      className="fixed inset-0 z-0 h-screen w-screen pointer-events-none"
       aria-hidden="true"
     />
   );

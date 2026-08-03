@@ -1,11 +1,19 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { HOTSPOT_CONFIG, HotspotProduct } from '@/data/deskHotspots';
 const svgPath = "/houstan_setup_transparent.svg";
 
 interface TooltipPosition {
   x: number;
   y: number;
+  flipX: boolean;
+  flipY: boolean;
 }
+
+const TOOLTIP_OFFSET = 14;
+const TOOLTIP_SCREEN_PADDING = 16;
+const TOOLTIP_WIDTH = 320;
+const TOOLTIP_HEIGHT = 96;
 
 interface DeskSetupProps {
   /** Callback when a hotspot is selected/clicked */
@@ -22,7 +30,12 @@ export const DeskSetup: React.FC<DeskSetupProps> = ({ onSelect, className = '' }
   const svgContainerRef = useRef<HTMLDivElement>(null);
   const [svgContent, setSvgContent] = useState<string>('');
   const [hoveredProduct, setHoveredProduct] = useState<HotspotProduct | null>(null);
-  const [tooltipPosition, setTooltipPosition] = useState<TooltipPosition>({ x: 0, y: 0 });
+  const [tooltipPosition, setTooltipPosition] = useState<TooltipPosition>({
+    x: 0,
+    y: 0,
+    flipX: false,
+    flipY: false,
+  });
   const [activeElementId, setActiveElementId] = useState<string | null>(null);
 
   // Load SVG content
@@ -168,10 +181,15 @@ export const DeskSetup: React.FC<DeskSetupProps> = ({ onSelect, className = '' }
     };
 
     const handleMouseMove = (event: MouseEvent) => {
-      // Use clientX/Y for viewport-relative positioning (for fixed tooltip)
+      const flipX = event.clientX + TOOLTIP_WIDTH + TOOLTIP_OFFSET + TOOLTIP_SCREEN_PADDING > window.innerWidth;
+      const flipY = event.clientY + TOOLTIP_HEIGHT + TOOLTIP_OFFSET + TOOLTIP_SCREEN_PADDING > window.innerHeight;
+
+      // Fixed tooltips should react to viewport edges, not the desk container.
       setTooltipPosition({
-        x: event.clientX,
-        y: event.clientY
+        x: Math.max(TOOLTIP_SCREEN_PADDING, Math.min(event.clientX, window.innerWidth - TOOLTIP_SCREEN_PADDING)),
+        y: Math.max(TOOLTIP_SCREEN_PADDING, Math.min(event.clientY, window.innerHeight - TOOLTIP_SCREEN_PADDING)),
+        flipX,
+        flipY,
       });
     };
 
@@ -222,14 +240,14 @@ export const DeskSetup: React.FC<DeskSetupProps> = ({ onSelect, className = '' }
         const childPaths = element.querySelectorAll('path');
         childPaths.forEach((path) => {
           path.addEventListener('mouseenter', (e) => {
-            handleMouseEnter({ currentTarget: element } as any);
+            handleMouseEnter({ currentTarget: element } as unknown as MouseEvent);
           });
           path.addEventListener('mousemove', handleMouseMove);
           path.addEventListener('mouseleave', (e) => {
-            handleMouseLeave({ currentTarget: element } as any);
+            handleMouseLeave({ currentTarget: element } as unknown as MouseEvent);
           });
           path.addEventListener('click', (e) => {
-            handleClick({ currentTarget: element } as any);
+            handleClick({ currentTarget: element } as unknown as MouseEvent);
           });
         });
       }
@@ -273,18 +291,20 @@ export const DeskSetup: React.FC<DeskSetupProps> = ({ onSelect, className = '' }
         />
       )}
 
-      {/* Tooltip - using fixed positioning to escape container bounds */}
-      {hoveredProduct && (
+      {/* Portal keeps fixed positioning tied to viewport, not filtered ancestors. */}
+      {hoveredProduct && typeof document !== 'undefined' && createPortal(
         <div
-          className="fixed bg-card/95 text-foreground px-4 py-2 rounded-lg text-sm max-w-xs pointer-events-none transition-opacity duration-150 z-50 border border-border shadow-lg backdrop-blur-sm"
+          className="fixed bg-card/95 text-foreground px-4 py-2 rounded-lg text-sm w-80 max-w-[calc(100vw-2rem)] pointer-events-none transition-opacity duration-150 z-50 border border-border shadow-lg backdrop-blur-sm"
           style={{
             left: `${tooltipPosition.x}px`,
             top: `${tooltipPosition.y}px`,
+            transform: `translate(${tooltipPosition.flipX ? `calc(-100% - ${TOOLTIP_OFFSET}px)` : `${TOOLTIP_OFFSET}px`}, ${tooltipPosition.flipY ? `calc(-100% - ${TOOLTIP_OFFSET}px)` : `${TOOLTIP_OFFSET}px`})`,
           }}
           role="tooltip"
         >
           {hoveredProduct.name} — {hoveredProduct.description}
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

@@ -179,12 +179,12 @@ const NotFoundPage = ({ initialPath }: NotFoundPageProps) => {
       lowerPath.includes("project") ? { href: "/projects", label: "/projects", caption: "Projects" } : null,
       lowerPath.includes("work") ? { href: "/workspace", label: "/workspace", caption: "Workspace" } : null,
       lowerPath.includes("write") || lowerPath.includes("blog")
-        ? { href: "/writeups", label: "/writeups", caption: "Writeups" }
+        ? { href: "/writing", label: "/writing", caption: "Writing" }
         : null,
       { href: "/", label: "/", caption: "Home" },
       { href: "/projects", label: "/projects", caption: "Projects" },
       { href: "/workspace", label: "/workspace", caption: "Workspace" },
-      { href: "/writeups", label: "/writeups", caption: "Writeups" },
+      { href: "/writing", label: "/writing", caption: "Writing" },
     ].filter(Boolean) as { href: string; label: string; caption: string }[];
 
     return orderedSuggestions.filter(
