@@ -5,6 +5,7 @@ export async function handleHealth(c: Context<{ Bindings: Env }>): Promise<Respo
   const checks = {
     worker: true,
     d1: false,
+    ragChunkCount: 0,
     vectorizeBinding: Boolean(c.env.VECTORIZE),
     cohereConfigured: Boolean(c.env.COHERE_API_KEY),
     openaiConfigured: Boolean(c.env.OPENAI_API_KEY),
@@ -18,7 +19,14 @@ export async function handleHealth(c: Context<{ Bindings: Env }>): Promise<Respo
     console.error("Health check D1 error:", error);
   }
 
-  const healthy = checks.worker && checks.d1 && checks.vectorizeBinding && checks.cohereConfigured && checks.openaiConfigured && checks.langfuseConfigured;
+  try {
+    const result = await c.env.RAG_DB.prepare("SELECT COUNT(*) AS count FROM document_chunks").first<{ count: number }>();
+    checks.ragChunkCount = result?.count || 0;
+  } catch (error) {
+    console.error("Health check RAG D1 error:", error);
+  }
+
+  const healthy = checks.worker && checks.d1 && checks.ragChunkCount > 0 && checks.vectorizeBinding && checks.cohereConfigured && checks.openaiConfigured && checks.langfuseConfigured;
 
   return c.json(
     {

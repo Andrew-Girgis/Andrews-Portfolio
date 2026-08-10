@@ -1,19 +1,14 @@
 import { useState, useEffect } from "react";
 import { Moon, Sun, Menu, X } from "lucide-react";
+import { enabledOptionalSections } from "@/config/featureFlags";
 
-const allNavItems = [
+const navItems = [
   { id: "home", label: "Home", href: "/" },
   { id: "about", label: "About", href: "/#about" },
   { id: "projects", label: "Projects", href: "/projects" },
-  { id: "writing", label: "Writing", href: "/writing" },
-  { id: "resources", label: "Resources", href: "/resources" },
+  ...enabledOptionalSections.map(({ id, label, href }) => ({ id, label, href })),
   { id: "workspace", label: "Workspace", href: "/workspace" },
 ];
-
-const navItems = allNavItems.filter((item) => {
-  if ("show" in item && typeof item.show === "function") return item.show();
-  return true;
-});
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);

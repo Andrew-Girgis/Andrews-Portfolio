@@ -23,6 +23,10 @@ app.use("/api/booking/*", bodyLimit({
   maxSize: 8 * 1024,
   onError: (c) => c.json({ error: "Request body is too large." }, 413),
 }));
+app.use("/api/chat", bodyLimit({
+  maxSize: 64 * 1024,
+  onError: (c) => c.json({ error: "Request body is too large." }, 413),
+}));
 
 app.get("/api/greeting", handleGreeting);
 app.get("/api/health", handleHealth);

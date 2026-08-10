@@ -19,6 +19,16 @@ export type BookingSlot = {
   end: string;
 };
 
+export type BookingConfirmationSnapshot = {
+  uid: string;
+  start: string;
+  end: string;
+  duration: 15 | 30;
+  timeZone: string;
+  meetingMethod: "Google Meet";
+  status: string;
+};
+
 export type BookingDraft = {
   stage: BookingStage;
   duration?: 15 | 30;
@@ -97,13 +107,7 @@ export function formatBookingSlot(slot: BookingSlot, timeZone: string): string {
 }
 
 export function formatBookingSummary(slot: BookingSlot, timeZone: string): string {
-  const date = new Intl.DateTimeFormat("en-CA", {
-    timeZone,
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  }).format(new Date(slot.start));
+  const date = formatBookingDate(slot, timeZone);
   const time = new Intl.DateTimeFormat("en-CA", {
     timeZone,
     hour: "numeric",
@@ -111,6 +115,32 @@ export function formatBookingSummary(slot: BookingSlot, timeZone: string): strin
     timeZoneName: "short",
   }).format(new Date(slot.start));
   return `${date} at ${time}`;
+}
+
+export function formatBookingDate(slot: BookingSlot, timeZone: string): string {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone,
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date(slot.start));
+}
+
+export function formatBookingTimeRange(slot: BookingSlot, timeZone: string): string {
+  const formatter = new Intl.DateTimeFormat("en-CA", {
+    timeZone,
+    hour: "numeric",
+    minute: "2-digit",
+    timeZoneName: "short",
+  });
+  const start = formatter.format(new Date(slot.start));
+  const end = new Intl.DateTimeFormat("en-CA", {
+    timeZone,
+    hour: "numeric",
+    minute: "2-digit",
+  }).format(new Date(slot.end));
+  return `${start}–${end}`;
 }
 
 export function isValidEmail(value: string): boolean {

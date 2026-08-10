@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { enabledOptionalSections } from "@/config/featureFlags";
 
 interface NotFoundPageProps {
   initialPath: string;
@@ -175,16 +176,20 @@ const NotFoundPage = ({ initialPath }: NotFoundPageProps) => {
 
   const suggestions = useMemo(() => {
     const lowerPath = path.toLowerCase();
+    const optionalSuggestions = enabledOptionalSections.map((section) => ({
+      href: section.href,
+      label: section.href,
+      caption: section.label,
+    }));
+    const writingSuggestion = optionalSuggestions.find((suggestion) => suggestion.href === "/writing");
     const orderedSuggestions = [
       lowerPath.includes("project") ? { href: "/projects", label: "/projects", caption: "Projects" } : null,
       lowerPath.includes("work") ? { href: "/workspace", label: "/workspace", caption: "Workspace" } : null,
-      lowerPath.includes("write") || lowerPath.includes("blog")
-        ? { href: "/writing", label: "/writing", caption: "Writing" }
-        : null,
+      lowerPath.includes("write") || lowerPath.includes("blog") ? writingSuggestion : null,
       { href: "/", label: "/", caption: "Home" },
       { href: "/projects", label: "/projects", caption: "Projects" },
       { href: "/workspace", label: "/workspace", caption: "Workspace" },
-      { href: "/writing", label: "/writing", caption: "Writing" },
+      ...optionalSuggestions,
     ].filter(Boolean) as { href: string; label: string; caption: string }[];
 
     return orderedSuggestions.filter(

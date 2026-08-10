@@ -5,7 +5,7 @@ import netlify from "@astrojs/netlify";
 
 export default defineConfig({
   output: "static",
-  site: "https://www.andrew-girgis.com",
+  site: "https://girg.is",
   integrations: [
     react(),
     tailwind({

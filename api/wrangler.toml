@@ -7,7 +7,7 @@ compatibility_flags = ["nodejs_compat"]
 RAG_BACKEND = "cloudflare"
 CAL_USERNAME = "andrew-girgis"
 CAL_EVENT_TYPE_SLUG = "1on1"
-ALLOWED_ORIGINS = "https://andrew-girgis.com,https://www.andrew-girgis.com,http://localhost:8080,http://localhost:8081,http://localhost:8888"
+ALLOWED_ORIGINS = "https://girg.is,https://www.girg.is,https://andrew-girgis.com,https://www.andrew-girgis.com,http://localhost:8080,http://localhost:8081,http://localhost:8888"
 CHAT_DAILY_AI_LIMIT = "200"
 BOOKING_PARSE_DAILY_AI_LIMIT = "50"
 
@@ -19,6 +19,12 @@ id = "2354318972d14ceaa295b0dd98056ef3"
 binding = "DB"
 database_name = "sierra-db"
 database_id = "95d85936-4311-4f0f-b1da-e7a96dd41371"
+
+[[d1_databases]]
+binding = "RAG_DB"
+database_name = "sierra-db"
+database_id = "95d85936-4311-4f0f-b1da-e7a96dd41371"
+remote = true
 
 [[vectorize]]
 binding = "VECTORIZE"

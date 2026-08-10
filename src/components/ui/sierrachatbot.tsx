@@ -1,13 +1,16 @@
 import { useState, useEffect, useRef } from "react";
-import { Calendar, Clock, ExternalLink, Send, X } from "lucide-react";
+import { Calendar, CheckCircle2, Clock, Send, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   BookingDraft,
+  BookingConfirmationSnapshot,
   BookingSlot,
   detectedTimeZone,
+  formatBookingDate,
   formatBookingSlot,
   formatBookingSummary,
+  formatBookingTimeRange,
   isValidEmail,
   normalizeTimeZone,
   timeZoneLabel,
@@ -32,6 +35,8 @@ interface Message {
   isStreaming?: boolean;
   sensitive?: boolean;
   bookingRelated?: boolean;
+  kind?: "text" | "booking-confirmation";
+  bookingConfirmation?: BookingConfirmationSnapshot;
 }
 
 /**
@@ -270,7 +275,15 @@ const SierraChatbot = () => {
     setMessages((prev) => [...prev, message]);
   };
 
-  const cleanAssistantText = (text: string) => text.replace(/\[BOOK_MEETING\]/gi, "").trim();
+  const appendBookingConfirmation = (confirmation: BookingConfirmationSnapshot) => {
+    const message = createMessage("", false);
+    message.kind = "booking-confirmation";
+    message.bookingConfirmation = confirmation;
+    message.bookingRelated = true;
+    setMessages((prev) => [...prev, message]);
+  };
+
+  const cleanAssistantText = (text: string) => text.trim();
 
   const readApiError = async (response: Response, fallback: string) => {
     try {
@@ -327,7 +340,7 @@ const SierraChatbot = () => {
       }
 
       let fullResponse = "";
-      let bookingIntent = false;
+      let bookingOffered = false;
       let receivedDone = false;
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
@@ -346,7 +359,7 @@ const SierraChatbot = () => {
             const event = JSON.parse(line.slice(6).trim()) as {
               type: string;
               content?: string;
-              bookingIntent?: boolean;
+              action?: string;
               error?: string;
             };
             if (event.type === "token" && event.content) {
@@ -355,8 +368,9 @@ const SierraChatbot = () => {
               setMessages((prev) => prev.map((item) => item.id === assistantMessage.id
                 ? { ...item, content: visibleResponse, isStreaming: true }
                 : item));
+            } else if (event.type === "ui_action" && event.action === "offer_booking") {
+              bookingOffered = true;
             } else if (event.type === "done") {
-              bookingIntent = Boolean(event.bookingIntent);
               receivedDone = true;
             } else if (event.type === "error") {
               throw new Error(event.error || "I'm sorry, something went wrong. Please try again.");
@@ -373,7 +387,7 @@ const SierraChatbot = () => {
       setMessages((prev) => prev.map((item) => item.id === assistantMessage.id
         ? { ...item, content: cleanAssistantText(fullResponse), isStreaming: false }
         : item));
-      if (bookingIntent) beginBooking();
+      if (bookingOffered) beginBooking();
     } catch (error) {
       console.error("Chat error:", error);
       const errorMessage = error instanceof Error
@@ -487,9 +501,10 @@ const SierraChatbot = () => {
     appendBookingAssistant("Please review the details below. I won't book anything until you confirm.");
   };
 
-  const confirmBooking = async () => {
+  const confirmBooking = async (recordConfirmation = true) => {
     if (!booking.draftId || !booking.selectedSlot || !booking.name || !booking.email || !booking.idempotencyKey || requestLockRef.current) return;
     requestLockRef.current = true;
+    if (recordConfirmation) appendBookingUser("Confirm booking");
     setBooking((current) => ({ ...current, stage: "submitting" }));
     setIsTyping(true);
     try {
@@ -505,7 +520,25 @@ const SierraChatbot = () => {
         }),
       });
       if (!response.ok) throw new Error(await readApiError(response, "I couldn't confirm the booking."));
-      const result = await response.json() as { booking: { uid: string } };
+      const result = await response.json() as {
+        booking: {
+          uid: string;
+          status: string;
+          start: string;
+          end: string;
+          duration: number;
+          location?: string;
+        };
+      };
+      const confirmation: BookingConfirmationSnapshot = {
+        uid: result.booking.uid,
+        status: result.booking.status,
+        start: result.booking.start || booking.selectedSlot.start,
+        end: result.booking.end || booking.selectedSlot.end,
+        duration: result.booking.duration === 15 ? 15 : booking.duration || 30,
+        timeZone: booking.timeZone,
+        meetingMethod: "Google Meet",
+      };
       setBooking((current) => ({
         ...current,
         stage: "confirmed",
@@ -514,7 +547,13 @@ const SierraChatbot = () => {
         email: undefined,
         purpose: undefined,
       }));
-      appendBookingAssistant(`You're booked for ${formatBookingSummary(booking.selectedSlot, booking.timeZone)}. Cal.com will send the invitation to your email.`);
+      const confirmedSlot = { start: confirmation.start, end: confirmation.end };
+      if (confirmation.status === "accepted") {
+        appendBookingAssistant(`You're booked for a ${confirmation.duration}-minute meeting on ${formatBookingSummary(confirmedSlot, confirmation.timeZone)}. The Google Meet link is included in the invitation Cal.com sent to your email.`);
+      } else {
+        appendBookingAssistant(`Your ${confirmation.duration}-minute meeting request for ${formatBookingSummary(confirmedSlot, confirmation.timeZone)} was submitted. Cal.com will email you when it is confirmed.`);
+      }
+      appendBookingConfirmation(confirmation);
     } catch (error) {
       const message = error instanceof Error ? error.message : "I couldn't confirm the booking.";
       const outcomeUnknown = /may have completed|already being processed|check your email/i.test(message);
@@ -617,7 +656,7 @@ const SierraChatbot = () => {
     }
     if (booking.stage === "review" && /^(confirm|yes|book it)$/i.test(message)) {
       appendBookingUser(message);
-      await confirmBooking();
+      await confirmBooking(false);
       return;
     }
 
@@ -716,7 +755,8 @@ const SierraChatbot = () => {
       );
     }
 
-    if (booking.stage === "review" && booking.selectedSlot) {
+    if ((booking.stage === "review" || booking.stage === "submitting") && booking.selectedSlot) {
+      const submitting = booking.stage === "submitting";
       return (
         <div className="ml-11 space-y-3 rounded-lg border border-border bg-card p-3 text-xs">
           <div className="space-y-1">
@@ -728,24 +768,24 @@ const SierraChatbot = () => {
             <p>{booking.purpose || "No meeting purpose provided"}</p>
           </div>
           <div className="grid grid-cols-2 gap-2">
-            <Button size="sm" onClick={() => void confirmBooking()}>Confirm booking</Button>
-            <Button size="sm" variant="outline" onClick={() => {
+            <Button size="sm" disabled={submitting} onClick={() => void confirmBooking()}>{submitting ? "Booking..." : "Confirm booking"}</Button>
+            <Button size="sm" variant="outline" disabled={submitting} onClick={() => {
               setBooking((current) => ({ ...current, stage: "availability" }));
               appendBookingAssistant("What other days or times should I check?");
             }}>Change time</Button>
-            <Button size="sm" variant="ghost" onClick={() => {
+            <Button size="sm" variant="ghost" disabled={submitting} onClick={() => {
               setBooking((current) => ({ ...current, editingField: "name", stage: "name" }));
               appendBookingAssistant("What name should I use instead?");
             }}>Edit name</Button>
-            <Button size="sm" variant="ghost" onClick={() => {
+            <Button size="sm" variant="ghost" disabled={submitting} onClick={() => {
               setBooking((current) => ({ ...current, editingField: "email", stage: "email" }));
               appendBookingAssistant("What email address should I use instead?");
             }}>Edit email</Button>
-            <Button size="sm" variant="ghost" onClick={() => {
+            <Button size="sm" variant="ghost" disabled={submitting} onClick={() => {
               setBooking((current) => ({ ...current, editingField: "purpose", stage: "purpose" }));
               appendBookingAssistant("What would you like Andrew to know?");
             }}>Edit purpose</Button>
-            <Button size="sm" variant="ghost" onClick={() => void cancelBookingFlow()}>Cancel</Button>
+            <Button size="sm" variant="ghost" disabled={submitting} onClick={() => void cancelBookingFlow()}>Cancel</Button>
           </div>
         </div>
       );
@@ -753,16 +793,17 @@ const SierraChatbot = () => {
 
     if (booking.stage === "confirmed") {
       return (
-        <div className="ml-11 grid gap-2">
-          <Button variant="outline" className={bookingButtonClass} asChild>
-            <a href="https://cal.com/andrew-girgis/1on1" target="_blank" rel="noopener noreferrer">
-              <ExternalLink className="h-3.5 w-3.5" /> Open Cal.com
-            </a>
-          </Button>
+        <div className="ml-11 grid grid-cols-2 gap-2">
           <Button variant="ghost" className={bookingButtonClass} onClick={() => {
+            appendBookingUser("Book another meeting");
             setBooking({ stage: "duration", timeZone: detectedTimeZone(), slots: [] });
             appendBookingAssistant("How long would you like to meet with Andrew?");
           }}>Book another meeting</Button>
+          <Button variant="outline" className={bookingButtonClass} onClick={() => {
+            appendBookingUser("Continue chatting");
+            setBooking({ stage: "idle", timeZone: detectedTimeZone(), slots: [] });
+            appendBookingAssistant("What else would you like to know about Andrew?");
+          }}>Continue chatting</Button>
         </div>
       );
     }
@@ -771,11 +812,6 @@ const SierraChatbot = () => {
       return (
         <div className="ml-11 space-y-2 rounded-lg border border-amber-500/40 bg-amber-500/10 p-3 text-xs">
           <p>Cal.com may have received the booking. Check your email before trying again to avoid a duplicate.</p>
-          <Button variant="outline" className={bookingButtonClass} asChild>
-            <a href="https://cal.com/andrew-girgis/1on1" target="_blank" rel="noopener noreferrer">
-              <ExternalLink className="h-3.5 w-3.5" /> Open Cal.com
-            </a>
-          </Button>
         </div>
       );
     }
@@ -888,7 +924,36 @@ const SierraChatbot = () => {
               </div>
             )}
 
-            {messages.map((message) => (
+            {messages.map((message) => {
+              if (message.kind === "booking-confirmation" && message.bookingConfirmation) {
+                const confirmation = message.bookingConfirmation;
+                const slot = { start: confirmation.start, end: confirmation.end };
+                const accepted = confirmation.status === "accepted";
+                return (
+                  <div
+                    key={message.id}
+                    className="ml-11 space-y-3 rounded-lg border border-emerald-500/40 bg-emerald-500/10 p-3 text-xs"
+                    role="status"
+                    aria-label={accepted ? "Booking confirmed" : "Booking request submitted"}
+                  >
+                    <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-300">
+                      <CheckCircle2 className="h-4 w-4" />
+                      <p className="font-semibold">{accepted ? "Booking confirmed" : "Request submitted"}</p>
+                    </div>
+                    <div className="space-y-1 text-foreground">
+                      <time dateTime={confirmation.start}>{formatBookingDate(slot, confirmation.timeZone)}</time>
+                      <p>{formatBookingTimeRange(slot, confirmation.timeZone)}</p>
+                      <p>{confirmation.duration} minutes</p>
+                      <p>{confirmation.meetingMethod}</p>
+                      <p className="text-muted-foreground">
+                        {accepted ? "Invitation sent by Cal.com" : "Confirmation pending with Cal.com"}
+                      </p>
+                    </div>
+                  </div>
+                );
+              }
+
+              return (
               <div key={message.id}>
                 <div
                   className={`flex gap-3 ${message.isUser ? "justify-end" : "justify-start"}`}
@@ -921,7 +986,8 @@ const SierraChatbot = () => {
                   </div>
                 </div>
               </div>
-            ))}
+              );
+            })}
 
             {renderBookingControls()}
 

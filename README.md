@@ -2,7 +2,7 @@
 
 My personal portfolio website showcasing my work as a Data Scientist and Economist.
 
-🌐 **Live Site:** [andrew-girgis.com](https://www.andrew-girgis.com)
+🌐 **Live Site:** [girg.is](https://girg.is)
 
 ![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)
 ![React](https://img.shields.io/badge/React-18.3-blue.svg)
@@ -49,9 +49,20 @@ src/
 
 Deployed on **Netlify** with automatic builds from the `main` branch.
 
+### Feature flags
+
+Writing and Resources are build-time features and default to disabled. Configure these variables in Netlify, then trigger a new deploy:
+
+```dotenv
+PUBLIC_FEATURE_WRITING=false
+PUBLIC_FEATURE_RESOURCES=false
+```
+
+Set either value to exactly `true` to include that page in the static build and navigation. Any other value keeps it disabled.
+
 ## 📫 Connect With Me
 
-- 🌐 Website: [andrew-girgis.com](https://www.andrew-girgis.com)
+- 🌐 Website: [girg.is](https://girg.is)
 - 💼 LinkedIn: [andrewagirgis](https://www.linkedin.com/in/andrewagirgis)
 - 🐙 GitHub: [andrew-girgis](https://github.com/andrew-girgis)
 - 🐦 X: [@AndrewGirgis](https://x.com/AndrewGirgis)

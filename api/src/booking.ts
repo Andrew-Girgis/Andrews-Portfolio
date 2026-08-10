@@ -54,15 +54,15 @@ function dayOfWeek(date: string): number {
   return new Date(`${date}T12:00:00Z`).getUTCDay();
 }
 
-export function presetConstraints(preset: string, timeZone: string): AvailabilityConstraints | null {
-  const today = dateInTimeZone(new Date(), timeZone);
+export function presetConstraints(preset: string, timeZone: string, now = new Date()): AvailabilityConstraints | null {
+  const today = dateInTimeZone(now, timeZone);
+  const daysToNextMonday = ((8 - dayOfWeek(today)) % 7) || 7;
 
   if (preset === "this_week") {
-    return { start: today, end: addDays(today, Math.max(1, 7 - dayOfWeek(today))), period: "any" };
+    return { start: today, end: addDays(today, daysToNextMonday), period: "any" };
   }
   if (preset === "next_week") {
-    const daysToMonday = ((8 - dayOfWeek(today)) % 7) || 7;
-    const start = addDays(today, daysToMonday);
+    const start = addDays(today, daysToNextMonday);
     return { start, end: addDays(start, 7), period: "any" };
   }
   if (preset === "morning") {

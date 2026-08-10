@@ -13,6 +13,31 @@ describe("booking validation", () => {
     expect(presetConstraints("unsupported", "America/Toronto")).toBeNull();
   });
 
+  it("keeps this week and next week disjoint on Sunday", () => {
+    const sunday = new Date("2026-08-02T16:00:00.000Z");
+
+    expect(presetConstraints("this_week", "America/Toronto", sunday)).toEqual({
+      start: "2026-08-02",
+      end: "2026-08-03",
+      period: "any",
+    });
+    expect(presetConstraints("next_week", "America/Toronto", sunday)).toEqual({
+      start: "2026-08-03",
+      end: "2026-08-10",
+      period: "any",
+    });
+  });
+
+  it("ends this week where next week begins on a weekday", () => {
+    const wednesday = new Date("2026-08-05T16:00:00.000Z");
+    const thisWeek = presetConstraints("this_week", "America/Toronto", wednesday);
+    const nextWeek = presetConstraints("next_week", "America/Toronto", wednesday);
+
+    expect(thisWeek?.end).toBe("2026-08-10");
+    expect(nextWeek?.start).toBe(thisWeek?.end);
+    expect(nextWeek?.end).toBe("2026-08-17");
+  });
+
   it("removes Cal slots that cross the requested local-date boundary", () => {
     const slots = filterSlots([
       { start: "2026-08-03T01:00:00.000Z", end: "2026-08-03T01:30:00.000Z" },

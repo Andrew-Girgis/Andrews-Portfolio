@@ -50,11 +50,12 @@ describe("Cal.com client", () => {
         start: "2026-08-03T23:00:00.000Z",
         end: "2026-08-03T23:30:00.000Z",
         duration: 30,
+        location: "https://meet.google.com/test-room",
       },
     }), { status: 201 }));
     vi.stubGlobal("fetch", fetchMock);
 
-    await createCalBooking(env, {
+    const booking = await createCalBooking(env, {
       draftId: "draft-123",
       start: "2026-08-03T23:00:00.000Z",
       duration: 30,
@@ -70,5 +71,6 @@ describe("Cal.com client", () => {
     expect(body.lengthInMinutes).toBe(30);
     expect(body.bookingFieldsResponses).toEqual({ notes: "Portfolio discussion" });
     expect(body.metadata).toEqual({ source: "sierra", draftId: "draft-123", meetingPurpose: "Portfolio discussion" });
+    expect(booking.location).toBe("https://meet.google.com/test-room");
   });
 });

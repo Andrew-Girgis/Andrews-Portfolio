@@ -1,0 +1,29 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navigation from "../components/NavigationNew";
+import ComingSoonPage from "../components/ComingSoonPage";
+import Footer from "../components/FooterNew.astro";
+import { enabledOptionalSections } from "../config/featureFlags";
+
+export function getStaticPaths() {
+  return enabledOptionalSections.map((section) => ({
+    params: { section: section.id },
+    props: { section },
+  }));
+}
+
+const { section } = Astro.props;
+---
+
+<BaseLayout title={section.title} description={section.description}>
+  <Navigation client:load />
+  <main class="pt-20">
+    <ComingSoonPage
+      client:load
+      command={section.command}
+      title={section.id}
+      description={section.description}
+    />
+  </main>
+  <Footer />
+</BaseLayout>
