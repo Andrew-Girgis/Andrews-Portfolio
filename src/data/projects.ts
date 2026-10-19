@@ -11,6 +11,8 @@ export const projects: Project[] = [
       "Adio is a voice-first repair companion for home appliances and basic car fixes. It executes one procedural step at a time with confirmation-gated progression and interruption commands. Built for the AI Agents Waterloo Voice Hackathon. Features parallel STT race (smallest.ai Pulse + OpenAI Realtime), smallest.ai Waves streaming TTS, Supabase Postgres + pgvector RAG, and a YouTube Guide Mode that compiles video transcripts into step-by-step repair procedures.",
     status: "available",
     link: "https://github.com/Andrew-Girgis/Adio",
+    lastCommitDate: "2026-02-17T00:10:08Z",
+
     githubRepo: "Andrew-Girgis/Adio",
     featured: true,
     tags: {
@@ -30,6 +32,8 @@ export const projects: Project[] = [
       "An open-source personal finance platform that extracts transactions from Canadian bank statements (Scotiabank PDF, Wealthsimple CSV, Amex), categorizes them with a 3-tier AI pipeline (rules → merchant cache → GPT-4o-mini), detects recurring subscriptions, and stores everything in PostgreSQL with Row Level Security. Features a Next.js dashboard, FastAPI backend, and 9 materialized views for analytics.",
     status: "available",
     link: "https://github.com/Andrew-Girgis/Computare",
+    lastCommitDate: "2026-04-28T13:06:26Z",
+
     githubRepo: "Andrew-Girgis/Computare",
     featured: true,
     tags: {
@@ -47,6 +51,8 @@ export const projects: Project[] = [
       "A Hermes Agent skill that connects Outlook email, calendar, contacts, and profile data through Microsoft Graph. It supports OAuth setup, token refresh, email search and sending, calendar scheduling, free/busy lookup, Teams meeting creation, and safe preview-based email sending for agent-assisted productivity workflows.",
     status: "available",
     link: "https://github.com/Andrew-Girgis/microsoft-workspace-skill",
+    lastCommitDate: "2026-04-14T20:24:18Z",
+
     githubRepo: "Andrew-Girgis/microsoft-workspace-skill",
     tags: {
       technology: ["python", "microsoft-graph", "oauth2"],
@@ -63,6 +69,8 @@ export const projects: Project[] = [
       "A Textual-based terminal app that turns Kaggle competition setup into a repeatable workflow. It provides a searchable competition picker, scaffolds notebooks, notes, data folders, virtual environments, and git repositories, checks Kaggle access, and enriches project notes from competition pages.",
     status: "available",
     link: "https://github.com/Andrew-Girgis/kag",
+    lastCommitDate: "2026-10-12T23:11:31Z",
+
     githubRepo: "Andrew-Girgis/kag",
     tags: {
       technology: ["python", "textual", "kaggle-api"],
@@ -81,6 +89,8 @@ export const projects: Project[] = [
       "An intelligent web scraper built in support of @BuildCanada that automatically discovers and downloads annual audited financial reports from Canadian municipality websites. Features AI-powered document discovery via OpenAI, Firecrawl API for web crawling, Playwright browser automation, and a 4-strategy PDF extraction pipeline. Processes all 3,696 Canadian municipalities with URL caching for 10x faster subsequent runs.",
     status: "available",
     link: "https://github.com/Andrew-Girgis/Municipalities-Budget-Scraper",
+    lastCommitDate: "2025-12-09T05:48:27Z",
+
     githubRepo: "Andrew-Girgis/Municipalities-Budget-Scraper",
     featured: true,
     tags: {
@@ -98,6 +108,8 @@ export const projects: Project[] = [
       "A Python ETL pipeline that extracts municipal waste collection schedules from ReCollect-powered services, augments Peel recycling data from Circular Materials, and normalizes nested event JSON into analytics-ready schedule outputs. The pipeline supports multiple Ontario municipalities, audit-friendly raw response storage, retry-aware API clients, and staged extraction, transformation, and merge scripts.",
     status: "available",
     link: "https://github.com/Andrew-Girgis/municipal-waste-schedule-etl",
+    lastCommitDate: "2026-01-06T13:52:13Z",
+
     githubRepo: "Andrew-Girgis/municipal-waste-schedule-etl",
     tags: {
       technology: ["python", "recollect-api", "pandas"],
@@ -114,6 +126,8 @@ export const projects: Project[] = [
       "A research-grade scraping system for technical government job postings across Canada, Australia, and the United Kingdom. It monitors 14 jurisdictions, applies fuzzy title matching to reduce false positives, standardizes job details for comparative public-administration analysis, supports parallel Playwright collection, and includes Supabase upload workflows with GPT-assisted extraction for inconsistent pages.",
     status: "available",
     link: "https://github.com/Andrew-Girgis/public_jobs_scraper",
+    lastCommitDate: "2026-05-23T00:02:47Z",
+
     githubRepo: "Andrew-Girgis/public_jobs_scraper",
     tags: {
       technology: ["python", "playwright", "supabase", "openai"],
@@ -133,6 +147,8 @@ export const projects: Project[] = [
       "A comprehensive LinkedIn job scraping tool that extracts job postings with intelligent parsing, LLM-enhanced skill extraction, and MongoDB storage. Features regex/NLP-based extraction combined with OpenAI GPT for skills analysis, a webhook server with Chrome browser extension for one-click job saving, MongoDB with auto-deduplication, and intelligent parsing of employment type, salary, benefits, and location.",
     status: "available",
     link: "https://github.com/Andrew-Girgis/linkedin-job-scraper",
+    lastCommitDate: "2025-06-21T19:49:59Z",
+
     githubRepo: "Andrew-Girgis/linkedin-job-scraper",
     tags: {
       technology: ["python", "selenium", "openai", "mongodb"],
@@ -149,6 +165,8 @@ export const projects: Project[] = [
       "A Python scraper that extracts structured company data from LinkedIn pages, including company IDs, industry, size, headquarters, specialties, websites, and descriptions. It supports batch processing, rate limiting, optional Gemini URL verification, Supabase storage, and company ID extraction for downstream job search and business intelligence workflows.",
     status: "available",
     link: "https://github.com/Andrew-Girgis/linkedin-company-scraper",
+    lastCommitDate: "2025-07-01T04:21:30Z",
+
     githubRepo: "Andrew-Girgis/linkedin-company-scraper",
     tags: {
       technology: ["python", "selenium", "gemini", "supabase"],
@@ -167,6 +185,8 @@ export const projects: Project[] = [
       "A comprehensive exploration of CNN architectures and regularization techniques for CIFAR-10 image classification. Systematically compares 6 model architectures—from a 2-layer baseline to a fully optimized model with batch normalization, dropout, and data augmentation.",
     status: "available",
     link: "https://github.com/Andrew-Girgis/deep-learning-cnn-regularization-cifar10",
+    lastCommitDate: "2026-04-05T23:04:14Z",
+
     githubRepo: "Andrew-Girgis/deep-learning-cnn-regularization-cifar10",
     tags: {
       technology: ["python", "tensorflow", "keras"],
@@ -185,6 +205,8 @@ export const projects: Project[] = [
       "An end-to-end machine learning pipeline for predicting residential home sale prices using linear regression. Covers 2006–2010 housing sales including the 2008 financial crisis. Final model achieves R² = 0.89 with ~$26,000 average prediction error.",
     status: "available",
     link: "https://github.com/Andrew-Girgis/ml-house-price-prediction",
+    lastCommitDate: "2026-01-01T20:36:55Z",
+
     githubRepo: "Andrew-Girgis/ml-house-price-prediction",
     tags: {
       technology: ["python", "scikit-learn", "pandas"],
@@ -203,6 +225,8 @@ export const projects: Project[] = [
     imageAlt: "Canadian automotive stocks and export trends dashboard",
     status: "available",
     link: "https://andrew-girgis.shinyapps.io/canadian_automotive_analysis/",
+    lastCommitDate: "2025-05-28T21:45:54Z",
+
     githubRepo: "Andrew-Girgis/canadian-auto-dash",
     tags: {
       technology: ["r", "shiny", "tidyquant", "tidyverse"],
@@ -220,6 +244,8 @@ export const projects: Project[] = [
     imageAlt: "Canadian census data interactive explorer interface",
     status: "available",
     link: "https://andrew-girgis.shinyapps.io/cansensus_scrapr/",
+    lastCommitDate: "2025-09-25T12:38:22Z",
+
     githubRepo: "Andrew-Girgis/Cancensus-ScrapR",
     tags: {
       technology: ["r", "shiny", "cancensus"],
@@ -260,6 +286,477 @@ export const projects: Project[] = [
       domain: ["social-science", "marketing"],
       type: ["text-analysis", "network-visualization"],
       method: ["natural-language-processing", "sentiment-analysis"],
+    },
+  },
+  {
+    id: "omail",
+    title: "Omail Client",
+    subtitle: "AI-powered mail and calendar application",
+    description:
+      "Omail is a native mail and calendar client designed for the Omarchy ecosystem, featuring a local AI assistant for enhanced productivity. Built with C++ and QML, it offers live themes, a JSON CLI, and seamless account integration with OAuth for secure access. Users can manage personal and work profiles, compose emails, schedule events, and utilize AI-driven features for mail classification and response suggestions.",
+    lastCommitDate: "2026-10-17T17:33:18Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/omail",
+    githubRepo: "Andrew-Girgis/omail",
+    tags: {
+      technology: ["c++", "qml", "shell", "qmake"],
+      domain: ["productivity", "email"],
+      type: ["desktop-app"],
+      method: ["local-ai"],
+    },
+  },
+  {
+    id: "omarchy-edgerunners-theme",
+    title: "Cyberpunk Edgerunners Theme",
+    subtitle: "A neon theme inspired by Cyberpunk: Edgerunners",
+    description:
+      "This project features a vibrant neon theme for Omarchy, inspired by stills from the animated series *Cyberpunk: Edgerunners*. It includes a dark violet-black background with electric cyan and neon green accents, along with a selection of wallpapers named after iconic quotes from the series. Users can easily install the theme and switch backgrounds using simple commands.",
+    lastCommitDate: "2026-10-16T05:29:54Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/omarchy-edgerunners-theme",
+    githubRepo: "Andrew-Girgis/omarchy-edgerunners-theme",
+    tags: {
+      technology: ["omarchy"],
+      domain: ["design"],
+      type: ["theme"],
+      method: ["visual-design"],
+    },
+  },
+  {
+    id: "hushscript",
+    title: "Hushscript",
+    subtitle: "Local interview transcription tool",
+    description:
+      "Hushscript is a local interview transcription tool that processes audio in memory, providing English transcription with punctuation and optional speaker labeling. It supports batch uploads of audio files and exports results in TXT, Markdown, and structured JSON formats. Built using Python and Docker, it ensures privacy by avoiding cloud services and maintaining local processing.",
+    lastCommitDate: "2026-10-05T03:16:22Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/hushscript",
+    githubRepo: "Andrew-Girgis/hushscript",
+    tags: {
+      technology: ["python", "docker", "javascript"],
+      domain: ["data-science", "natural-language-processing"],
+      type: ["desktop-app", "api"],
+      method: ["audio-transcription", "data-export"],
+    },
+  },
+  {
+    id: "argus",
+    title: "Address Intelligence",
+    subtitle: "Comprehensive property profiling application",
+    description:
+      "This full-stack application provides detailed property profiles by analyzing street addresses or geographic coordinates. Utilizing Google Maps imagery, AI vision analysis, and geospatial data, it features a React frontend and a Python FastAPI backend, ensuring a seamless user experience. The project leverages modern technologies such as Docker for infrastructure and MLflow for observability.",
+    lastCommitDate: "2026-09-29T13:45:09Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/Argus",
+    githubRepo: "Andrew-Girgis/Argus",
+    tags: {
+      technology: ["react", "python", "fastapi", "docker"],
+      domain: ["geospatial", "real-estate"],
+      type: ["full-stack-app"],
+      method: ["ai-vision-analysis"],
+    },
+  },
+  {
+    id: "token-holdem",
+    title: "Token Hold'em",
+    subtitle: "Poker game with LLM agents",
+    description:
+      "Token Hold'em is an interactive poker game where players can compete against AI agents in a Texas Hold'em format. The project utilizes Gradio for the user interface and Modal for AI decision-making, allowing for a seamless gaming experience. Key features include deterministic game mechanics, customizable agent settings, and a leaderboard for tracking performance.",
+    lastCommitDate: "2026-06-15T20:05:55Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/token-holdem",
+    githubRepo: "Andrew-Girgis/token-holdem",
+    tags: {
+      technology: ["python", "gradio", "modal", "typescript"],
+      domain: ["game", "artificial-intelligence"],
+      type: ["web-app", "interactive-game"],
+      method: ["deterministic-simulation", "model-inference"],
+    },
+  },
+  {
+    id: "taskflow",
+    title: "Task Management Tool",
+    subtitle: "A CLI tool for organizing tasks",
+    description:
+      "TaskFlow is a modern command-line interface tool designed for efficient task management. It allows users to add, list, update, and delete tasks while providing features like filtering and statistics tracking. Built with Python, it stores tasks locally in a JSON file for easy access and persistence.",
+    lastCommitDate: "2026-06-11T05:32:32Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/taskflow",
+    githubRepo: "Andrew-Girgis/taskflow",
+    tags: {
+      technology: ["python"],
+      domain: ["productivity"],
+      type: ["cli-tool"],
+      method: ["task-management"],
+    },
+  },
+  {
+    id: "codex-pets",
+    title: "Codex Pets",
+    subtitle: "Animated companions for Codex app",
+    description:
+      "This project features a collection of Codex-compatible animated pet packages, each with unique designs and behaviors. It includes pets like Doodle Bob, Figaro, Milo, and Sukuna, complete with animated previews generated from spritesheets. The repository utilizes Shell scripting for building previews and organizes pet data in a structured format.",
+    lastCommitDate: "2026-05-03T19:07:39Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/codex-pets",
+    githubRepo: "Andrew-Girgis/codex-pets",
+    tags: {
+      technology: ["shell"],
+      domain: ["gaming", "animation"],
+      type: ["asset-collection"],
+      method: ["animation"],
+    },
+  },
+  {
+    id: "kaggle-s6e4-autoresearch",
+    title: "Kaggle Autoresearch",
+    subtitle: "Predicting irrigation needs using autonomous research",
+    description:
+      "This project implements an autoresearch-style workspace for predicting irrigation needs from tabular data in the Kaggle Playground Series. It utilizes Python and Jupyter Notebook to optimize balanced accuracy through controlled changes to a candidate file and a stable evaluator. Key features include a structured experiment setup, automated evaluation, and a focus on reproducibility in machine learning workflows.",
+    lastCommitDate: "2026-04-30T12:53:50Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/kaggle-s6e4-autoresearch",
+    githubRepo: "Andrew-Girgis/kaggle-s6e4-autoresearch",
+    tags: {
+      technology: ["python", "jupyter-notebook", "machine-learning"],
+      domain: ["agriculture", "data-science"],
+      type: ["research", "competition"],
+      method: ["classification", "autonomous-research"],
+    },
+  },
+  {
+    id: "accidents-cvpr",
+    title: "Accident Detection",
+    subtitle: "Predicting accident parameters from CCTV footage",
+    description:
+      "This project is a local research workspace for the Kaggle CVPR 2026 ACCIDENT competition, focusing on predicting accident timing, localization, and collision types from CCTV video. It utilizes Jupyter Notebooks for dataset exploration and includes reusable code for a zero-shot sim-to-real problem, leveraging synthetic data for training and real footage for testing.",
+    lastCommitDate: "2026-04-24T21:10:09Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/accidents-cvpr",
+    githubRepo: "Andrew-Girgis/accidents-cvpr",
+    tags: {
+      technology: ["jupyter-notebook", "python"],
+      domain: ["computer-vision", "machine-learning"],
+      type: ["research"],
+      method: ["zero-shot-learning"],
+    },
+  },
+  {
+    id: "hunyuan3d-playground",
+    title: "3D Mesh Generator",
+    subtitle: "Convert images to textured 3D models",
+    description:
+      "This project enables users to convert any image into a textured 3D mesh (.glb) using Tencent's Hunyuan3D-2.1 model, all while operating fully offline without the need for an API key. Key features include background removal, shape generation, and texture painting, leveraging technologies such as Python, C++, and CUDA for efficient processing.",
+    lastCommitDate: "2026-04-14T03:23:46Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/hunyuan3d-playground",
+    githubRepo: "Andrew-Girgis/hunyuan3d-playground",
+    tags: {
+      technology: ["python", "cuda", "docker"],
+      domain: ["machine-learning", "3d-modeling"],
+      type: ["research", "tool"],
+      method: ["image-processing", "texture-mapping"],
+    },
+  },
+  {
+    id: "stratascratch-sql-practice",
+    title: "SQL Practice Solutions",
+    subtitle: "Collection of SQL solutions for data challenges",
+    description:
+      "This project showcases a personal collection of SQL solutions to practice problems sourced from StratasScratch, a platform for data science interview preparation. Each problem is organized in its own folder, containing a detailed description and multiple solution approaches, demonstrating the author's analytical skills and problem-solving capabilities.",
+    lastCommitDate: "2026-02-19T16:24:28Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/stratascratch-sql-practice",
+    githubRepo: "Andrew-Girgis/stratascratch-sql-practice",
+    tags: {
+      technology: ["sql"],
+      domain: ["data-science", "analytics"],
+      type: ["practice", "repository"],
+      method: ["problem-solving"],
+    },
+  },
+  {
+    id: "computare-doc-ingest",
+    title: "Document OCR Ingestion",
+    subtitle: "Lightweight CLI for document processing",
+    description:
+      "This project provides a command-line interface for performing optical character recognition (OCR) on documents and extracting data in JSON format. It features two processing methods, one-step and two-step, allowing users to choose their preferred approach for document analysis. Built using Python, it includes evaluation scripts and customizable task schemas for various document types.",
+    lastCommitDate: "2026-02-08T23:01:09Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/computare-doc-ingest",
+    githubRepo: "Andrew-Girgis/computare-doc-ingest",
+    tags: {
+      technology: ["python"],
+      domain: ["data-extraction", "document-processing"],
+      type: ["cli-tool"],
+      method: ["ocr", "json-extraction"],
+    },
+  },
+  {
+    id: "celevid",
+    title: "AI Video Editor",
+    subtitle: "Automated video processing with AI",
+    description:
+      "Celevid is an AI-powered video editing tool that automates transcription, pause removal, and captioning for videos. Key features include GPU-accelerated transcription, smart pause detection, and multiple caption styles. Built using Python, it supports various video formats and offers detailed analytics on file processing.",
+    lastCommitDate: "2026-01-28T04:59:06Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/celevid",
+    githubRepo: "Andrew-Girgis/celevid",
+    tags: {
+      technology: ["python", "ffmpeg", "gpu"],
+      domain: ["video-editing", "artificial-intelligence"],
+      type: ["tool", "automation"],
+      method: ["transcription", "video-processing"],
+    },
+  },
+  {
+    id: "x-video-downloader",
+    title: "Video Downloader",
+    subtitle: "Download videos from X/Twitter effortlessly",
+    description:
+      "This project provides a simple terminal-friendly wrapper around yt-dlp, allowing users to download videos from X/Twitter with ease. It supports various output options, including customizable filename templates and metadata printing in JSON format. Built using Python, this tool is designed for quick and efficient video retrieval.",
+    lastCommitDate: "2026-01-27T05:30:23Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/x-video-downloader",
+    githubRepo: "Andrew-Girgis/x-video-downloader",
+    tags: {
+      technology: ["python"],
+      domain: ["social-media"],
+      type: ["command-line-tool"],
+      method: ["video-downloading"],
+    },
+  },
+  {
+    id: "property-geocode-checker",
+    title: "Property Geocode Checker",
+    subtitle: "Validate property geocoding accuracy",
+    description:
+      "This project validates latitude and longitude values for a list of properties by re-geocoding each address using the Google Maps Geocoding API. It compares the results to the provided coordinates and generates a summary report of matches and mismatches, along with a detailed output of mismatched properties. The tool is built in Python and requires a Google Maps API key for geocoding.",
+    lastCommitDate: "2026-01-11T07:43:34Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/property-geocode-checker",
+    githubRepo: "Andrew-Girgis/property-geocode-checker",
+    tags: {
+      technology: ["python", "google-maps-api"],
+      domain: ["real-estate", "data-validation"],
+      type: ["data-tool", "utility"],
+      method: ["geocoding", "data-comparison"],
+    },
+  },
+  {
+    id: "nfl-project",
+    title: "NFL Wins and Flags Analysis",
+    subtitle: "Exploring the impact of penalties on game outcomes",
+    description:
+      "This project investigates the correlation between game wins and penalty flags in American Football. By analyzing game data, it aims to uncover patterns that may influence team performance and strategy. The project utilizes statistical methods to provide insights into how penalties affect the likelihood of winning games.",
+    lastCommitDate: "2025-02-14T20:49:18Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/NFL-Project",
+    githubRepo: "Andrew-Girgis/NFL-Project",
+    tags: {
+      technology: ["python", "pandas", "matplotlib"],
+      domain: ["sports-analytics", "data-science"],
+      type: ["research"],
+      method: ["statistical-analysis"],
+    },
+  },
+  {
+    id: "personal-rag-pipeline",
+    title: "Personal RAG Pipeline",
+    description:
+      "This project implements a personal RAG (Red, Amber, Green) pipeline for data processing and visualization. It streamlines the analysis of data by categorizing it into three distinct statuses, enabling users to quickly assess performance metrics. The pipeline is designed to be efficient and user-friendly, utilizing modern data processing techniques.",
+    lastCommitDate: "2025-12-07T23:44:45Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/personal-rag-pipeline",
+    githubRepo: "Andrew-Girgis/personal-rag-pipeline",
+    tags: {
+      technology: ["python", "pandas", "matplotlib"],
+      domain: ["data-analysis", "economics"],
+      type: ["data-pipeline", "visualization"],
+      method: ["data-processing", "status-categorization"],
+    },
+  },
+  {
+    id: "seti-demo-chatbot",
+    title: "SETI Chatbot",
+    subtitle: "A chatbot interface for SETI data exploration",
+    description:
+      "This project features a chatbot designed to facilitate user interaction with SETI data. Built using HTML, it provides an intuitive interface for querying and exploring various datasets related to the Search for Extraterrestrial Intelligence. The chatbot aims to enhance user engagement and accessibility to complex data through conversational AI.",
+    lastCommitDate: "2025-07-11T20:06:52Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/SETI-demo-chatbot",
+    githubRepo: "Andrew-Girgis/SETI-demo-chatbot",
+    tags: {
+      technology: ["html"],
+      domain: ["data-visualization"],
+      type: ["web-app"],
+      method: ["chatbot"],
+    },
+  },
+  {
+    id: "toronto-fire-incidents-plotly",
+    title: "Toronto Fire Incidents",
+    subtitle: "Interactive dashboard for fire data analysis",
+    description:
+      "This project features an interactive Plotly Dash web-app that visualizes every Toronto Fire Service incident from 2011 to 2024. Users can explore total fires per ward, fires per 1,000 residents, and a raw point cloud of individual incidents, all while utilizing open-source mapping tiles and zero-config hosting. Built during a data exploration hack-session, it aims to highlight fire clustering and per-capita risk across neighborhoods.",
+    lastCommitDate: "2025-06-29T00:05:24Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/toronto-fire-incidents-plotly",
+    githubRepo: "Andrew-Girgis/toronto-fire-incidents-plotly",
+    tags: {
+      technology: ["python", "javascript", "css"],
+      domain: ["urban-studies", "public-safety"],
+      type: ["dashboard", "data-visualization"],
+      method: ["data-analysis", "interactive-visualization"],
+    },
+  },
+  {
+    id: "data-science-for-economists",
+    title: "Data Science for Economists",
+    subtitle: "Coursework from ECON 607",
+    description:
+      "This repository contains coursework from the ECON 607: Data Science for Economists class, showcasing assignments and projects that utilize data compilation, manipulation, and visualization techniques. Key technologies used include Python, R, and MATLAB, focusing on practical applications of data science in economics. The projects cover topics such as data wrangling, text analysis, and unsupervised learning, reflecting a comprehensive understanding of modern data analysis methods.",
+    lastCommitDate: "2025-01-21T05:15:05Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/Data-Science-For-Economists",
+    githubRepo: "Andrew-Girgis/Data-Science-For-Economists",
+    tags: {
+      technology: ["python", "r", "matlab"],
+      domain: ["economics", "data-science"],
+      type: ["coursework", "projects"],
+      method: ["data-manipulation", "data-visualization"],
+    },
+  },
+  {
+    id: "iasc-1p02",
+    title: "Intro to Web Development",
+    subtitle: "Foundational web projects from a university course",
+    description:
+      "This project showcases a collection of web pages created for the IASC 1P02 course at Brock University, focusing on the basics of web development. It highlights the use of HTML for content structure and CSS for styling and layout techniques. The project serves as an introduction to frontend development, emphasizing semantic HTML and organized project structure.",
+    lastCommitDate: "2017-12-07T19:41:55Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/IASC-1P02",
+    githubRepo: "Andrew-Girgis/IASC-1P02",
+    tags: {
+      technology: ["html", "css", "javascript"],
+      domain: ["web-development", "education"],
+      type: ["portfolio", "learning-project"],
+      method: ["frontend-development"],
+    },
+  },
+  {
+    id: "data-vizualization",
+    title: "Data Visualization",
+    subtitle: "Visualizing data from STAT 842",
+    description:
+      "This project showcases various data visualization techniques implemented in Python and R. It includes interactive visualizations and statistical analysis tools that enhance understanding of complex datasets. The code leverages libraries such as Matplotlib and Seaborn for Python, and ggplot2 for R, providing a comprehensive toolkit for data exploration.",
+    lastCommitDate: "2025-04-04T04:25:16Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/Data-Vizualization",
+    githubRepo: "Andrew-Girgis/Data-Vizualization",
+    tags: {
+      technology: ["python", "r", "jupyter-notebook"],
+      domain: ["data-visualization", "statistics"],
+      type: ["research", "educational"],
+      method: ["data-analysis", "visualization-techniques"],
+    },
+  },
+  {
+    id: "uwes-r-tutorial",
+    title: "R for Economics Workshop",
+    subtitle: "Beginner-friendly R tutorial series",
+    description:
+      "This project provides an R tutorial series hosted by the University of Waterloo Economics Society, aimed at introducing students to R's applications in economic analysis. It covers essential R concepts and real-world economic data applications, making it accessible for beginners. The workshop includes hands-on sessions and encourages participants to develop valuable analytical skills using R and RStudio.",
+    lastCommitDate: "2025-03-13T01:08:04Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/UWES-R-Tutorial",
+    githubRepo: "Andrew-Girgis/UWES-R-Tutorial",
+    tags: {
+      technology: ["r", "tex"],
+      domain: ["economics", "data-analysis"],
+      type: ["workshop", "tutorial"],
+      method: ["data-manipulation", "economic-analysis"],
+    },
+  },
+  {
+    id: "exploratory-data-analysis",
+    title: "Exploratory Data Analysis",
+    description:
+      "This project focuses on exploratory data analysis techniques using R and TeX. It includes various statistical methods and visualizations to uncover insights from datasets. The project showcases the application of data analysis principles in a structured format, making it a valuable resource for understanding data patterns and trends.",
+    lastCommitDate: "2025-02-27T22:15:11Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/Exploratory-Data-Analysis",
+    githubRepo: "Andrew-Girgis/Exploratory-Data-Analysis",
+    tags: {
+      technology: ["r", "tex"],
+      domain: ["data-analysis", "economics"],
+      type: ["research"],
+      method: ["exploratory-data-analysis"],
+    },
+  },
+  {
+    id: "applied-macroeconometrics",
+    title: "Applied Macroeconometrics",
+    description:
+      "This project focuses on the application of macroeconomic theories using econometric techniques. It utilizes R for data analysis and TeX for documentation, showcasing various econometric models and their implications in real-world scenarios. The project emphasizes the importance of empirical validation in macroeconomic research.",
+    lastCommitDate: "2025-02-27T22:14:34Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/Applied-Macroeconometrics",
+    githubRepo: "Andrew-Girgis/Applied-Macroeconometrics",
+    tags: {
+      technology: ["r", "tex"],
+      domain: ["economics", "macroeconomics"],
+      type: ["research"],
+      method: ["econometric-modeling"],
+    },
+  },
+  {
+    id: "econ626-machinelearningforeconomists",
+    title: "Machine Learning for Economists",
+    description:
+      "This project explores the application of machine learning techniques in economic analysis. It utilizes Jupyter Notebooks to implement various algorithms and models using Python and R, showcasing how these tools can enhance economic research. The project serves as a practical resource for economists looking to integrate machine learning into their work.",
+    lastCommitDate: "2025-02-27T22:13:55Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/ECON626-MachineLearningForEconomists",
+    githubRepo: "Andrew-Girgis/ECON626-MachineLearningForEconomists",
+    tags: {
+      technology: ["jupyter-notebook", "python", "r"],
+      domain: ["economics", "machine-learning"],
+      type: ["research"],
+      method: ["data-analysis", "modeling"],
+    },
+  },
+  {
+    id: "touchbistro-cxc",
+    title: "Customer Experience Analysis",
+    description:
+      "This project focuses on analyzing customer experience data for TouchBistro, utilizing Jupyter Notebook for data exploration and visualization. It aims to uncover insights that can enhance customer satisfaction and streamline operations. The analysis employs various statistical methods and visualizations to present findings effectively.",
+    lastCommitDate: "2025-02-15T20:38:12Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/TouchBistro-CxC",
+    githubRepo: "Andrew-Girgis/TouchBistro-CxC",
+    tags: {
+      technology: ["jupyter-notebook", "python"],
+      domain: ["customer-experience", "data-analysis"],
+      type: ["research"],
+      method: ["data-visualization", "statistical-analysis"],
+    },
+  },
+  {
+    id: "valentines-website-2025",
+    title: "Valentine's Day Proposal Website",
+    subtitle: "An interactive proposal experience",
+    description:
+      "This project is an interactive Valentine's Day proposal website designed to create a memorable experience for asking someone to be a Valentine. It features elegant scroll-based text reveal animations, interactive Yes/No buttons, and a playful mechanic where the 'Yes' button grows larger with each 'No'. Built with HTML, CSS, and JavaScript, the site is mobile-responsive and boasts a clean, romantic aesthetic.",
+    lastCommitDate: "2025-02-13T04:22:55Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/Valentines-Website-2025",
+    githubRepo: "Andrew-Girgis/Valentines-Website-2025",
+    tags: {
+      technology: ["html", "css", "javascript"],
+      domain: ["web-development"],
+      type: ["full-stack-app"],
+      method: ["user-interaction"],
     },
   },
 ];
