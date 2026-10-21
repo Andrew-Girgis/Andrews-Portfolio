@@ -6,13 +6,9 @@ import { handleGreeting } from "./greeting";
 import { handleChat } from "./chat";
 import { handleHealth } from "./health";
 import { cancelBookingDraft, confirmBooking, createBookingDraft, selectBookingSlot } from "./booking";
+import { isLocalRequest, requireHuman } from "./turnstile";
 
 const app = new Hono<{ Bindings: Env }>();
-
-function isLocalRequest(url: string): boolean {
-  const { hostname } = new URL(url);
-  return hostname === "localhost" || hostname === "127.0.0.1";
-}
 
 app.use("*", cors({
   origin: (origin, c) => {
@@ -22,7 +18,7 @@ app.use("*", cors({
     return allowed.includes(origin) ? origin : allowed[0];
   },
   allowMethods: ["GET", "POST", "DELETE", "OPTIONS"],
-  allowHeaders: ["Content-Type"],
+  allowHeaders: ["Content-Type", "X-Turnstile-Token"],
 }));
 
 app.use("/api/booking/*", bodyLimit({
@@ -37,11 +33,13 @@ app.use("/api/chat", bodyLimit({
 app.get("/api/greeting", handleGreeting);
 app.get("/api/health", handleHealth);
 
-app.post("/api/chat", handleChat);
-app.post("/api/booking/drafts", createBookingDraft);
-app.post("/api/booking/drafts/:draftId/slot", selectBookingSlot);
-app.post("/api/booking/drafts/:draftId/confirm", confirmBooking);
-app.delete("/api/booking/drafts/:draftId", cancelBookingDraft);
+// Sierra is browser-only: every chat and booking call needs a Turnstile-verified session,
+// and confirming a booking (which sends a calendar invite) needs a fresh token.
+app.post("/api/chat", requireHuman(), handleChat);
+app.post("/api/booking/drafts", requireHuman(), createBookingDraft);
+app.post("/api/booking/drafts/:draftId/slot", requireHuman(), selectBookingSlot);
+app.post("/api/booking/drafts/:draftId/confirm", requireHuman({ fresh: true }), confirmBooking);
+app.delete("/api/booking/drafts/:draftId", requireHuman(), cancelBookingDraft);
 
 app.options("/api/greeting", (c) => new Response(null, { status: 204 }));
 app.options("/api/health", (c) => new Response(null, { status: 204 }));
