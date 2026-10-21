@@ -149,7 +149,9 @@ function shouldUseCloudflareStorage(env: Env): boolean {
   return env.RAG_BACKEND === "cloudflare";
 }
 
-async function ensureSession(env: Env, sessionId: string, userId: string): Promise<void> {
+// Returns whether the session already exists; throws if it belongs to another user.
+// Creating it is left to createSession so rejected requests never write a row.
+async function checkSessionOwner(env: Env, sessionId: string, userId: string): Promise<boolean> {
   if (shouldUseCloudflareStorage(env)) {
     const existing = await env.DB
       .prepare("SELECT id, user_id FROM chat_sessions WHERE id = ?")
@@ -159,14 +161,7 @@ async function ensureSession(env: Env, sessionId: string, userId: string): Promi
     if (existing && existing.user_id !== userId) {
       throw new Error("Chat session does not belong to this user");
     }
-
-    if (!existing) {
-      await env.DB
-        .prepare("INSERT INTO chat_sessions (id, user_id, start_time) VALUES (?, ?, ?)")
-        .bind(sessionId, userId, new Date().toISOString())
-        .run();
-    }
-    return;
+    return Boolean(existing);
   }
 
   const supabase = getSupabase(env);
@@ -177,23 +172,35 @@ async function ensureSession(env: Env, sessionId: string, userId: string): Promi
     .single();
 
   if (error && error.code !== "PGRST116") {
-    formatSupabaseError("Supabase ensureSession select error", error);
+    formatSupabaseError("Supabase checkSessionOwner select error", error);
     throw new Error("Unable to load chat session");
   }
 
-  if (!data) {
-    const { error: insertError } = await supabase.from("chat_sessions").insert({
-      id: sessionId,
-      user_id: userId,
-      start_time: new Date().toISOString(),
-    });
-
-    if (insertError) {
-      formatSupabaseError("Supabase ensureSession insert error", insertError);
-      throw new Error("Unable to create chat session");
-    }
-  } else if (data.user_id !== userId) {
+  if (data && data.user_id !== userId) {
     throw new Error("Chat session does not belong to this user");
+  }
+  return Boolean(data);
+}
+
+async function createSession(env: Env, sessionId: string, userId: string): Promise<void> {
+  if (shouldUseCloudflareStorage(env)) {
+    await env.DB
+      .prepare("INSERT INTO chat_sessions (id, user_id, start_time) VALUES (?, ?, ?)")
+      .bind(sessionId, userId, new Date().toISOString())
+      .run();
+    return;
+  }
+
+  const supabase = getSupabase(env);
+  const { error } = await supabase.from("chat_sessions").insert({
+    id: sessionId,
+    user_id: userId,
+    start_time: new Date().toISOString(),
+  });
+
+  if (error) {
+    formatSupabaseError("Supabase createSession insert error", error);
+    throw new Error("Unable to create chat session");
   }
 }
 
@@ -702,10 +709,11 @@ export async function handleChat(c: Context<{ Bindings: Env }>): Promise<Respons
     return c.json({ error: "You're sending messages too quickly. Please wait a minute." }, 429);
   }
 
+  // The shared daily budget is only charged, and a new session only stored, once a request has passed the
+  // cheaper ownership and per-user checks.
   const dailyLimit = Number(c.env.CHAT_DAILY_AI_LIMIT) || 200;
-  if (!await consumeDailyAiBudget(c.env, "chat", dailyLimit)) {
-    return c.json({ error: "Sierra has reached today's conversation limit. Please try again tomorrow." }, 429);
-  }
+  const dailyLimitResponse = () => c.json({ error: "Sierra has reached today's conversation limit. Please try again tomorrow." }, 429);
+  let budgetConsumed = false;
 
   try {
     const requestStartTime = new Date().toISOString();
@@ -718,12 +726,18 @@ export async function handleChat(c: Context<{ Bindings: Env }>): Promise<Respons
     let persistenceAvailable = true;
 
     try {
-      await ensureSession(c.env, sessionId, user_id);
+      const sessionExists = await checkSessionOwner(c.env, sessionId, user_id);
 
       const limitResult = await enforceChatLimits(c.env, sessionId, user_id, trimmedInput);
       if (!limitResult.allowed) {
         return c.json({ error: limitResult.message }, limitResult.status as 400 | 429);
       }
+
+      if (!await consumeDailyAiBudget(c.env, "chat", dailyLimit)) return dailyLimitResponse();
+      budgetConsumed = true;
+
+      // Only persist a new session once every rejection gate above has passed.
+      if (!sessionExists) await createSession(c.env, sessionId, user_id);
 
       const messageMetadata: Record<string, unknown> = {};
       if (currentPage) messageMetadata.page = currentPage;
@@ -745,6 +759,8 @@ export async function handleChat(c: Context<{ Bindings: Env }>): Promise<Respons
         degraded: true,
       };
     }
+
+    if (!budgetConsumed && !await consumeDailyAiBudget(c.env, "chat", dailyLimit)) return dailyLimitResponse();
 
     const isFirstMessage = chatContext.totalUserMessages <= 1;
     const ragQuery = isFirstMessage
