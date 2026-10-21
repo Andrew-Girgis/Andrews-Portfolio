@@ -12,6 +12,7 @@ export interface Env {
   ALLOWED_ORIGINS: string;
   CHAT_DAILY_AI_LIMIT: string;
   BOOKING_PARSE_DAILY_AI_LIMIT: string;
+  TURNSTILE_SECRET_KEY?: string;
   SUPABASE_URL?: string;
   SUPABASE_SECRET_KEY?: string;
   NEXT_PUBLIC_SUPABASE_URL?: string;
