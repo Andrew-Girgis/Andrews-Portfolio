@@ -28,11 +28,13 @@ export async function handleHealth(c: Context<{ Bindings: Env }>): Promise<Respo
 
   const healthy = checks.worker && checks.d1 && checks.ragChunkCount > 0 && checks.vectorizeBinding && checks.cohereConfigured && checks.openaiConfigured && checks.langfuseConfigured;
 
+  // Detailed checks go to Worker logs only; the public response just reports status.
+  if (!healthy) {
+    console.warn("Health check degraded", JSON.stringify(checks));
+  }
+
   return c.json(
-    {
-      status: healthy ? "ok" : "degraded",
-      checks,
-    },
+    { status: healthy ? "ok" : "degraded" },
     healthy ? 200 : 503
   );
 }

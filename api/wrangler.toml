@@ -7,7 +7,7 @@ compatibility_flags = ["nodejs_compat"]
 RAG_BACKEND = "cloudflare"
 CAL_USERNAME = "andrew-girgis"
 CAL_EVENT_TYPE_SLUG = "1on1"
-ALLOWED_ORIGINS = "https://girg.is,https://www.girg.is,https://andrew-girgis.com,https://www.andrew-girgis.com,http://localhost:8080,http://localhost:8081,http://localhost:8888"
+ALLOWED_ORIGINS = "https://girg.is,https://www.girg.is,https://andrew-girgis.com,https://www.andrew-girgis.com"
 CHAT_DAILY_AI_LIMIT = "200"
 BOOKING_PARSE_DAILY_AI_LIMIT = "50"
 

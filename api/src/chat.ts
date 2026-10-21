@@ -702,10 +702,10 @@ export async function handleChat(c: Context<{ Bindings: Env }>): Promise<Respons
     return c.json({ error: "You're sending messages too quickly. Please wait a minute." }, 429);
   }
 
+  // The shared daily budget is only charged once a request has passed the cheaper session and per-user checks.
   const dailyLimit = Number(c.env.CHAT_DAILY_AI_LIMIT) || 200;
-  if (!await consumeDailyAiBudget(c.env, "chat", dailyLimit)) {
-    return c.json({ error: "Sierra has reached today's conversation limit. Please try again tomorrow." }, 429);
-  }
+  const dailyLimitResponse = () => c.json({ error: "Sierra has reached today's conversation limit. Please try again tomorrow." }, 429);
+  let budgetConsumed = false;
 
   try {
     const requestStartTime = new Date().toISOString();
@@ -724,6 +724,9 @@ export async function handleChat(c: Context<{ Bindings: Env }>): Promise<Respons
       if (!limitResult.allowed) {
         return c.json({ error: limitResult.message }, limitResult.status as 400 | 429);
       }
+
+      if (!await consumeDailyAiBudget(c.env, "chat", dailyLimit)) return dailyLimitResponse();
+      budgetConsumed = true;
 
       const messageMetadata: Record<string, unknown> = {};
       if (currentPage) messageMetadata.page = currentPage;
@@ -745,6 +748,8 @@ export async function handleChat(c: Context<{ Bindings: Env }>): Promise<Respons
         degraded: true,
       };
     }
+
+    if (!budgetConsumed && !await consumeDailyAiBudget(c.env, "chat", dailyLimit)) return dailyLimitResponse();
 
     const isFirstMessage = chatContext.totalUserMessages <= 1;
     const ragQuery = isFirstMessage

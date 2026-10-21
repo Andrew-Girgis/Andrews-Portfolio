@@ -9,10 +9,16 @@ import { cancelBookingDraft, confirmBooking, createBookingDraft, selectBookingSl
 
 const app = new Hono<{ Bindings: Env }>();
 
+function isLocalRequest(url: string): boolean {
+  const { hostname } = new URL(url);
+  return hostname === "localhost" || hostname === "127.0.0.1";
+}
+
 app.use("*", cors({
   origin: (origin, c) => {
     const allowed = c.env.ALLOWED_ORIGINS.split(",").map((value: string) => value.trim());
-    if (/^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin)) return origin;
+    // Arbitrary localhost origins are only accepted while the Worker itself runs locally (wrangler dev).
+    if (isLocalRequest(c.req.url) && /^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin)) return origin;
     return allowed.includes(origin) ? origin : allowed[0];
   },
   allowMethods: ["GET", "POST", "DELETE", "OPTIONS"],

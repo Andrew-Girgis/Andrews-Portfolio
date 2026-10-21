@@ -51,3 +51,7 @@ Sierra Temp.json
 
 # s: encrypted secrets
 .senv
+
+# Local Worker secrets
+.dev.vars
+.dev.vars.*
