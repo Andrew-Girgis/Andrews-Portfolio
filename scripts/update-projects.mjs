@@ -23,6 +23,31 @@ const PROJECTS_FILE = path.join(ROOT, "src", "data", "projects.ts");
 const GITHUB_USER = "Andrew-Girgis";
 const DRY_RUN = process.argv.includes("--dry-run");
 
+// Public repos that should never be added to the portfolio (coursework, utilities,
+// personal sites, and work planned for a future writeup). Compared case-insensitively.
+const EXCLUDED_REPOS = new Set(
+  [
+    "Applied-Macroeconometrics",
+    "celevid",
+    "codex-pets",
+    "computare-doc-ingest",
+    "Data-Science-For-Economists",
+    "Data-Vizualization",
+    "ECON626-MachineLearningForEconomists",
+    "Exploratory-Data-Analysis",
+    "hunyuan3d-playground",
+    "IASC-1P02",
+    "NFL-Project",
+    "personal-rag-pipeline",
+    "SETI-demo-chatbot",
+    "stratascratch-sql-practice",
+    "TouchBistro-CxC",
+    "UWES-R-Tutorial",
+    "Valentines-Website-2025",
+    "x-video-downloader",
+  ].map((name) => name.toLowerCase())
+);
+
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
@@ -252,7 +277,7 @@ async function main() {
   console.log("Fetching GitHub repos...");
   const allRepos = await fetchGitHubRepos();
 
-  // Filter: public, not fork, not archived, not the portfolio repo itself
+  // Filter: public, not fork, not archived, not the portfolio repo itself, not excluded
   const candidateRepos = allRepos.filter(
     (r) =>
       !r.fork &&
@@ -260,7 +285,8 @@ async function main() {
       !r.private &&
       r.name.toLowerCase() !== "andrew-girgis" && // profile README repo
       r.name.toLowerCase() !== "andrews-portfolio" &&
-      r.name.toLowerCase() !== ".github"
+      r.name.toLowerCase() !== ".github" &&
+      !EXCLUDED_REPOS.has(r.name.toLowerCase())
   );
 
   console.log(`Found ${candidateRepos.length} candidate repos`);
