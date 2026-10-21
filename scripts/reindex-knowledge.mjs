@@ -385,6 +385,34 @@ function applyVectorize(ndjsonFile) {
   execFileSync("npx", ["wrangler", "vectorize", "upsert", manifest.vectorize.indexName, "--file", ndjsonFile], { cwd: ROOT, stdio: "inherit" });
 }
 
+function listVectorIds() {
+  const ids = [];
+  let cursor;
+  do {
+    const args = ["wrangler", "vectorize", "list-vectors", manifest.vectorize.indexName, "--count", "1000", "--json"];
+    if (cursor) args.push("--cursor", cursor);
+    const output = execFileSync("npx", args, { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "inherit"] });
+    const page = JSON.parse(output.slice(output.indexOf("{")));
+    ids.push(...(page.vectors || []).map((vector) => vector.id));
+    cursor = page.isTruncated ? page.nextCursor : undefined;
+  } while (cursor);
+  return ids;
+}
+
+// Upserts never remove vectors for chunks that left the corpus. Those vectors have no D1 row, so retrieval
+// drops them, but they still take topK slots. Delete them (the API accepts at most 100 ids per call).
+function pruneStaleVectors(currentIds) {
+  const stale = listVectorIds().filter((id) => !currentIds.has(id));
+  if (stale.length === 0) {
+    console.log("No stale vectors to delete.");
+    return;
+  }
+  for (let i = 0; i < stale.length; i += 100) {
+    execFileSync("npx", ["wrangler", "vectorize", "delete-vectors", manifest.vectorize.indexName, "--ids", ...stale.slice(i, i + 100)], { cwd: ROOT, stdio: "inherit" });
+  }
+  console.log(`Deleted ${stale.length} stale vectors.`);
+}
+
 async function main() {
   ensureDir(GENERATED_DIR);
   const documents = loadDocuments().map((doc) => ({ ...doc, content: normalizeWhitespace(doc.content) }));
@@ -441,6 +469,7 @@ async function main() {
   if (APPLY) {
     applyD1(sqlPath);
     applyVectorize(vectorsPath);
+    pruneStaleVectors(new Set(vectorRows.map((row) => row.id)));
   } else {
     console.log("Dry run only. Re-run with --apply to write D1 and Vectorize.");
   }
