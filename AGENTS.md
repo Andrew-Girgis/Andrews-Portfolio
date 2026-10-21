@@ -15,7 +15,7 @@ The project has two deployables:
 - `npm run build`: static build to `dist/`
 - `npm run preview`: preview the production build
 - `npm run lint`: ESLint (`eslint.config.js`). Generated files under `.netlify/` currently produce noise (see #18).
-- `npm run knowledge:reindex`: rebuilds Sierra's RAG index from `api/knowledge/manifest.json`. It's a dry run unless you pass `--apply`. `--local` targets local D1, and `--skip-embed` skips Cohere embedding. Requires `COHERE_API_KEY`.
+- `npm run knowledge:reindex`: rebuilds Sierra's RAG index from `api/knowledge/manifest.json`. It's a dry run unless you pass `--apply`. `--apply` replaces the D1 knowledge tables, upserts the vectors and deletes vectors whose chunks are no longer in the corpus. `--local` targets local D1, and `--skip-embed` skips Cohere embedding. Requires `COHERE_API_KEY`.
 - `npm run test` has no root test suite and exits with an error by design.
 
 ### Worker (`cd api`)
