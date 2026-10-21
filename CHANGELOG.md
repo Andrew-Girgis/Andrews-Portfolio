@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.4.0](https://github.com/Andrew-Girgis/Andrews-Portfolio/compare/v2.3.0...v2.4.0) (2026-10-21)
+
+
+### Features
+
+* **projects:** add 10 curated projects and exclude list for updater ([#25](https://github.com/Andrew-Girgis/Andrews-Portfolio/issues/25)) ([27c88d7](https://github.com/Andrew-Girgis/Andrews-Portfolio/commit/27c88d78f7dfb4d2340df6a546600627cb213aba)), closes [#9](https://github.com/Andrew-Girgis/Andrews-Portfolio/issues/9)
+* **sierra:** require Turnstile for chat and booking ([#26](https://github.com/Andrew-Girgis/Andrews-Portfolio/issues/26)) ([#29](https://github.com/Andrew-Girgis/Andrews-Portfolio/issues/29)) ([3dd762e](https://github.com/Andrew-Girgis/Andrews-Portfolio/commit/3dd762e2a2c3396c69bb6791b1e5ea60d639b810))
+
+
+### Bug Fixes
+
+* **api:** harden CORS, health output and chat budget ordering ([#24](https://github.com/Andrew-Girgis/Andrews-Portfolio/issues/24)) ([d61f1e3](https://github.com/Andrew-Girgis/Andrews-Portfolio/commit/d61f1e38937691650dc0e95b7e333c661eeddcd6))
+* **knowledge:** delete stale vectors when the reindex applies ([#30](https://github.com/Andrew-Girgis/Andrews-Portfolio/issues/30)) ([f7099cb](https://github.com/Andrew-Girgis/Andrews-Portfolio/commit/f7099cba9f379ccd617720d910a30bcc13ebd216))
+
 ## [2.3.0](https://github.com/Andrew-Girgis/Andrews-Portfolio/compare/v2.2.0...v2.3.0) (2026-03-16)
 
 
