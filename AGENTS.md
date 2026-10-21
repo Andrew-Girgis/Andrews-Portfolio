@@ -97,6 +97,18 @@ Much of `src/` is left over from the v1/v2 sites and is not reachable from any p
 - Commit messages and PR titles should follow Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`) so Release Please can version releases. Don't bump `package.json` `version` by hand.
 - `.gitignore` ignores `*.md` except `README.md`, `AGENTS.md`, `CLAUDE.md`, `SECURITY.md` and `api/knowledge/**/*.md`. A new Markdown file needs an explicit `!` rule to be tracked.
 
+## Writing style for PRs and comments
+
+Write all PR titles, PR descriptions and comments in ASD-STE100 Simplified Technical English (STE). This rule applies to review comments, replies to review comments and issue comments. It also applies to automated reviewers such as Codex.
+
+- Write short sentences. Use a maximum of 20 words in an instruction and 25 words in a description.
+- Write one instruction in each sentence. Use the imperative form, for example "Apply the migration."
+- Use the active voice.
+- Use one word for one meaning. Use the same term for the same thing each time.
+- Write a maximum of six sentences in each paragraph.
+- Write file paths, function names, commands and other code names exactly as they are in the code.
+- Keep the Conventional Commits prefix (`feat:`, `fix:`) at the start of PR titles.
+
 ## Code review guidelines
 
 When reviewing a PR, prioritise in this order:
@@ -109,3 +121,5 @@ When reviewing a PR, prioritise in this order:
 6. **Hygiene.** No new code in legacy files, no committed build output (`dist/`, `.astro/`, `.netlify/`, `.wrangler/`) or `.DS_Store`, and no large media in git.
 
 Don't flag the intentional loose TypeScript settings or unused variables.
+
+Write review comments in STE. See "Writing style for PRs and comments".
