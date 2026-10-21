@@ -11,6 +11,8 @@ export const projects: Project[] = [
       "Adio is a voice-first repair companion for home appliances and basic car fixes. It executes one procedural step at a time with confirmation-gated progression and interruption commands. Built for the AI Agents Waterloo Voice Hackathon. Features parallel STT race (smallest.ai Pulse + OpenAI Realtime), smallest.ai Waves streaming TTS, Supabase Postgres + pgvector RAG, and a YouTube Guide Mode that compiles video transcripts into step-by-step repair procedures.",
     status: "available",
     link: "https://github.com/Andrew-Girgis/Adio",
+    lastCommitDate: "2026-02-17T00:10:08Z",
+
     githubRepo: "Andrew-Girgis/Adio",
     featured: true,
     tags: {
@@ -30,6 +32,8 @@ export const projects: Project[] = [
       "An open-source personal finance platform that extracts transactions from Canadian bank statements (Scotiabank PDF, Wealthsimple CSV, Amex), categorizes them with a 3-tier AI pipeline (rules → merchant cache → GPT-4o-mini), detects recurring subscriptions, and stores everything in PostgreSQL with Row Level Security. Features a Next.js dashboard, FastAPI backend, and 9 materialized views for analytics.",
     status: "available",
     link: "https://github.com/Andrew-Girgis/Computare",
+    lastCommitDate: "2026-04-28T13:06:26Z",
+
     githubRepo: "Andrew-Girgis/Computare",
     featured: true,
     tags: {
@@ -47,6 +51,8 @@ export const projects: Project[] = [
       "A Hermes Agent skill that connects Outlook email, calendar, contacts, and profile data through Microsoft Graph. It supports OAuth setup, token refresh, email search and sending, calendar scheduling, free/busy lookup, Teams meeting creation, and safe preview-based email sending for agent-assisted productivity workflows.",
     status: "available",
     link: "https://github.com/Andrew-Girgis/microsoft-workspace-skill",
+    lastCommitDate: "2026-04-14T20:24:18Z",
+
     githubRepo: "Andrew-Girgis/microsoft-workspace-skill",
     tags: {
       technology: ["python", "microsoft-graph", "oauth2"],
@@ -63,6 +69,8 @@ export const projects: Project[] = [
       "A Textual-based terminal app that turns Kaggle competition setup into a repeatable workflow. It provides a searchable competition picker, scaffolds notebooks, notes, data folders, virtual environments, and git repositories, checks Kaggle access, and enriches project notes from competition pages.",
     status: "available",
     link: "https://github.com/Andrew-Girgis/kag",
+    lastCommitDate: "2026-10-12T23:11:31Z",
+
     githubRepo: "Andrew-Girgis/kag",
     tags: {
       technology: ["python", "textual", "kaggle-api"],
@@ -81,6 +89,8 @@ export const projects: Project[] = [
       "An intelligent web scraper built in support of @BuildCanada that automatically discovers and downloads annual audited financial reports from Canadian municipality websites. Features AI-powered document discovery via OpenAI, Firecrawl API for web crawling, Playwright browser automation, and a 4-strategy PDF extraction pipeline. Processes all 3,696 Canadian municipalities with URL caching for 10x faster subsequent runs.",
     status: "available",
     link: "https://github.com/Andrew-Girgis/Municipalities-Budget-Scraper",
+    lastCommitDate: "2025-12-09T05:48:27Z",
+
     githubRepo: "Andrew-Girgis/Municipalities-Budget-Scraper",
     featured: true,
     tags: {
@@ -98,6 +108,8 @@ export const projects: Project[] = [
       "A Python ETL pipeline that extracts municipal waste collection schedules from ReCollect-powered services, augments Peel recycling data from Circular Materials, and normalizes nested event JSON into analytics-ready schedule outputs. The pipeline supports multiple Ontario municipalities, audit-friendly raw response storage, retry-aware API clients, and staged extraction, transformation, and merge scripts.",
     status: "available",
     link: "https://github.com/Andrew-Girgis/municipal-waste-schedule-etl",
+    lastCommitDate: "2026-01-06T13:52:13Z",
+
     githubRepo: "Andrew-Girgis/municipal-waste-schedule-etl",
     tags: {
       technology: ["python", "recollect-api", "pandas"],
@@ -114,6 +126,8 @@ export const projects: Project[] = [
       "A research-grade scraping system for technical government job postings across Canada, Australia, and the United Kingdom. It monitors 14 jurisdictions, applies fuzzy title matching to reduce false positives, standardizes job details for comparative public-administration analysis, supports parallel Playwright collection, and includes Supabase upload workflows with GPT-assisted extraction for inconsistent pages.",
     status: "available",
     link: "https://github.com/Andrew-Girgis/public_jobs_scraper",
+    lastCommitDate: "2026-05-23T00:02:47Z",
+
     githubRepo: "Andrew-Girgis/public_jobs_scraper",
     tags: {
       technology: ["python", "playwright", "supabase", "openai"],
@@ -133,6 +147,8 @@ export const projects: Project[] = [
       "A comprehensive LinkedIn job scraping tool that extracts job postings with intelligent parsing, LLM-enhanced skill extraction, and MongoDB storage. Features regex/NLP-based extraction combined with OpenAI GPT for skills analysis, a webhook server with Chrome browser extension for one-click job saving, MongoDB with auto-deduplication, and intelligent parsing of employment type, salary, benefits, and location.",
     status: "available",
     link: "https://github.com/Andrew-Girgis/linkedin-job-scraper",
+    lastCommitDate: "2025-06-21T19:49:59Z",
+
     githubRepo: "Andrew-Girgis/linkedin-job-scraper",
     tags: {
       technology: ["python", "selenium", "openai", "mongodb"],
@@ -149,6 +165,8 @@ export const projects: Project[] = [
       "A Python scraper that extracts structured company data from LinkedIn pages, including company IDs, industry, size, headquarters, specialties, websites, and descriptions. It supports batch processing, rate limiting, optional Gemini URL verification, Supabase storage, and company ID extraction for downstream job search and business intelligence workflows.",
     status: "available",
     link: "https://github.com/Andrew-Girgis/linkedin-company-scraper",
+    lastCommitDate: "2025-07-01T04:21:30Z",
+
     githubRepo: "Andrew-Girgis/linkedin-company-scraper",
     tags: {
       technology: ["python", "selenium", "gemini", "supabase"],
@@ -167,6 +185,8 @@ export const projects: Project[] = [
       "A comprehensive exploration of CNN architectures and regularization techniques for CIFAR-10 image classification. Systematically compares 6 model architectures—from a 2-layer baseline to a fully optimized model with batch normalization, dropout, and data augmentation.",
     status: "available",
     link: "https://github.com/Andrew-Girgis/deep-learning-cnn-regularization-cifar10",
+    lastCommitDate: "2026-04-05T23:04:14Z",
+
     githubRepo: "Andrew-Girgis/deep-learning-cnn-regularization-cifar10",
     tags: {
       technology: ["python", "tensorflow", "keras"],
@@ -185,6 +205,8 @@ export const projects: Project[] = [
       "An end-to-end machine learning pipeline for predicting residential home sale prices using linear regression. Covers 2006–2010 housing sales including the 2008 financial crisis. Final model achieves R² = 0.89 with ~$26,000 average prediction error.",
     status: "available",
     link: "https://github.com/Andrew-Girgis/ml-house-price-prediction",
+    lastCommitDate: "2026-01-01T20:36:55Z",
+
     githubRepo: "Andrew-Girgis/ml-house-price-prediction",
     tags: {
       technology: ["python", "scikit-learn", "pandas"],
@@ -203,6 +225,8 @@ export const projects: Project[] = [
     imageAlt: "Canadian automotive stocks and export trends dashboard",
     status: "available",
     link: "https://andrew-girgis.shinyapps.io/canadian_automotive_analysis/",
+    lastCommitDate: "2025-05-28T21:45:54Z",
+
     githubRepo: "Andrew-Girgis/canadian-auto-dash",
     tags: {
       technology: ["r", "shiny", "tidyquant", "tidyverse"],
@@ -220,6 +244,8 @@ export const projects: Project[] = [
     imageAlt: "Canadian census data interactive explorer interface",
     status: "available",
     link: "https://andrew-girgis.shinyapps.io/cansensus_scrapr/",
+    lastCommitDate: "2025-09-25T12:38:22Z",
+
     githubRepo: "Andrew-Girgis/Cancensus-ScrapR",
     tags: {
       technology: ["r", "shiny", "cancensus"],
@@ -260,6 +286,176 @@ export const projects: Project[] = [
       domain: ["social-science", "marketing"],
       type: ["text-analysis", "network-visualization"],
       method: ["natural-language-processing", "sentiment-analysis"],
+    },
+  },
+  {
+    id: "omail",
+    title: "Omail Client",
+    subtitle: "AI-powered mail and calendar application",
+    description:
+      "Omail is a native mail and calendar client designed for the Omarchy ecosystem, featuring a local AI assistant for enhanced productivity. Built with C++ and QML, it offers live themes, a JSON CLI, and seamless account integration with OAuth for secure access. Users can manage personal and work profiles, compose emails, schedule events, and utilize AI-driven features for mail classification and response suggestions.",
+    lastCommitDate: "2026-10-17T17:33:18Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/omail",
+    githubRepo: "Andrew-Girgis/omail",
+    tags: {
+      technology: ["c++", "qml", "shell", "qmake"],
+      domain: ["productivity", "email"],
+      type: ["desktop-app"],
+      method: ["local-ai"],
+    },
+  },
+  {
+    id: "omarchy-edgerunners-theme",
+    title: "Cyberpunk Edgerunners Theme",
+    subtitle: "A neon theme inspired by Cyberpunk: Edgerunners",
+    description:
+      "This project features a vibrant neon theme for Omarchy, inspired by stills from the animated series *Cyberpunk: Edgerunners*. It includes a dark violet-black background with electric cyan and neon green accents, along with a selection of wallpapers named after iconic quotes from the series. Users can easily install the theme and switch backgrounds using simple commands.",
+    lastCommitDate: "2026-10-16T05:29:54Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/omarchy-edgerunners-theme",
+    githubRepo: "Andrew-Girgis/omarchy-edgerunners-theme",
+    tags: {
+      technology: ["omarchy"],
+      domain: ["design"],
+      type: ["theme"],
+      method: ["visual-design"],
+    },
+  },
+  {
+    id: "hushscript",
+    title: "Hushscript",
+    subtitle: "Local interview transcription tool",
+    description:
+      "Hushscript is a local interview transcription tool that processes audio in memory, providing English transcription with punctuation and optional speaker labeling. It supports batch uploads of audio files and exports results in TXT, Markdown, and structured JSON formats. Built using Python and Docker, it ensures privacy by avoiding cloud services and maintaining local processing.",
+    lastCommitDate: "2026-10-05T03:16:22Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/hushscript",
+    githubRepo: "Andrew-Girgis/hushscript",
+    tags: {
+      technology: ["python", "docker", "javascript"],
+      domain: ["data-science", "natural-language-processing"],
+      type: ["desktop-app", "api"],
+      method: ["audio-transcription", "data-export"],
+    },
+  },
+  {
+    id: "argus",
+    title: "Address Intelligence",
+    subtitle: "Comprehensive property profiling application",
+    description:
+      "This full-stack application provides detailed property profiles by analyzing street addresses or geographic coordinates. Utilizing Google Maps imagery, AI vision analysis, and geospatial data, it features a React frontend and a Python FastAPI backend, ensuring a seamless user experience. The project leverages modern technologies such as Docker for infrastructure and MLflow for observability.",
+    lastCommitDate: "2026-09-29T13:45:09Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/Argus",
+    githubRepo: "Andrew-Girgis/Argus",
+    tags: {
+      technology: ["react", "python", "fastapi", "docker"],
+      domain: ["geospatial", "real-estate"],
+      type: ["full-stack-app"],
+      method: ["ai-vision-analysis"],
+    },
+  },
+  {
+    id: "token-holdem",
+    title: "Token Hold'em",
+    subtitle: "Poker game with LLM agents",
+    description:
+      "Token Hold'em is an interactive poker game where players can compete against AI agents in a Texas Hold'em format. The project utilizes Gradio for the user interface and Modal for AI decision-making, allowing for a seamless gaming experience. Key features include deterministic game mechanics, customizable agent settings, and a leaderboard for tracking performance.",
+    lastCommitDate: "2026-06-15T20:05:55Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/token-holdem",
+    githubRepo: "Andrew-Girgis/token-holdem",
+    tags: {
+      technology: ["python", "gradio", "modal", "typescript"],
+      domain: ["game", "artificial-intelligence"],
+      type: ["web-app", "interactive-game"],
+      method: ["deterministic-simulation", "model-inference"],
+    },
+  },
+  {
+    id: "taskflow",
+    title: "Task Management Tool",
+    subtitle: "A CLI tool for organizing tasks",
+    description:
+      "TaskFlow is a modern command-line interface tool designed for efficient task management. It allows users to add, list, update, and delete tasks while providing features like filtering and statistics tracking. Built with Python, it stores tasks locally in a JSON file for easy access and persistence.",
+    lastCommitDate: "2026-06-11T05:32:32Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/taskflow",
+    githubRepo: "Andrew-Girgis/taskflow",
+    tags: {
+      technology: ["python"],
+      domain: ["productivity"],
+      type: ["cli-tool"],
+      method: ["task-management"],
+    },
+  },
+  {
+    id: "kaggle-s6e4-autoresearch",
+    title: "Kaggle Autoresearch",
+    subtitle: "Predicting irrigation needs using autonomous research",
+    description:
+      "This project implements an autoresearch-style workspace for predicting irrigation needs from tabular data in the Kaggle Playground Series. It utilizes Python and Jupyter Notebook to optimize balanced accuracy through controlled changes to a candidate file and a stable evaluator. Key features include a structured experiment setup, automated evaluation, and a focus on reproducibility in machine learning workflows.",
+    lastCommitDate: "2026-04-30T12:53:50Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/kaggle-s6e4-autoresearch",
+    githubRepo: "Andrew-Girgis/kaggle-s6e4-autoresearch",
+    tags: {
+      technology: ["python", "jupyter-notebook", "machine-learning"],
+      domain: ["agriculture", "data-science"],
+      type: ["research", "competition"],
+      method: ["classification", "autonomous-research"],
+    },
+  },
+  {
+    id: "accidents-cvpr",
+    title: "Accident Detection",
+    subtitle: "Predicting accident parameters from CCTV footage",
+    description:
+      "This project is a local research workspace for the Kaggle CVPR 2026 ACCIDENT competition, focusing on predicting accident timing, localization, and collision types from CCTV video. It utilizes Jupyter Notebooks for dataset exploration and includes reusable code for a zero-shot sim-to-real problem, leveraging synthetic data for training and real footage for testing.",
+    lastCommitDate: "2026-04-24T21:10:09Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/accidents-cvpr",
+    githubRepo: "Andrew-Girgis/accidents-cvpr",
+    tags: {
+      technology: ["jupyter-notebook", "python"],
+      domain: ["computer-vision", "machine-learning"],
+      type: ["research"],
+      method: ["zero-shot-learning"],
+    },
+  },
+  {
+    id: "property-geocode-checker",
+    title: "Property Geocode Checker",
+    subtitle: "Validate property geocoding accuracy",
+    description:
+      "This project validates latitude and longitude values for a list of properties by re-geocoding each address using the Google Maps Geocoding API. It compares the results to the provided coordinates and generates a summary report of matches and mismatches, along with a detailed output of mismatched properties. The tool is built in Python and requires a Google Maps API key for geocoding.",
+    lastCommitDate: "2026-01-11T07:43:34Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/property-geocode-checker",
+    githubRepo: "Andrew-Girgis/property-geocode-checker",
+    tags: {
+      technology: ["python", "google-maps-api"],
+      domain: ["real-estate", "data-validation"],
+      type: ["data-tool", "utility"],
+      method: ["geocoding", "data-comparison"],
+    },
+  },
+  {
+    id: "toronto-fire-incidents-plotly",
+    title: "Toronto Fire Incidents",
+    subtitle: "Interactive dashboard for fire data analysis",
+    description:
+      "This project features an interactive Plotly Dash web-app that visualizes every Toronto Fire Service incident from 2011 to 2024. Users can explore total fires per ward, fires per 1,000 residents, and a raw point cloud of individual incidents, all while utilizing open-source mapping tiles and zero-config hosting. Built during a data exploration hack-session, it aims to highlight fire clustering and per-capita risk across neighborhoods.",
+    lastCommitDate: "2025-06-29T00:05:24Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/toronto-fire-incidents-plotly",
+    githubRepo: "Andrew-Girgis/toronto-fire-incidents-plotly",
+    tags: {
+      technology: ["python", "javascript", "css"],
+      domain: ["urban-studies", "public-safety"],
+      type: ["dashboard", "data-visualization"],
+      method: ["data-analysis", "interactive-visualization"],
     },
   },
 ];
