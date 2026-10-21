@@ -69,6 +69,11 @@ Much of `src/` is left over from the v1/v2 sites and is not reachable from any p
 - Bindings (`api/wrangler.toml`): D1 `DB` and `RAG_DB` (both `sierra-db`), Vectorize `VECTORIZE` (`sierra-knowledge`, Cohere `embed-v4.0`, 1024-d), KV `GREETING_CACHE`, rate limiters for chat, booking search and booking confirm.
 - `RAG_BACKEND = "cloudflare"` is the live path (Cohere + Vectorize + D1). The Supabase path in `chat.ts`/`supabase.ts` is a fallback.
 - Abuse controls: per-IP rate limiters, a per-day AI budget (`usage-limits.ts`, table `ai_usage_daily`), and per-session message limits in `chat.ts`.
+- **Turnstile** (`turnstile.ts`): Sierra is browser-only. The `requireHuman()` middleware guards `/api/chat` and `/api/booking/*`.
+  - A valid `X-Turnstile-Token` header (checked against Cloudflare `siteverify` for action `sierra` and an `ALLOWED_ORIGINS` hostname) verifies the session for 2 hours (table `verified_sessions`).
+  - Booking confirm uses `requireHuman({ fresh: true })`, so it needs a new token every time.
+  - The client side is `src/lib/turnstile.ts` (an interaction-only widget) plus `sierraFetch` in `sierrachatbot.tsx`, which retries once on `turnstile_required`.
+  - Widget: "girg.is Sierra (Spin)", managed mode.
 - The system prompt is in `api/src/system-prompt.ts`. User input, history, page metadata and retrieved content are passed to the model as **untrusted data**. Keep it that way.
 - The knowledge corpus is `api/knowledge/sources/**` plus `src/data/projects.ts`, configured in `api/knowledge/manifest.json`.
 
@@ -84,7 +89,9 @@ Much of `src/` is left over from the v1/v2 sites and is not reachable from any p
 ## Environment variables and secrets
 
 - Site (build time, public): `PUBLIC_FEATURE_WRITING`, `PUBLIC_FEATURE_RESOURCES`. See `.env.example`.
-- Worker secrets: `OPENAI_API_KEY`, `COHERE_API_KEY`, `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_BASE_URL`, `CAL_API_KEY` (or `CAL_COM_API_KEY`), plus optional `SUPABASE_*` for the fallback. Non-secret vars are under `[vars]` in `api/wrangler.toml`.
+- Worker secrets: `OPENAI_API_KEY`, `COHERE_API_KEY`, `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_BASE_URL`, `CAL_API_KEY` (or `CAL_COM_API_KEY`), `TURNSTILE_SECRET_KEY`, plus optional `SUPABASE_*` for the fallback. Non-secret vars are under `[vars]` in `api/wrangler.toml`.
+- Local Worker dev: put `TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA` (Cloudflare's always-pass test secret) in `api/.dev.vars`, which is gitignored. In dev the site uses the matching test site key automatically, and the smoke/red-team scripts send the dummy token `XXXX.DUMMY.TOKEN.XXXX`.
+- Turnstile site key (public): `PUBLIC_TURNSTILE_SITE_KEY`, defaulting to the production key in `src/lib/turnstile.ts`.
 - Actions secrets: `OPENAI_API_KEY`, used by `update-projects.yml` (`GITHUB_TOKEN` is automatic).
 - Never expose a secret to the client. Only `PUBLIC_*` variables may be read in `src/`.
 

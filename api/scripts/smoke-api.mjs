@@ -18,6 +18,8 @@ function headers(index) {
     "Content-Type": "application/json",
     Origin: "http://localhost:8082",
     "CF-Connecting-IP": `198.51.100.${index}`,
+    // Cloudflare's Turnstile dummy token; passes with the test secret in api/.dev.vars.
+    "X-Turnstile-Token": process.env.TURNSTILE_TEST_TOKEN || "XXXX.DUMMY.TOKEN.XXXX",
   };
 }
 

@@ -29,6 +29,7 @@ function makeEnv(overrides: Record<string, unknown> = {}): Env {
     ALLOWED_ORIGINS: "https://girg.is,https://www.girg.is",
     RAG_BACKEND: "cloudflare",
     CHAT_DAILY_AI_LIMIT: "200",
+    TURNSTILE_SECRET_KEY: "test-secret",
     CHAT_RATE_LIMITER: { limit: async () => ({ success: true }) },
     DB: fakeDb(() => null),
     RAG_DB: fakeDb(() => null),
@@ -36,8 +37,36 @@ function makeEnv(overrides: Record<string, unknown> = {}): Env {
   } as unknown as Env;
 }
 
+const PROD_API = "https://sierra-api.andrew-girgis.workers.dev/api";
+const owner = { sessionId: "session_1", user_id: "user_1" };
+
+// Session with a recorded Turnstile verification, whose per-user rate limit is already used up.
+function verifiedRateLimitedDb(runs: string[] = []) {
+  return fakeDb((sql) => {
+    if (sql.includes("FROM verified_sessions")) return { ok: 1 };
+    if (sql.includes("FROM chat_sessions")) return { id: "session_1", user_id: "user_1" };
+    if (sql.includes("COUNT(*)")) return { count: 10 };
+    return null;
+  }, runs);
+}
+
+function stubSiteverify(result: Record<string, unknown>) {
+  const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify(result), { status: 200 }));
+  vi.stubGlobal("fetch", fetchMock);
+  return fetchMock;
+}
+
+function postChat(env: Env, headers: Record<string, string> = {}) {
+  return app.request(`${PROD_API}/chat`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...headers },
+    body: JSON.stringify({ chatInput: "Hi", ...owner }),
+  }, env);
+}
+
 afterEach(() => {
   vi.mocked(consumeDailyAiBudget).mockClear();
+  vi.unstubAllGlobals();
 });
 
 describe("CORS", () => {
@@ -80,19 +109,7 @@ describe("health", () => {
 
 describe("chat daily budget", () => {
   it("is not charged when the per-user rate limit rejects the request", async () => {
-    const env = makeEnv({
-      DB: fakeDb((sql) => {
-        if (sql.includes("FROM chat_sessions")) return { id: "session_1", user_id: "user_1" };
-        if (sql.includes("COUNT(*)")) return { count: 10 };
-        return null;
-      }),
-    });
-
-    const response = await app.request("https://sierra-api.andrew-girgis.workers.dev/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chatInput: "Hi", sessionId: "session_1", user_id: "user_1" }),
-    }, env);
+    const response = await postChat(makeEnv({ DB: verifiedRateLimitedDb() }));
 
     expect(response.status).toBe(429);
     expect(consumeDailyAiBudget).not.toHaveBeenCalled();
@@ -101,7 +118,11 @@ describe("chat daily budget", () => {
 
 describe("chat session creation", () => {
   function newSessionDb(recentCount: number, runs: string[]) {
-    return fakeDb((sql) => (sql.includes("COUNT(*)") ? { count: recentCount } : null), runs);
+    return fakeDb((sql) => {
+      if (sql.includes("FROM verified_sessions")) return { ok: 1 };
+      if (sql.includes("COUNT(*)")) return { count: recentCount };
+      return null;
+    }, runs);
   }
 
   function postNewSessionChat(env: Env) {
@@ -127,5 +148,80 @@ describe("chat session creation", () => {
 
     expect(response.status).toBe(429);
     expect(runs.some((sql) => sql.includes("INSERT INTO chat_sessions"))).toBe(false);
+  });
+});
+
+describe("Turnstile", () => {
+  it("rejects chat from a session that has not been verified", async () => {
+    const response = await postChat(makeEnv());
+
+    expect(response.status).toBe(403);
+    expect(await response.json()).toMatchObject({ code: "turnstile_required" });
+    expect(consumeDailyAiBudget).not.toHaveBeenCalled();
+  });
+
+  it("verifies a token with siteverify and records the session", async () => {
+    const fetchMock = stubSiteverify({ success: true, action: "sierra", hostname: "girg.is" });
+    const runs: string[] = [];
+    const db = verifiedRateLimitedDb(runs);
+
+    const response = await postChat(makeEnv({ DB: db }), { "X-Turnstile-Token": "token-1" });
+
+    // Gets past the Turnstile check and stops at the per-user rate limit.
+    expect(response.status).toBe(429);
+    expect(fetchMock).toHaveBeenCalledWith(
+      "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+      expect.objectContaining({ method: "POST" }),
+    );
+    expect(runs.some((sql) => sql.includes("INSERT INTO verified_sessions"))).toBe(true);
+  });
+
+  it("rejects tokens issued for another hostname", async () => {
+    stubSiteverify({ success: true, action: "sierra", hostname: "evil.example" });
+
+    const response = await postChat(makeEnv(), { "X-Turnstile-Token": "token-1" });
+
+    expect(response.status).toBe(403);
+    expect(await response.json()).toMatchObject({ code: "turnstile_failed" });
+  });
+
+  it("rejects tokens issued for another action", async () => {
+    stubSiteverify({ success: true, action: "login", hostname: "girg.is" });
+
+    const response = await postChat(makeEnv(), { "X-Turnstile-Token": "token-1" });
+
+    expect(response.status).toBe(403);
+  });
+
+  it("fails closed when the secret is not configured", async () => {
+    const fetchMock = stubSiteverify({ success: true, action: "sierra", hostname: "girg.is" });
+
+    const response = await postChat(makeEnv({ TURNSTILE_SECRET_KEY: undefined }), { "X-Turnstile-Token": "token-1" });
+
+    expect(response.status).toBe(403);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("requires a fresh token to confirm a booking, even on a verified session", async () => {
+    const response = await app.request(`${PROD_API}/booking/drafts/draft_1/confirm`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sessionId: "session_1", userId: "user_1", idempotencyKey: "key" }),
+    }, makeEnv({ DB: verifiedRateLimitedDb() }));
+
+    expect(response.status).toBe(403);
+    expect(await response.json()).toMatchObject({ code: "turnstile_required" });
+  });
+
+  it("lets booking searches through on a verified session", async () => {
+    const response = await app.request(`${PROD_API}/booking/drafts`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sessionId: "session_1", userId: "user_1" }),
+    }, makeEnv({ DB: verifiedRateLimitedDb() }));
+
+    // Reaches the booking handler, which rejects the missing timezone.
+    expect(response.status).toBe(400);
+    expect(await response.json()).toEqual({ error: "A valid session and timezone are required." });
   });
 });

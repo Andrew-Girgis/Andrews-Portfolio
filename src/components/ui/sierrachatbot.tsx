@@ -15,6 +15,7 @@ import {
   normalizeTimeZone,
   timeZoneLabel,
 } from "@/lib/sierra-booking";
+import { TURNSTILE_HEADER, useTurnstile } from "@/lib/turnstile";
 
 const sierraAvatarSrc = "/sierra/Sierra_AI_agent_new.png";
 const sierraThinkingSrc = "/sierra/Sierra_AI_agent_thinking.png";
@@ -109,6 +110,7 @@ const SierraChatbot = () => {
   const chatMessagesRef = useRef<HTMLDivElement>(null);
   const launcherVideoRef = useRef<HTMLVideoElement>(null);
   const requestLockRef = useRef(false);
+  const { setContainer: setTurnstileContainer, getToken: getTurnstileToken } = useTurnstile();
 
   // Auto-scroll to bottom when messages change
   const scrollToBottom = () => {
@@ -294,6 +296,24 @@ const SierraChatbot = () => {
     }
   };
 
+  /**
+   * Calls the Sierra API with Turnstile. The session is verified on first use: if the API answers
+   * `turnstile_required`, get a token and retry once. `fresh` sends a new token up front (booking confirm).
+   */
+  const sierraFetch = async (url: string, init: RequestInit, { fresh = false } = {}) => {
+    const send = (token?: string) => fetch(url, {
+      ...init,
+      headers: { ...(init.headers as Record<string, string>), ...(token ? { [TURNSTILE_HEADER]: token } : {}) },
+    });
+
+    if (fresh) return send(await getTurnstileToken());
+    const response = await send();
+    if (response.status !== 403) return response;
+    const body = await response.clone().json().catch(() => null) as { code?: string } | null;
+    if (body?.code !== "turnstile_required") return response;
+    return send(await getTurnstileToken());
+  };
+
   const beginBooking = () => {
     if (booking.stage !== "idle" && booking.stage !== "confirmed") return;
     setBooking({ stage: "duration", timeZone: detectedTimeZone(), slots: [] });
@@ -321,7 +341,7 @@ const SierraChatbot = () => {
 
     try {
       const pageContext = extractPageContext();
-      const response = await fetch(CHAT_API_URL, {
+      const response = await sierraFetch(CHAT_API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -432,7 +452,7 @@ const SierraChatbot = () => {
     setIsTyping(true);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/booking/drafts`, {
+      const response = await sierraFetch(`${API_BASE_URL}/booking/drafts`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -479,7 +499,7 @@ const SierraChatbot = () => {
     appendBookingUser(formatBookingSlot(slot, booking.timeZone));
     setIsTyping(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/booking/drafts/${booking.draftId}/slot`, {
+      const response = await sierraFetch(`${API_BASE_URL}/booking/drafts/${booking.draftId}/slot`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sessionId, userId: getOrCreateUserId(), start: slot.start }),
@@ -508,7 +528,7 @@ const SierraChatbot = () => {
     setBooking((current) => ({ ...current, stage: "submitting" }));
     setIsTyping(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/booking/drafts/${booking.draftId}/confirm`, {
+      const response = await sierraFetch(`${API_BASE_URL}/booking/drafts/${booking.draftId}/confirm`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -518,7 +538,7 @@ const SierraChatbot = () => {
           attendee: { name: booking.name, email: booking.email, timeZone: booking.timeZone },
           purpose: booking.purpose,
         }),
-      });
+      }, { fresh: true });
       if (!response.ok) throw new Error(await readApiError(response, "I couldn't confirm the booking."));
       const result = await response.json() as {
         booking: {
@@ -569,7 +589,7 @@ const SierraChatbot = () => {
     if (requestLockRef.current) return;
     requestLockRef.current = true;
     if (booking.draftId) {
-      await fetch(`${API_BASE_URL}/booking/drafts/${booking.draftId}`, {
+      await sierraFetch(`${API_BASE_URL}/booking/drafts/${booking.draftId}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sessionId, userId: getOrCreateUserId() }),
@@ -1038,6 +1058,9 @@ const SierraChatbot = () => {
 
             <div ref={messagesEndRef} />
           </div>
+
+          {/* Turnstile: interaction-only, so it stays empty unless Cloudflare needs a checkbox */}
+          <div ref={setTurnstileContainer} className="flex justify-center empty:hidden [&:has(iframe)]:pt-2" />
 
           {/* Input */}
           <form onSubmit={handleSubmit} className="p-4 border-t border-border">
