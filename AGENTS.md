@@ -79,13 +79,13 @@ Much of `src/` is left over from the v1/v2 sites and is not reachable from any p
 - **GitHub Actions**:
   - `release-please.yml` runs on pushes to `main`
   - `update-projects.yml` runs every Monday and opens a PR on `auto/update-projects`
-  - `opencode.yml` is a comment-triggered agent
+- **Code review** is done by Codex (`chatgpt-codex-connector`); comment `@codex review` on a PR to request one. There is no comment-triggered agent workflow.
 
 ## Environment variables and secrets
 
 - Site (build time, public): `PUBLIC_FEATURE_WRITING`, `PUBLIC_FEATURE_RESOURCES`. See `.env.example`.
 - Worker secrets: `OPENAI_API_KEY`, `COHERE_API_KEY`, `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_BASE_URL`, `CAL_API_KEY` (or `CAL_COM_API_KEY`), plus optional `SUPABASE_*` for the fallback. Non-secret vars are under `[vars]` in `api/wrangler.toml`.
-- Actions secrets: `OPENAI_API_KEY` (`GITHUB_TOKEN` is automatic).
+- Actions secrets: `OPENAI_API_KEY`, used by `update-projects.yml` (`GITHUB_TOKEN` is automatic).
 - Never expose a secret to the client. Only `PUBLIC_*` variables may be read in `src/`.
 
 ## Conventions
