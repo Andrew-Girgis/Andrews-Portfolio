@@ -106,10 +106,17 @@ await chat("Where does Andrew work?", 30, [], followUpIdentity);
 const followUp = await chat("Can I speak with him about that?", 31, [], followUpIdentity);
 check("contextual follow-up offers booking", followUp.action === "offer_booking", `action=${followUp.action || "none"}`);
 
+// Arbitrary localhost origins are only allowed while the Worker itself runs locally (wrangler dev).
+const isLocalApi = ["localhost", "127.0.0.1"].includes(new URL(API_BASE_URL).hostname);
 const corsResponse = await fetch(`${API_BASE_URL}/health`, {
   headers: { Origin: "http://localhost:4567" },
 });
-check("CORS accepts arbitrary localhost port", corsResponse.headers.get("access-control-allow-origin") === "http://localhost:4567");
+const corsOrigin = corsResponse.headers.get("access-control-allow-origin");
+if (isLocalApi) {
+  check("CORS accepts arbitrary localhost port", corsOrigin === "http://localhost:4567", `origin=${corsOrigin}`);
+} else {
+  check("CORS rejects localhost origins on a deployed Worker", corsOrigin !== "http://localhost:4567", `origin=${corsOrigin}`);
+}
 
 const malformedResponse = await fetch(`${API_BASE_URL}/booking/drafts`, {
   method: "POST",
