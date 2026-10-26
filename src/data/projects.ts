@@ -458,4 +458,21 @@ export const projects: Project[] = [
       method: ["data-analysis", "interactive-visualization"],
     },
   },
+  {
+    id: "toronto-congestion-project",
+    title: "Toronto Congestion Pricing",
+    subtitle: "Evidence-based simulation tool for traffic management",
+    description:
+      "This project develops an open research and simulation tool to evaluate congestion pricing in downtown Toronto using the city's traffic data. It analyzes potential impacts on traffic flow and travel times under various pricing scenarios, drawing insights from global case studies. Built with Python and TypeScript, it aims to inform policy decisions with evidence-based projections.",
+    lastCommitDate: "2026-10-25T07:32:53Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/toronto-congestion-project",
+    githubRepo: "Andrew-Girgis/toronto-congestion-project",
+    tags: {
+      technology: ["python", "typescript", "css", "javascript"],
+      domain: ["urban-planning", "transportation"],
+      type: ["research", "simulation-tool"],
+      method: ["data-analysis", "traffic-simulation"],
+    },
+  },
 ];
