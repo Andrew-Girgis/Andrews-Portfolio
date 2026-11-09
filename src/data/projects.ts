@@ -458,4 +458,88 @@ export const projects: Project[] = [
       method: ["data-analysis", "interactive-visualization"],
     },
   },
+  {
+    id: "omarchy-intro-cut",
+    title: "Omarchy Intro Cut",
+    subtitle: "A widget for video intro management",
+    description:
+      "This project provides an Omarchy shell bar widget that allows users to cut and preview background intros from any video played in mpv. Key features include easy installation, integration with mpv and ffmpeg, and a user-friendly interface for managing video intros. It is built using QML, Shell, Lua, and JavaScript, making it a versatile tool for enhancing the Omarchy experience.",
+    lastCommitDate: "2026-10-30T07:22:52Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/omarchy-intro-cut",
+    githubRepo: "Andrew-Girgis/omarchy-intro-cut",
+    tags: {
+      technology: ["qml", "shell", "lua", "javascript"],
+      domain: ["video-editing", "user-interface"],
+      type: ["widget", "plugin"],
+      method: ["video-processing", "user-experience"],
+    },
+  },
+  {
+    id: "omarchy-mnemosyne",
+    title: "Omarchy Widget for Mnemosyne",
+    subtitle: "A task management enhancement for Omarchy",
+    description:
+      "This project provides an Omarchy bar widget for Mnemosyne, enhancing project and task tracking capabilities. Users can access searchable project cards, Kanban boards, and terminal access directly from their project folders. Built with QML, Python, and JavaScript, it integrates seamlessly with the Mnemosyne task tracker.",
+    lastCommitDate: "2026-10-30T07:22:01Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/omarchy-mnemosyne",
+    githubRepo: "Andrew-Girgis/omarchy-mnemosyne",
+    tags: {
+      technology: ["qml", "python", "javascript"],
+      domain: ["task-tracking", "project-management"],
+      type: ["widget", "plugin"],
+      method: ["user-interface", "task-automation"],
+    },
+  },
+  {
+    id: "omarchy-token-usage",
+    title: "Omarchy Token Usage",
+    subtitle: "AI token usage visualization widget",
+    description:
+      "This project features an Omarchy bar widget that visualizes AI token usage by coding agents, comparing agent time versus manual editing. It integrates with a Wakapi dashboard to provide insights into models, projects, and machine usage, making it a valuable tool for developers. Built using QML, Python, and JavaScript, it offers an interactive interface for monitoring token consumption over various time periods.",
+    lastCommitDate: "2026-10-30T04:25:01Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/omarchy-token-usage",
+    githubRepo: "Andrew-Girgis/omarchy-token-usage",
+    tags: {
+      technology: ["qml", "python", "javascript"],
+      domain: ["data-visualization", "ai"],
+      type: ["dashboard", "widget"],
+      method: ["api-integration"],
+    },
+  },
+  {
+    id: "mnemosyne",
+    title: "Mnemosyne Tracker",
+    subtitle: "Self-hosted activity and project tracker",
+    description:
+      "Mnemosyne is a self-hosted activity and project tracker designed to monitor coding time, projects, tasks, and ideas across multiple machines. It utilizes Wakapi for coding time tracking and offers a Kanban board for task management, all accessible through a JSON CLI and terminal UI. Built with Python and Docker, it provides a seamless experience for individual developers.",
+    lastCommitDate: "2026-10-30T04:25:50Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/mnemosyne",
+    githubRepo: "Andrew-Girgis/mnemosyne",
+    tags: {
+      technology: ["python", "docker", "shell"],
+      domain: ["productivity", "project-management"],
+      type: ["self-hosted-app", "tool"],
+    },
+  },
+  {
+    id: "toronto-congestion-project",
+    title: "Toronto Congestion Pricing",
+    subtitle: "Evidence-based simulation tool for traffic pricing",
+    description:
+      "This project is an open research and simulation tool that tests the feasibility of congestion pricing in downtown Toronto using the City of Toronto's traffic data. It simulates traffic patterns, travel times, and revenue estimates under various pricing scenarios, providing insights based on observed evidence from other cities. Built with Python, Astro, and TypeScript, it aims to inform potential policy changes regarding urban congestion.",
+    lastCommitDate: "2026-10-26T21:57:29Z",
+    status: "available",
+    link: "https://github.com/Andrew-Girgis/toronto-congestion-project",
+    githubRepo: "Andrew-Girgis/toronto-congestion-project",
+    tags: {
+      technology: ["python", "astro", "typescript", "css", "javascript"],
+      domain: ["urban-planning", "transportation"],
+      type: ["research", "simulation-tool"],
+      method: ["data-analysis", "traffic-simulation"],
+    },
+  },
 ];
